@@ -1,11 +1,17 @@
 <script>
-	import "../app.css";
-	import { initFlowbite } from "flowbite";
-	import { onMount } from "svelte";
+	import '../app.css';
+	import { initFlowbite } from 'flowbite';
+	import { onMount } from 'svelte';
+	import Navbar from '../lib/navbar.svelte';
+	import GoBackButton from '../lib/BackButton.svelte';
 
 	onMount(() => {
-		initFlowbite();
+		initFlowbite()
 	});
 </script>
 
-<slot />
+<GoBackButton />
+<div class="container max-w-md mx-auto p-4 mb-20">
+	<slot />
+</div>
+<Navbar />
