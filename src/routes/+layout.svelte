@@ -2,7 +2,7 @@
 	import '../app.css';
 	import { initFlowbite } from 'flowbite';
 	import { onMount } from 'svelte';
-	import Navbar from '../lib/navbar.svelte';
+	import Navbar from '../lib/Navbar.svelte';
 	import GoBackButton from '../lib/BackButton.svelte';
 
 	onMount(() => {
