@@ -2,7 +2,8 @@ import axios from 'axios'
 import type { Report, Coordinates, VoteRequest } from '$lib/types'
 import { location } from '$lib/stores/location'
 
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+console.log("API BASE URL IS: ", BASE_URL)
 
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
 location.subscribe((value : Coordinates) => {
