@@ -18,7 +18,9 @@
 
 	const askCameraPermissions = async () => {
 		try {
-			stream = await navigator.mediaDevices.getUserMedia({ video: true });
+			stream = await navigator.mediaDevices.getUserMedia({ video: {
+				facingMode: 'environment'
+			} });
 			videoElement.srcObject = stream;
 			hasCameraPermissions = true;
 		} catch (err) {
@@ -56,7 +58,7 @@
 		<Alert color="blue">Por favor, dá permissões para utilizar a câmara</Alert>
 	{/if}
 
-	<video bind:this={videoElement} autoplay>
+	<video bind:this={videoElement} autoplay playsinline>
 		<track kind="captions" />
 	</video>
 
