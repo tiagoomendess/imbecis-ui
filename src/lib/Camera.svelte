@@ -20,9 +20,7 @@
 		try {
 			stream = await navigator.mediaDevices.getUserMedia({ video: {
 				facingMode: 'environment',
-				width: { ideal: 3840 },
-                height: { ideal: 2160 },
-				aspectRatio: { exact: 1 },
+				aspectRatio: { ideal: 1 },
 			} });
 			videoElement.srcObject = stream;
 			hasCameraPermissions = true;
