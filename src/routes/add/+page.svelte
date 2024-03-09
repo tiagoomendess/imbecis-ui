@@ -92,8 +92,6 @@
 	};
 </script>
 
-<Heading class="mb-4">Adicionar</Heading>
-
 {#if reportSentNotification || true}
 	<Notification type="success" show={reportSentNotification}>
 		Fotografia enviada com sucesso
