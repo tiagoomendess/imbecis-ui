@@ -4,9 +4,9 @@
 	import { Spinner, Toast } from 'flowbite-svelte';
 	import { CheckCircleSolid } from 'flowbite-svelte-icons';
 	import Notification from '$lib/Notification.svelte';
-    import Loader from '$lib/Loader.svelte';
-    import { location } from '$lib/stores/location'
-    import { Heading } from 'flowbite-svelte';
+	import { location } from '$lib/stores/location';
+	import { Heading } from 'flowbite-svelte';
+    import { isLoading } from '$lib/stores/loading';
 
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
@@ -44,14 +44,15 @@
 	};
 
 	const askForGeolocation = async () => {
+        isLoading.set(true);
 		navigator.geolocation.getCurrentPosition(geoSuccess, getError, locationOptions);
 	};
 
 	const geoSuccess = (position: GeolocationPosition) => {
-        location.set({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        });
+		location.set({
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude
+		});
 
 		submit();
 	};
@@ -68,15 +69,15 @@
 		const newReportId = await createReport();
 		if (!newReportId) {
 			isSubmitting = false;
+            isLoading.set(false);
 			return;
 		}
 
 		if (!image) {
 			isSubmitting = false;
+            isLoading.set(false);
 			return;
 		}
-
-        console.log("image", image)
 
 		const uploaded = await uploadPicture(newReportId, image);
 
@@ -85,10 +86,11 @@
 			clearImage();
 		} else {
 			showErrorSendingReportNotification();
-            clearImage();
+			clearImage();
 		}
 
 		isSubmitting = false;
+        isLoading.set(false);
 	};
 </script>
 
@@ -104,31 +106,42 @@
 	</Notification>
 {/if}
 
-{#if image && !isSubmitting}
-	<div>
-		<img src={URL.createObjectURL(image)} alt="Imagem a ser submetida" />
-		<div class="flex justify-center items-center mt-5">
-			<button
-				on:click={clearImage}
-				type="button"
-				class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-			>
-				Tirar Outra
-			</button>
-			<button
-				on:click={askForGeolocation}
-				type="button"
-				class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-			>
-				Enviar
-			</button>
+<div class="camera-wrapper">
+    <div class="container max-w-md mx-auto p-4 mb-20">
+        {#if image && !isSubmitting}
+		<div>
+			<img src={URL.createObjectURL(image)} alt="Imagem a ser submetida" class="rounded-lg" />
+			<div class="flex justify-center items-center mt-5">
+				<button
+					on:click={clearImage}
+					type="button"
+					class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+				>
+					Tirar Outra
+				</button>
+				<button
+					on:click={askForGeolocation}
+					type="button"
+					class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+				>
+					Enviar
+				</button>
+			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
 
-{#if !image}
-	<Camera on:pictureTaken={handlePictureTaken}></Camera>
-{/if}
+	{#if !image}
+		<Camera on:pictureTaken={handlePictureTaken}></Camera>
+	{/if}
+    </div>
+</div>
 
 <style>
+    .camera-wrapper {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        min-height: 100%;
+    }
 </style>
