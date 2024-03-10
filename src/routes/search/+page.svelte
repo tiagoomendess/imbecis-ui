@@ -1,5 +1,4 @@
 <script>
-    import Title from '$lib/Title.svelte'
     import Paragraph from '$lib/Paragraph.svelte';
     import { Heading } from 'flowbite-svelte';
 </script>

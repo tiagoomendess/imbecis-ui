@@ -1,11 +1,8 @@
 <script lang="ts">
 	import Camera from '$lib/Camera.svelte';
 	import { createReport, uploadPicture } from '$lib/api';
-	import { Spinner, Toast } from 'flowbite-svelte';
-	import { CheckCircleSolid } from 'flowbite-svelte-icons';
 	import Notification from '$lib/Notification.svelte';
 	import { location } from '$lib/stores/location';
-	import { Heading } from 'flowbite-svelte';
     import { isLoading } from '$lib/stores/loading';
 
 	$: image = null as Blob | null;

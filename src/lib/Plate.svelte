@@ -10,7 +10,6 @@ if (country === "pt" && number.length === 6) {
 if (country !== "pt" && country !== "fr") {
     country = "default";
 }
-
 </script>
 
 <div class="plate">

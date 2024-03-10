@@ -28,14 +28,6 @@
 		coordinates.longitude = value.longitude;
 	});
 
-	beforeUpdate(async () => {
-		await askForGeolocation();
-	});
-
-	onMount(async () => {
-		focusPlateInput();
-	});
-
 	const hasCoordinates = () => {
 		return coordinates.latitude !== 0 && coordinates.longitude !== 0;
 	};
@@ -43,13 +35,6 @@
 	const preLoadCoordinates = async () => {
 		if (!hasCoordinates()) {
 			await askForGeolocation();
-		}
-	};
-
-	const focusPlateInput = () => {
-		const input = document.querySelector('#plate_input') as HTMLInputElement;
-		if (input) {
-			input.focus();
 		}
 	};
 
@@ -144,8 +129,6 @@
 		showLocWarning = true;
 	};
 </script>
-
-<Heading class="mb-4">Votar</Heading>
 
 <Centro show={showLocWarning}>
 	<svg
