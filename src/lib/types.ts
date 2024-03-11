@@ -22,5 +22,4 @@ export interface VoteRequest {
     plateNumber: string
     plateCountry: string
     result: string
-    location: Coordinates
 }

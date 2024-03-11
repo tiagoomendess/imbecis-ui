@@ -9,7 +9,7 @@
 	} from 'flowbite-svelte-icons';
 
 	export let type = '' as 'info' | 'success' | 'warning' | 'error' | 'warn' | 'danger';
-	export let clearAfter = 0;
+	export let clearAfter = 5;
 
 	if (clearAfter > 0) {
 		setTimeout(() => {

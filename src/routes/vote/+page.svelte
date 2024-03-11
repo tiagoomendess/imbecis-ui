@@ -1,31 +1,37 @@
 <script lang="ts">
 	import { Button } from 'flowbite-svelte';
 	import { Label, Input, Heading, P } from 'flowbite-svelte';
-	import { onMount, beforeUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { Img } from 'flowbite-svelte';
 	import { location } from '$lib/stores/location';
 	import type { Coordinates, VoteRequest } from '$lib/types';
 	import Centro from '$lib/Centro.svelte';
 	import { isLoading } from '$lib/stores/loading';
-    import { submitReportVote } from '$lib/api';
-    import { goto } from '$app/navigation';
+	import { submitReportVote } from '$lib/api';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	let plateCountry = 'pt' as string;
 	let plateNumber = '' as string;
 	let showLocWarning = false as boolean;
 
-    $: $isLoading = $isLoading
+	$: $isLoading = $isLoading;
 	$: canAdvance = false as boolean;
 	$: {
 		canAdvance = validatePlateNumber(plateNumber);
 	}
 
 	let coordinates = { latitude: 0, longitude: 0 } as Coordinates;
-	location.subscribe((value: Coordinates) => {
-		coordinates.latitude = value.latitude;
-		coordinates.longitude = value.longitude;
+
+	onMount(async () => {
+		await preLoadCoordinates();
+		console.log('Vote page mounted');
+		console.log('Coordinates: ', coordinates);
+		location.subscribe((value: Coordinates) => {
+			coordinates.latitude = value.latitude;
+			coordinates.longitude = value.longitude;
+		});
 	});
 
 	const hasCoordinates = () => {
@@ -38,16 +44,16 @@
 		}
 	};
 
-    const normalizePlateNumber = (plateNumber: string) => {
-        return plateNumber
+	const normalizePlateNumber = (plateNumber: string) => {
+		return plateNumber
 			.trim()
 			.replace(/[\s\-]+/g, '')
 			.toUpperCase();
-    };
+	};
 
 	const validatePlateNumber = (plateNumber: string) => {
 		const regex = /[A-Z0-9]+/;
-		plateNumber = normalizePlateNumber(plateNumber)
+		plateNumber = normalizePlateNumber(plateNumber);
 
 		switch (plateCountry) {
 			case 'pt':
@@ -58,47 +64,36 @@
 	};
 
 	const notSureClicked = async () => {
-		await preLoadCoordinates();
-		if (!hasCoordinates()) {
-			showLocWarning = true;
-			return;
-		}
-
 		submitVeredict('not_sure');
 	};
 
 	const imbecileClicked = async () => {
-		await preLoadCoordinates();
-		if (!hasCoordinates()) {
-			showLocWarning = true;
-			return;
-		}
-
 		submitVeredict('imbecile');
 	};
 
 	const submitVeredict = async (veredict: string = 'not_sure') => {
-        const plate = normalizePlateNumber(plateNumber);
+		const plate = normalizePlateNumber(plateNumber);
 		console.log(`Veredict is ${veredict} for ${plate}`);
-        $isLoading = true;
+		$isLoading = true;
 
-        const request : VoteRequest = {
-            location: coordinates,
-            plateNumber: plate,
-            plateCountry: plateCountry,
-            result: veredict
-        };
+		const request: VoteRequest = {
+			plateNumber: plate,
+			plateCountry: plateCountry,
+			result: veredict
+		};
 
-        // send request to api
-        const success = await submitReportVote(data.reportForReview?.id || "", request);
+		// send request to api
+		const success = await submitReportVote(data.reportForReview?.id || '', request);
 
-        // reset view values
-        if (success) {
-            plateNumber = '';
-        }
+		// reset view values
+		if (success) {
+			plateNumber = '';
+		} else {
+			alert('Voto não foi registado');
+		}
 
-        await goto('/vote', { replaceState: true, invalidateAll: true });
-        $isLoading = false;
+		await goto('/vote', { replaceState: true, invalidateAll: true });
+		$isLoading = false;
 	};
 
 	const countryClicked = () => {
@@ -108,7 +103,7 @@
 	const askForGeolocation = async () => {
 		const locationOptions = {
 			enableHighAccuracy: true,
-			timeout: 10000,
+			timeout: 7000,
 			maximumAge: 0
 		};
 
@@ -124,7 +119,6 @@
 	};
 
 	const getError = (error: GeolocationPositionError) => {
-
 		console.log(`Could not get geo location: ${error.code}, ${error.message}`);
 		showLocWarning = true;
 	};
@@ -147,7 +141,8 @@
 	<Heading tag="h2" class="mt-2 text-center mb-4">Localização</Heading>
 	<P class="text-center mb-4"
 		>Precisa de permitir a localização para poder votar. Usamos a localização para não mostrar
-		denúncias perto de si.</P
+		denúncias perto de si. A localização não é guardada no momento do voto, apenas é utilizada para
+		pedir um possível imbecil longe de onde está atualmente.</P
 	>
 	<Button
 		on:click={() => {
@@ -189,9 +184,7 @@
 		<div class="flex">
 			<!-- Vote Butons -->
 			<div class="w-8/12 mr-1">
-				<Button on:click={notSureClicked} class="w-full" color="green"
-					>Não Tenho a Certeza</Button
-				>
+				<Button on:click={notSureClicked} class="w-full" color="green">Não Tenho a Certeza</Button>
 			</div>
 			<div class="w-4/12">
 				<Button on:click={imbecileClicked} disabled={!canAdvance} class="w-full" color="red"
