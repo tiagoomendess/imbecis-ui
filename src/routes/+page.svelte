@@ -9,8 +9,9 @@
 
 	export let data: PageData;
 
-	let currentPage = 1;
+	let currentPage = 1 as number;
 	let loading = false;
+	const pagesLoaded = [1] as number[];
 
 	// Function to check if the user is near the bottom of the page
 	function isNearBottom() {
@@ -18,18 +19,24 @@
 	}
 
 	const handleScroll = () => {
-		if (isNearBottom()) {
+		if (isNearBottom() && !loading) {
 			loadMore();
 		}
 	};
 
 	// Function to load more data
 	async function loadMore() {
-		if (loading) return;
+		if (loading || pagesLoaded.includes(currentPage + 1)) {
+			return
+		}
+
 		loading = true;
+		pagesLoaded.push(currentPage + 1);
+
 		const newData = await getFeed(currentPage + 1);
 		if (newData.length > 0) {
 			currentPage += 1;
+			
 			data.reports = [...data.reports, ...newData];
 		}
 
