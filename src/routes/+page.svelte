@@ -27,9 +27,12 @@
 	async function loadMore() {
 		if (loading) return;
 		loading = true;
-		currentPage += 1;
-		const newData = await getFeed(currentPage);
-		data.reports = [...data.reports, ...newData];
+		const newData = await getFeed(currentPage + 1);
+		if (newData.length > 0) {
+			currentPage += 1;
+			data.reports = [...data.reports, ...newData];
+		}
+
 		loading = false;
 	}
 
@@ -40,7 +43,7 @@
 	onMount(() => {
 		if (isBrowser()) {
 			window.addEventListener('scroll', handleScroll);
-			
+
 			return () => {
 				window.removeEventListener('scroll', handleScroll);
 			};
@@ -64,6 +67,6 @@
 	{#if loading}
 		<Paragraph align="center">A carregar mais...</Paragraph>
 	{:else}
-		<Paragraph align="center">Não existem mais imbecis, <A href="/add">adiciona um</A></Paragraph>
+		<Paragraph align="center">Não existem mais imbecis, <A href="/add">adicione um</A></Paragraph>
 	{/if}
 </section>
