@@ -16,7 +16,7 @@
 		if (!localStorage)
 			return
 
-		const deviceUuid = localStorage.getItem('deviceUuid');
+		const deviceUuid = localStorage.getItem('deviceUUID');
 		if (!deviceUuid) {
 			localStorage.setItem('deviceUUID', uuidv4());
 		}
