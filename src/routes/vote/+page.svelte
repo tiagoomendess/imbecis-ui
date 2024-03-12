@@ -14,7 +14,7 @@
 	export let data: PageData;
 	let plateCountry = 'pt' as string;
 	let plateNumber = '' as string;
-	let showLocWarning = false as boolean;
+	let showLocWarning = true as boolean;
 
 	$: $isLoading = $isLoading;
 	$: canAdvance = false as boolean;
@@ -25,13 +25,14 @@
 	let coordinates = { latitude: 0, longitude: 0 } as Coordinates;
 
 	onMount(async () => {
-		await preLoadCoordinates();
-		console.log('Vote page mounted');
-		console.log('Coordinates: ', coordinates);
 		location.subscribe((value: Coordinates) => {
 			coordinates.latitude = value.latitude;
 			coordinates.longitude = value.longitude;
 		});
+
+		await new Promise((r) => setTimeout(r, 10));
+
+		await preLoadCoordinates();
 	});
 
 	const hasCoordinates = () => {
@@ -40,7 +41,10 @@
 
 	const preLoadCoordinates = async () => {
 		if (!hasCoordinates()) {
+			showLocWarning = true;
 			await askForGeolocation();
+		} else {
+			showLocWarning = false;
 		}
 	};
 
@@ -116,6 +120,7 @@
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude
 		});
+		goto('/vote', { replaceState: true, invalidateAll: true });
 	};
 
 	const getError = (error: GeolocationPositionError) => {
@@ -154,7 +159,7 @@
 	>
 </Centro>
 
-{#if data.reportForReview != null}
+{#if data.reportForReview != null && !showLocWarning}
 	<div>
 		<div class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg">
 			<Img src={data.reportForReview?.picture} alt={data.reportForReview?.id} class="rounded-lg" />
@@ -195,7 +200,7 @@
 	</div>
 {/if}
 
-{#if data.reportForReview == null}
+{#if data.reportForReview == null && !showLocWarning}
 	<Centro>
 		<svg
 			class="w-[100px] h-[100px] text-gray-800 dark:text-white"

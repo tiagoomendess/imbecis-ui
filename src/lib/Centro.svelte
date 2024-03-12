@@ -20,6 +20,6 @@
 		align-items: center;
         flex-direction: column;
 		background-color: white;
-		z-index: 10;
+		z-index: 15;
 	}
 </style>

@@ -3,7 +3,6 @@ import type { Report, Coordinates, VoteRequest } from '$lib/types'
 import { location } from '$lib/stores/location'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-console.log("API BASE URL IS: ", BASE_URL)
 
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
 location.subscribe((value : Coordinates) => {
@@ -94,8 +93,7 @@ export const getReportForReview = async (): Promise<Report | null> => {
     // The first request will not have the location, so we use a default one
     const localCoords = coordinates
     if (localCoords.latitude === 0 && localCoords.longitude === 0) {
-        localCoords.latitude = 39.561956
-        localCoords.longitude = -8.175662
+        return null
     }
 
     try {
