@@ -4,6 +4,7 @@
 	import Notification from '$lib/Notification.svelte';
 	import { location } from '$lib/stores/location';
     import { isLoading } from '$lib/stores/loading';
+	import { P } from 'flowbite-svelte';
 
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
@@ -123,6 +124,9 @@
 				>
 					Enviar
 				</button>
+			</div>
+			<div class="flex justify center">
+				<P size="xs" class="text-center">Certifique-se que a matrícula é visivel sem zoom</P>
 			</div>
 		</div>
 	{/if}

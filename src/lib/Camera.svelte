@@ -16,16 +16,40 @@
 	let stream: MediaStream | null = null;
 	$: hasCameraPermissions = false;
 
+	let zoomLevel = 1; // Default zoom level
+	let brightnessLevel = 1; // Default brightness level
+	let videoTrack: MediaStreamTrack | null = null;
+
+	const updateConstraints = () => {
+		if (videoTrack) {
+			console.log('zoom: ', zoomLevel, 'brightness: ', brightnessLevel);
+			videoTrack.applyConstraints({
+				advanced: [
+					{
+						facingMode: 'environment',
+						aspectRatio: { ideal: 1 },
+						zoom: zoomLevel,
+						brightness: brightnessLevel
+					}
+				]
+			});
+		}
+	};
+
 	const askCameraPermissions = async () => {
 		try {
-			stream = await navigator.mediaDevices.getUserMedia({ video: {
-				facingMode: 'environment',
-				aspectRatio: { ideal: 1 },
-			} });
+			stream = await navigator.mediaDevices.getUserMedia({
+				video: {
+					facingMode: 'environment',
+					aspectRatio: { ideal: 1 }
+				}
+			});
 			videoElement.srcObject = stream;
+			videoTrack = stream.getVideoTracks()[0];
+			// Check for zoom and brightness capabilities here if needed
 			hasCameraPermissions = true;
 		} catch (err) {
-			// Do nothing
+			// ... handle error ...
 			hasCameraPermissions = false;
 		}
 	};
@@ -71,6 +95,25 @@
 		>
 			<CameraFotoOutline />
 		</button>
+	</div>
+
+	<div class="flex justify-center">
+		<input
+		type="range"
+		min="1"
+		max="5"
+		step="0.1"
+		bind:value={zoomLevel}
+		on:change={updateConstraints}
+	/>
+	<input
+		type="range"
+		min="0"
+		max="2"
+		step="0.1"
+		bind:value={brightnessLevel}
+		on:change={updateConstraints}
+	/>
 	</div>
 </div>
 
