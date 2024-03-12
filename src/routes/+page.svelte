@@ -1,15 +1,51 @@
 <script lang="ts">
-	import Title from '$lib/Title.svelte';
+	import { onMount } from 'svelte';
 	import Paragraph from '$lib/Paragraph.svelte';
 	import type { PageData } from './$types';
-	import { getContext } from 'svelte';
 	import ImbecileSq from '$lib/ImbecileSq.svelte';
 	import moment from 'moment';
-	import { Heading } from 'flowbite-svelte';
+	import { Heading, A } from 'flowbite-svelte';
+	import { getFeed } from '$lib/api';
 
 	export let data: PageData;
 
-	const user = getContext('user');
+	let currentPage = 1;
+	let loading = false;
+
+	// Function to check if the user is near the bottom of the page
+	function isNearBottom() {
+		return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+	}
+
+	const handleScroll = () => {
+		if (isNearBottom()) {
+			loadMore();
+		}
+	};
+
+	// Function to load more data
+	async function loadMore() {
+		if (loading) return;
+		loading = true;
+		currentPage += 1;
+		const newData = await getFeed(currentPage);
+		data.reports = [...data.reports, ...newData];
+		loading = false;
+	}
+
+	function isBrowser() {
+		return typeof window !== 'undefined';
+	}
+
+	onMount(() => {
+		if (isBrowser()) {
+			window.addEventListener('scroll', handleScroll);
+			
+			return () => {
+				window.removeEventListener('scroll', handleScroll);
+			};
+		}
+	});
 </script>
 
 <section class="bg-white dark:bg-gray-900">
@@ -25,5 +61,9 @@
 		/>
 	{/each}
 
-	<Paragraph align="center">Scroll infinito ainda não está pronto</Paragraph>
+	{#if loading}
+		<Paragraph align="center">A carregar mais...</Paragraph>
+	{:else}
+		<Paragraph align="center">Não existem mais imbecis, <A href="/add">adiciona um</A></Paragraph>
+	{/if}
 </section>
