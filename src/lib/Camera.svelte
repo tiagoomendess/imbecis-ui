@@ -15,10 +15,31 @@
 	let videoElement: HTMLVideoElement;
 	let stream: MediaStream | null = null;
 	$: hasCameraPermissions = false;
+	$: videoElementStyle = `filter: brightness(${brightnessLevel});`;
 
-	let zoomLevel = 1; // Default zoom level
-	let brightnessLevel = 1; // Default brightness level
+	let zoomLevel = 1;
+	let brightnessLevel = 1;
 	let videoTrack: MediaStreamTrack | null = null;
+	let supportedConstraints: MediaTrackSupportedConstraints | null = null;
+	let settings: MediaTrackSettings | null = null;
+
+	const checkCameraCapabilities = () => {
+		if (!videoTrack) {
+			return;
+		}
+
+		const capabilities = videoTrack.getCapabilities();
+
+		// Check if zoom is supported
+		if ('zoom' in capabilities) {
+			// Zoom is supported
+			// You can adjust the range of your zoom slider based on capabilities.zoom
+			console.log('Zoom is supported', capabilities.zoom);
+		} else {
+			// Zoom is not supported
+			console.error('Zoom is not supported');
+		}
+	};
 
 	const updateConstraints = () => {
 		if (videoTrack) {
@@ -26,31 +47,68 @@
 			videoTrack.applyConstraints({
 				advanced: [
 					{
-						facingMode: 'environment',
-						aspectRatio: { ideal: 1 },
-						zoom: zoomLevel,
-						brightness: brightnessLevel
+						brightness: brightnessLevel,
+						zoom: zoomLevel
 					}
 				]
 			});
 		}
 	};
 
+	const getConstraints = () => {
+		const constraints = {
+			video: {
+				zoom: true,
+				facingMode: 'environment'
+			},
+			audio: false
+		} as any;
+
+		if (!supportedConstraints) {
+			return constraints;
+		}
+
+		if (supportedConstraints.aspectRatio) {
+			constraints.video.aspectRatio = { ideal: 1 };
+		}
+
+		return constraints;
+	};
+
 	const askCameraPermissions = async () => {
 		try {
-			stream = await navigator.mediaDevices.getUserMedia({
-				video: {
-					facingMode: 'environment',
-					aspectRatio: { ideal: 1 }
-				}
-			});
+			supportedConstraints = await navigator.mediaDevices.getSupportedConstraints();
+
+			stream = await navigator.mediaDevices.getUserMedia(getConstraints());
+
 			videoElement.srcObject = stream;
 			videoTrack = stream.getVideoTracks()[0];
-			// Check for zoom and brightness capabilities here if needed
+			settings = videoTrack.getSettings();
+
 			hasCameraPermissions = true;
 		} catch (err) {
 			// ... handle error ...
 			hasCameraPermissions = false;
+			console.error('Error accessing the camera: ', err);
+		}
+
+		try {
+			const panTiltZoomPermissionStatus = await navigator.permissions.query({
+				name: 'camera',
+				panTiltZoom: true
+			});
+
+			if (panTiltZoomPermissionStatus.state == 'granted') {
+				// User has granted access to the website to control camera PTZ.
+				console.log('User has granted access to the website to control camera PTZ.');
+			}
+
+			panTiltZoomPermissionStatus.addEventListener('change', () => {
+				// User has changed PTZ permission status.
+				console.log('User has changed PTZ permission status.');
+			});
+		} catch (error) {
+			console.log("Ask for zoom error: ", error);
 		}
 	};
 
@@ -67,8 +125,7 @@
 				return;
 			}
 			dispatch('pictureTaken', blob);
-			askCameraPermissions();
-		}, 'image/png');
+		}, 'image/webp');
 	};
 
 	const stopCamera = () => {
@@ -83,7 +140,7 @@
 		<Alert color="blue">Por favor, dá permissões para utilizar a câmara</Alert>
 	{/if}
 
-	<video bind:this={videoElement} autoplay playsinline>
+	<video bind:this={videoElement} autoplay playsinline style={videoElementStyle}>
 		<track kind="captions" />
 	</video>
 
@@ -99,21 +156,23 @@
 
 	<div class="flex justify-center">
 		<input
-		type="range"
-		min="1"
-		max="5"
-		step="0.1"
-		bind:value={zoomLevel}
-		on:change={updateConstraints}
-	/>
-	<input
-		type="range"
-		min="0"
-		max="2"
-		step="0.1"
-		bind:value={brightnessLevel}
-		on:change={updateConstraints}
-	/>
+			class="mr-2"
+			type="range"
+			min="1"
+			max="3"
+			step="0.1"
+			bind:value={zoomLevel}
+			on:change={updateConstraints}
+		/>
+		<input
+			class="ml-2"
+			type="range"
+			min="0.5"
+			max="1.5"
+			step="0.1"
+			bind:value={brightnessLevel}
+			on:change={updateConstraints}
+		/>
 	</div>
 </div>
 
