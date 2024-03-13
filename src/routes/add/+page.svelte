@@ -4,14 +4,29 @@
 	import Notification from '$lib/Notification.svelte';
 	import { location } from '$lib/stores/location';
 	import { isLoading } from '$lib/stores/loading';
-	import { P, Button } from 'flowbite-svelte';
+	import { Heading, P, Button } from 'flowbite-svelte';
 	import { UndoOutline, ArrowRightToBracketOutline } from 'flowbite-svelte-icons';
+	import Centro from '$lib/Centro.svelte';
 
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
 	$: isSubmitting = false as boolean;
 	$: reportSentNotification = false as boolean;
 	$: errorSendingReportNotification = false as boolean;
+
+	let coordinatesLastUpdate = null as Date | null;
+
+	const shouldAskForGeolocation = () => {
+		if (!coordinatesLastUpdate) {
+			return true;
+		}
+
+		const now = new Date();
+		const diff = now.getTime() - coordinatesLastUpdate.getTime();
+		const seconds = diff / 1000;
+
+		return seconds > 60;
+	};
 
 	const showReportSentNotification = () => {
 		reportSentNotification = true;
@@ -42,8 +57,16 @@
 		maximumAge: 0
 	};
 
+	const startSubmitting = () => {
+		if (shouldAskForGeolocation()) {
+			askForGeolocation();
+		} else {
+			console.log("Already have recent coordinates, submitting...")
+			submit();
+		}
+	}
+
 	const askForGeolocation = async () => {
-		isLoading.set(true);
 		navigator.geolocation.getCurrentPosition(geoSuccess, getError, locationOptions);
 	};
 
@@ -52,6 +75,7 @@
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude
 		});
+		coordinatesLastUpdate = new Date();
 
 		submit();
 	};
@@ -64,6 +88,7 @@
 	const submit = async () => {
 		console.log('A iniciar processo de submissão de imagem...');
 		isSubmitting = true;
+		isLoading.set(true);
 
 		const newReportId = await createReport();
 		if (!newReportId) {
@@ -119,23 +144,13 @@
 
 				<div class="flex justify-center items-center mt-5">
 					<div class="w-6/12 pr-1">
-						<Button
-							on:click={clearImage}
-							type="button"
-							color="red"
-							class="w-full"
-						>
+						<Button on:click={clearImage} type="button" color="red" class="w-full">
 							<UndoOutline class="w-3.5 h-3.5 me-2" /> Tirar Outra
 						</Button>
 					</div>
 
 					<div class="w-6/12 pl-1">
-						<Button
-							on:click={askForGeolocation}
-							type="button"
-							color="green"
-							class="w-full"
-						>
+						<Button on:click={startSubmitting} type="button" color="green" class="w-full">
 							Enviar <ArrowRightToBracketOutline class="w-3.5 h-3.5 ms-2" />
 						</Button>
 					</div>
@@ -148,6 +163,41 @@
 		{/if}
 	</div>
 </div>
+
+<Centro show={showLocationModal}>
+	<div class="flex justify-center">
+		<svg
+			class="w-[100px] h-[100px] text-gray-800 dark:text-white"
+			aria-hidden="true"
+			xmlns="http://www.w3.org/2000/svg"
+			fill="currentColor"
+			viewBox="0 0 24 24"
+		>
+			<path
+				fill-rule="evenodd"
+				d="M12 2a8 8 0 0 1 6.6 12.6l-.1.1-.6.7-5.1 6.2a1 1 0 0 1-1.6 0L6 15.3l-.3-.4-.2-.2v-.2A8 8 0 0 1 11.8 2Zm3 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+				clip-rule="evenodd"
+			/>
+		</svg>
+	</div>
+
+	<Heading tag="h2" class="mt-2 text-center mb-4">Localização</Heading>
+	<P class="text-center mb-4"
+		>Precisa de permitir a localização para poder enviar imbecis. A localização apenas é utilizada
+		no momento do envio da fotografia e não é constantemente consumida ou guardada. Por favor
+		permisa o uso da localização e volte a tentar novamente</P
+	>
+
+	<div class="flex justify-center">
+		<Button
+		on:click={() => {
+			window.location.reload();
+		}}
+		color="light"
+		class="mb-2">Voltar</Button
+	>
+	</div>
+</Centro>
 
 <style>
 	.camera-wrapper {

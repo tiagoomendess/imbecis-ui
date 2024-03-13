@@ -83,22 +83,15 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<bo
 
         return true
     } catch (error) {
-        console.error("Uploading picture: ", error)
+        console.error("Error uploading picture: ", error)
         return false
     }
 }
 
 export const getReportForReview = async (): Promise<Report | null> => {
-
-    // The first request will not have the location, so we use a default one
-    const localCoords = coordinates
-    if (localCoords.latitude === 0 && localCoords.longitude === 0) {
-        return null
-    }
-
     try {
         const uuid = getDeviceUUID()
-        const response = await axios.get(`${BASE_URL}/reports/for-review?latitude=${localCoords.latitude}&longitude=${localCoords.longitude}`, {
+        const response = await axios.get(`${BASE_URL}/reports/for-review`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

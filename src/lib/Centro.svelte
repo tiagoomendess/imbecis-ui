@@ -3,8 +3,12 @@
 </script>
 
 {#if show}
-	<div class="centro pt-10 pl-10 pr-10 pb-18">
-		<slot />
+	<div class="centro">
+		<div class="w-full">
+			<div class="container max-w-md mx-auto p-4 mb-20">
+				<slot />
+			</div>
+		</div>
 	</div>
 {/if}
 
@@ -18,7 +22,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-        flex-direction: column;
+		flex-direction: column;
 		background-color: white;
 		z-index: 15;
 	}
