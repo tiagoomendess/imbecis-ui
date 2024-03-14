@@ -23,3 +23,9 @@ export interface VoteRequest {
     plateCountry: string
     result: string
 }
+
+export interface Plate {
+    id : string
+    country: string
+    number: string
+}

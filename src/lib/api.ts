@@ -1,6 +1,7 @@
 import axios from 'axios'
-import type { Report, Coordinates, VoteRequest } from '$lib/types'
+import type { Report, Coordinates, VoteRequest, Plate } from '$lib/types'
 import { location } from '$lib/stores/location'
+
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
@@ -131,4 +132,35 @@ export const submitReportVote = async (reportId: string, request : VoteRequest):
     }
 
     return true
+}
+
+export const getPlateByCountryAndNumber = async (country: string, number: string): Promise<Plate | null> => {
+    try {
+        const response = await axios.get(`${BASE_URL}/plates/${country}/${number}`)
+
+        if (!response.data.success) {
+            return null
+        }
+
+        return response.data.payload as Plate
+    } catch (error) {
+        console.error("Error getting plate by country and number: ", error)
+        return null
+    }
+}
+
+export const getPlateReports = async (plateId: string): Promise<Report[] | null> => {
+    try {
+        const response = await axios.get(`${BASE_URL}/plates/${plateId}/reports`)
+
+        if (!response.data.success) {
+            return null
+        }
+
+        return response.data.payload as Report[]
+    } catch(error) {
+        console.error("Error getting plate reports: ", error)
+        return null
+    }
+
 }

@@ -22,7 +22,7 @@
 		position: fixed;
 		z-index: 49;
 		width: 100%;
-		height: 100%;
+		height: calc(100% - 64px);
 		background: rgb(249, 249, 249);
 		background: radial-gradient(circle, rgb(245, 245, 245) 0%, rgba(191, 191, 191, 1) 100%);
 	}
