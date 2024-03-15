@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Plate from '$lib/Plate.svelte';
     import { MapLocationOutline, CalendarMonthOutline } from 'flowbite-svelte-icons';
-    import { A } from 'flowbite-svelte';
 
 	export let picture = 'https://via.placeholder.com/900';
 	export let plateNumber: string | null = null;

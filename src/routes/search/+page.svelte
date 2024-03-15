@@ -2,7 +2,6 @@
 	import { Heading, P, Label, Input, Button, Spinner } from 'flowbite-svelte';
     import {  SearchOutline } from 'flowbite-svelte-icons';
     import { getPlateByCountryAndNumber } from '$lib/api';
-    import type { Plate } from '$lib/types';
     import { goto } from '$app/navigation';
 
 	let plateNumber = '';
@@ -58,12 +57,12 @@
     }
 </script>
 
-<Heading class="mb-4">Procurar Imbecil</Heading>
+<div>
+    <Heading class="mb-4">Procurar Imbecil</Heading>
 
-<P class="text-center">Procure por matrícula e país</P>
+    <P class="text-center">Procure por matrícula e país</P>
 
-<div class="search-wrapper">
-    <div class="container max-w-md mx-auto p-4 mb-20 flex">
+    <div class="container max-w-md mx-auto p-4 mb-20 flex mt-10">
         <div class="w-2/12">
             <Button
             on:click={countryClicked}
@@ -90,16 +89,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .search-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: calc(100vh - 64px);
-    }
-</style>
