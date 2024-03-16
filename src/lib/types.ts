@@ -29,3 +29,9 @@ export interface Plate {
     country: string
     number: string
 }
+
+export interface PaginatedPlatesList {
+    plates: Plate[]
+    page: number
+    total: number
+}

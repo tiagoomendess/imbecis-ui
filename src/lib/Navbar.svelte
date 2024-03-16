@@ -15,16 +15,16 @@
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />
 	</BottomNavItem>
-	<BottomNavItem btnName="Procurar" href="/search" exact={false}>
+	<BottomNavItem btnName="Procurar" href="/procurar" exact={false}>
 		<SearchOutline />
 	</BottomNavItem>
-	<BottomNavItem btnName="Novo" href="/add">
+	<BottomNavItem btnName="Novo" href="/adicionar">
 		<CirclePlusOutline />
 	</BottomNavItem>
-	<BottomNavItem btnName="Votar" href="/vote">
+	<BottomNavItem btnName="Votar" href="/votar">
 		<InboxOutline />
 	</BottomNavItem>
-	<BottomNavItem btnName="Sobre" href="/about">
+	<BottomNavItem btnName="Sobre" href="/sobre">
 		<InfoCircleSolid />
 	</BottomNavItem>
 </BottomNav>

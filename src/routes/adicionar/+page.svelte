@@ -3,7 +3,7 @@
 	import { createReport, uploadPicture } from '$lib/api';
 	import Notification from '$lib/Notification.svelte';
 	import { location } from '$lib/stores/location';
-	import { isLoading } from '$lib/stores/loading';
+	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { Heading, P, Button } from 'flowbite-svelte';
 	import { UndoOutline, ArrowRightToBracketOutline } from 'flowbite-svelte-icons';
 	import Centro from '$lib/Centro.svelte';
@@ -58,19 +58,24 @@
 	};
 
 	const startSubmitting = () => {
+		loadingMessage.set('A carregar');
+		isLoading.set(true);
 		if (shouldAskForGeolocation()) {
 			askForGeolocation();
 		} else {
 			console.log("Already have recent coordinates, submitting...")
+			loadingMessage.set('Localização recente já em memória');
 			submit();
 		}
 	}
 
 	const askForGeolocation = async () => {
+		loadingMessage.set('A obter localização');
 		navigator.geolocation.getCurrentPosition(geoSuccess, getError, locationOptions);
 	};
 
 	const geoSuccess = (position: GeolocationPosition) => {
+		loadingMessage.set('Localização obtida com sucesso');
 		location.set({
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude
@@ -80,13 +85,17 @@
 		submit();
 	};
 
-	const getError = (error: GeolocationPositionError) => {
+	const getError = async (error: GeolocationPositionError) => {
+		loadingMessage.set('Erro a obter localização');
+		await new Promise(r => setTimeout(r, 2000));
 		showLocationModal = true;
+		isLoading.set(false);
 		console.log(`Could not get geo location: ${error.code}, ${error.message}`);
 	};
 
 	const submit = async () => {
 		console.log('A iniciar processo de submissão de imagem...');
+		loadingMessage.set('A criar denúnica');
 		isSubmitting = true;
 		isLoading.set(true);
 
@@ -103,6 +112,7 @@
 			return;
 		}
 
+		loadingMessage.set('A enviar fotografia');
 		const uploaded = await uploadPicture(newReportId, image);
 
 		if (uploaded) {

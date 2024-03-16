@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { CameraFotoOutline } from 'flowbite-svelte-icons';
-	import { Alert } from 'flowbite-svelte';
+	import { Alert, Button } from 'flowbite-svelte';
 
 	onMount(async () => {
 		askCameraPermissions();
@@ -144,14 +144,8 @@
 		<track kind="captions" />
 	</video>
 
-	<div class="flex justify-center items-center mt-3">
-		<button
-			on:click={takePicture}
-			type="button"
-			class="text-white bg-gray-800 hover:bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-		>
-			<CameraFotoOutline />
-		</button>
+	<div class="flex justify-center items-center mt-3 mb-10">
+		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600">&nbsp;<CameraFotoOutline/>&nbsp;</Button>
 	</div>
 
 	<div class="flex justify-center">
@@ -173,6 +167,9 @@
 			bind:value={brightnessLevel}
 			on:change={updateConstraints}
 		/>
+	</div>
+	<div class="mt-5 text-center">
+		<span class="text-center text-xs">zoom e brilho experimental, não funciona em todos os telemóveis</span>
 	</div>
 </div>
 

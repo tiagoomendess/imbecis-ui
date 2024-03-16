@@ -6,7 +6,7 @@
 	import { Img } from 'flowbite-svelte';
 	import type { Coordinates, VoteRequest } from '$lib/types';
 	import Centro from '$lib/Centro.svelte';
-	import { isLoading } from '$lib/stores/loading';
+	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { submitReportVote } from '$lib/api';
 	import { goto } from '$app/navigation';
 
@@ -19,8 +19,6 @@
 	$: {
 		canAdvance = validatePlateNumber(plateNumber);
 	}
-
-	let coordinates = { latitude: 0, longitude: 0 } as Coordinates;
 
 	const normalizePlateNumber = (plateNumber: string) => {
 		return plateNumber
@@ -50,9 +48,10 @@
 	};
 
 	const submitVeredict = async (veredict: string = 'not_sure') => {
+		loadingMessage.set('A submeter voto');
+		$isLoading = true;
 		const plate = normalizePlateNumber(plateNumber);
 		console.log(`Veredict is ${veredict} for ${plate}`);
-		$isLoading = true;
 
 		const request: VoteRequest = {
 			plateNumber: plate,
@@ -70,7 +69,9 @@
 			alert('Voto não foi registado');
 		}
 
-		await goto('/vote', { replaceState: true, invalidateAll: true });
+		loadingMessage.set('A pedir um imbecil fresquinho');
+		await goto('/votar', { replaceState: true, invalidateAll: true });
+		await new Promise(r => setTimeout(r, 200));
 		$isLoading = false;
 	};
 

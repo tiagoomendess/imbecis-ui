@@ -17,7 +17,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		min-height: 100%;
+		height: calc(100% - 64px);
 		width: 100%;
 		display: flex;
 		justify-content: center;

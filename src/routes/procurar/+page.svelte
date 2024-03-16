@@ -32,7 +32,7 @@
 		switch (plateCountry) {
 			case 'pt':
 				return regex.test(plateNumber) && plateNumber.length === 6;
-			default: // Deal with others later
+			default:
 				return regex.test(plateNumber) && plateNumber.length >= 3;
 		}
 	};
@@ -62,7 +62,7 @@
 
     <P class="text-center">Procure por matrícula e país</P>
 
-    <div class="container max-w-md mx-auto p-4 mb-20 flex mt-10">
+    <div class="container max-w-md mx-auto p-4 mb-20 flex mt-8">
         <div class="w-2/12">
             <Button
             on:click={countryClicked}

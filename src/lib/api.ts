@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { Report, Coordinates, VoteRequest, Plate } from '$lib/types'
+import type { Report, Coordinates, VoteRequest, Plate, PaginatedPlatesList } from '$lib/types'
 import { location } from '$lib/stores/location'
 
 
@@ -162,5 +162,27 @@ export const getPlateReports = async (plateId: string): Promise<Report[] | null>
         console.error("Error getting plate reports: ", error)
         return null
     }
+}
 
+export const getPlatesOfConfirmedImbeciles = async (page: number = 1): Promise<PaginatedPlatesList> => {
+    try {
+        const response = await axios.get(`${BASE_URL}/plates?page=${page}`)
+
+        if (!response.data.success) {
+            return {
+                plates: [],
+                page: 1,
+                total: 0
+            }
+        }
+
+        return response.data.payload as PaginatedPlatesList
+    } catch (error) {
+        console.error("Error getting plates of confirmed imbeciles: ", error)
+        return {
+            plates: [],
+            page: 1,
+            total: 0
+        }
+    }
 }
