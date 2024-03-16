@@ -74,6 +74,6 @@
 	{#if loading}
 		<Paragraph align="center">A carregar mais...</Paragraph>
 	{:else}
-		<Paragraph align="center">Não existem mais imbecis, <A href="/add">adicione um</A></Paragraph>
+		<Paragraph align="center">Não existem mais imbecis, <A href="/adicionar">adicione um</A></Paragraph>
 	{/if}
 </section>
