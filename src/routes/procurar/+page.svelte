@@ -68,17 +68,17 @@
             on:click={countryClicked}
             id="country_button"
             color="light"
-            class="text-center mt-7 pl-2 pr-2 w-full">🇵🇹</Button
+            class="text-center mt-7 pl-2 pr-2 w-full text-lg">🇵🇹</Button
         >
         </div>
         <div class="w-8/12">
             <Label class="space-y-2 ml-2 mr-2 text-center">
                 <span>Matrícula</span>
-                <Input bind:value={plateNumber} type="text" placeholder="AA 00 AA" size="md" class="text-center uppercase"/>
+                <Input bind:value={plateNumber} type="text" placeholder="AA 00 AA" size="md" class="text-center uppercase text-lg" autofocus/>
             </Label>
         </div>
         <div class="w-2/12">
-            <Button on:click={searchClicked} disabled={!canSearch} class="w-full text-center mt-7 center" size="md" color="green">&nbsp;
+            <Button on:click={searchClicked} disabled={!canSearch} class="w-full text-center mt-7 center text-lg" size="md" color="green">&nbsp;
                 {#if isSearching}
                     <Spinner class="me-3 text-center" size="4" />
                 {:else}
