@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { Img } from 'flowbite-svelte';
-	import type { Coordinates, VoteRequest } from '$lib/types';
+	import type { VoteRequest } from '$lib/types';
 	import Centro from '$lib/Centro.svelte';
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { submitReportVote } from '$lib/api';
@@ -19,6 +19,59 @@
 	$: {
 		canAdvance = validatePlateNumber(plateNumber);
 	}
+
+	onMount(() => {
+		setTimeout(() => {
+			initMagnifyingGlass();
+		}, 500);
+	});
+
+	const initMagnifyingGlass = () => {
+		const image = document.querySelector('img');
+		const lens = document.getElementById('magnifierLens');
+		if (!image || !lens) {
+			return;
+		}
+
+		image.addEventListener('mousemove', moveMagnifier);
+		lens.addEventListener('mousemove', moveMagnifier);
+
+		image.addEventListener('mouseenter', () => {
+			lens.style.visibility = 'visible';
+		});
+
+		image.addEventListener('mouseleave', () => {
+			lens.style.visibility = 'hidden';
+		});
+
+		lens.style.backgroundImage = `url('${data.reportForReview?.picture}')`;
+
+		function moveMagnifier(e: any) {
+			const pos = getCursorPos(e);
+			const x = pos.x;
+			const y = pos.y;
+			const diameter = 100;
+			const radius = diameter / 2;
+
+			if (!lens || !image) return;
+
+			lens.style.left = x - radius + 'px';
+			lens.style.top = y - radius + 'px';
+			lens.style.backgroundPosition = '-' + (x * 2 - radius) + 'px -' + (y * 2 - radius) + 'px';
+			lens.style.backgroundSize = image.offsetWidth * 2 + 'px ' + image.offsetHeight * 2 + 'px';
+			lens.style.visibility = 'visible';
+		}
+
+		function getCursorPos(e: any) {
+			if (!image) return { x: 0, y: 0 };
+			const a = image.getBoundingClientRect();
+			let x = e.pageX - a.left;
+			let y = e.pageY - a.top;
+			x = x - window.scrollX;
+			y = y - window.scrollY;
+			return { x: x, y: y };
+		}
+	};
 
 	const normalizePlateNumber = (plateNumber: string) => {
 		return plateNumber
@@ -71,7 +124,7 @@
 
 		loadingMessage.set('A pedir um imbecil fresquinho');
 		await goto('/votar', { replaceState: true, invalidateAll: true });
-		await new Promise(r => setTimeout(r, 200));
+		await new Promise((r) => setTimeout(r, 200));
 		$isLoading = false;
 	};
 
@@ -83,8 +136,9 @@
 
 {#if data.reportForReview != null}
 	<div>
-		<div class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg">
+		<div class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg relative">
 			<Img src={data.reportForReview?.picture} alt={data.reportForReview?.id} class="rounded-lg" />
+			<div id="magnifierLens" class="magnifierLens"></div>
 		</div>
 
 		<div class="flex mb-2">
@@ -94,16 +148,17 @@
 					on:click={countryClicked}
 					id="country_button"
 					color="light"
-					class="text-center mt-7 pl-2 pr-2 w-full">🇵🇹</Button
+					class="text-center mt-7 pl-2 pr-2 w-full text-lg">🇵🇹</Button
 				>
 			</div>
 			<div class="w-10/12 pl-2">
 				<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
 				<Input
 					bind:value={plateNumber}
-					class="text-center uppercase"
+					class="text-center uppercase text-lg"
 					id="plate_input"
 					placeholder="AA 00 AA"
+					autofocus
 				/>
 			</div>
 		</div>
@@ -147,3 +202,18 @@
 		>
 	</Centro>
 {/if}
+
+<style>
+	.magnifierLens {
+		position: absolute;
+		border: 3px solid #000;
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+		visibility: hidden;
+		pointer-events: none;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+		background: white no-repeat;
+		cursor: crosshair;
+	}
+</style>

@@ -125,7 +125,7 @@
 				return;
 			}
 			dispatch('pictureTaken', blob);
-		}, 'image/webp');
+		}, 'image/png');
 	};
 
 	const stopCamera = () => {
