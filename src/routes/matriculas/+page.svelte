@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import {
 		Heading,
 		Table,
@@ -18,7 +18,7 @@
 	export let data: PageData;
 	let currentPage = 1 as number;
 	let maxPage = Math.ceil(data.platesResponse.total / 10);
-    $: queryParams = $page.url.searchParams;
+	$: queryParams = $page.url.searchParams;
 
 	const getFlag = (country: string): string => {
 		switch (country) {
@@ -52,7 +52,7 @@
 		}
 
 		currentPage -= 1;
-        goto(`?page=${currentPage}`, { replaceState: true });
+		goto(`?page=${currentPage}`, { replaceState: true });
 	};
 
 	const next = () => {
@@ -61,7 +61,7 @@
 		}
 
 		currentPage += 1;
-        goto(`?page=${currentPage}`, { replaceState: true });
+		goto(`?page=${currentPage}`, { replaceState: true });
 	};
 </script>
 
@@ -93,6 +93,15 @@
 </div>
 
 <div class="flex space-x-3 rtl:space-x-reverse justify-center">
-	<PaginationItem large on:click={previous}>Anterior</PaginationItem>
-	<PaginationItem large on:click={next}>Próxima</PaginationItem>
+	{#if currentPage > 1}
+		<a href={`?page=${currentPage - 1}`}>
+			<PaginationItem large>Anterior</PaginationItem>
+		</a>
+	{/if}
+
+	{#if currentPage < maxPage}
+		<a href={`?page=${currentPage + 1}`}>
+			<PaginationItem large on:click={next}>Próxima</PaginationItem>
+		</a>
+	{/if}
 </div>

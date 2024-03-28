@@ -7,6 +7,8 @@
 	import { Heading, P, Button } from 'flowbite-svelte';
 	import { UndoOutline, ArrowRightToBracketOutline } from 'flowbite-svelte-icons';
 	import Centro from '$lib/Centro.svelte';
+	import * as faceapi from 'face-api.js';
+	import { onMount } from 'svelte';
 
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
@@ -14,7 +16,74 @@
 	$: reportSentNotification = false as boolean;
 	$: errorSendingReportNotification = false as boolean;
 
+	onMount(async () => {
+		loadModels();
+		isSubmitting = false;
+	});
+
 	let coordinatesLastUpdate = null as Date | null;
+
+	async function loadModels() {
+		await faceapi.nets.tinyFaceDetector.loadFromUri('/face-models');
+	}
+
+	// Function to handle image and blur faces
+	async function blurFaces(imageElement: any) {
+		if (!image) {
+			console.log('No image to blur');
+			return;
+		}
+
+		const myImg = new Image();
+		myImg.src = URL.createObjectURL(image);
+
+		const detections = await faceapi.detectAllFaces(
+			imageElement,
+			new faceapi.TinyFaceDetectorOptions({
+				scoreThreshold: 0.2
+			})
+		);
+
+		const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+		canvas.width = myImg.width;
+		canvas.height = myImg.height;
+
+		const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+		// Draw the original image
+		ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+
+		// Function to apply blur to a specific region
+		function applyBlur(x : number, y : number, width : number, height : number) {
+			// Create an offscreen canvas
+			const offscreenCanvas = document.createElement('canvas') as HTMLCanvasElement;
+			const offscreenCtx = offscreenCanvas.getContext('2d') as CanvasRenderingContext2D;
+			offscreenCanvas.width = width;
+			offscreenCanvas.height = height;
+
+			// Draw the face region on offscreen canvas
+			offscreenCtx.drawImage(imageElement, x, y, width, height, 0, 0, width, height);
+
+			// Apply the blur effect
+			offscreenCtx.filter = 'blur(15px)'; // Adjust blur strength as needed
+			offscreenCtx.drawImage(offscreenCanvas, 0, 0);
+
+			// Draw the blurred face region back on the main canvas
+			ctx.drawImage(offscreenCanvas, x, y);
+		}
+
+		// Apply blur to each detected face
+		detections.forEach((det) => {
+			const { x, y, width, height } = det.box;
+			applyBlur(x, y, width, height);
+		});
+
+		// set image src to the canvas
+		imageElement.src = canvas.toDataURL('image/png');
+		canvas.toBlob((blob) => {
+			image = blob;
+		});
+	}
 
 	const shouldAskForGeolocation = () => {
 		if (!coordinatesLastUpdate) {
@@ -43,7 +112,6 @@
 	};
 
 	const handlePictureTaken = (event: CustomEvent<Blob>) => {
-		console.log('Imagem capturada handlePictureTaken');
 		image = event.detail;
 	};
 
@@ -57,17 +125,20 @@
 		maximumAge: 0
 	};
 
-	const startSubmitting = () => {
-		loadingMessage.set('A carregar');
+	const startSubmitting = async () => {
 		isLoading.set(true);
+		loadingMessage.set('A desfocar caras...');
+		const imageElement = document.getElementById('photo_preview');
+		await blurFaces(imageElement);
+
 		if (shouldAskForGeolocation()) {
 			askForGeolocation();
 		} else {
-			console.log("Already have recent coordinates, submitting...")
+			console.log('Already have recent coordinates, submitting...');
 			loadingMessage.set('Localização recente já em memória');
 			submit();
 		}
-	}
+	};
 
 	const askForGeolocation = async () => {
 		loadingMessage.set('A obter localização');
@@ -87,7 +158,7 @@
 
 	const getError = async (error: GeolocationPositionError) => {
 		loadingMessage.set('Erro a obter localização');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise((r) => setTimeout(r, 2000));
 		showLocationModal = true;
 		isLoading.set(false);
 		console.log(`Could not get geo location: ${error.code}, ${error.message}`);
@@ -144,7 +215,12 @@
 	<div class="container max-w-md mx-auto p-4 mb-20">
 		{#if image && !isSubmitting}
 			<div>
-				<img src={URL.createObjectURL(image)} alt="Imagem a ser submetida" class="rounded-lg" />
+				<img
+					id="photo_preview"
+					src={URL.createObjectURL(image)}
+					alt="Imagem a ser submetida"
+					class="rounded-lg"
+				/>
 
 				<div class="flex justify center mt-3">
 					<P size="xs" class="text-center w-full"
@@ -154,13 +230,13 @@
 
 				<div class="flex justify-center items-center mt-5">
 					<div class="w-6/12 pr-1">
-						<Button on:click={clearImage} type="button" color="red" class="w-full">
+						<Button on:click={clearImage} type="button" color="red" class="w-full text-lg">
 							<UndoOutline class="w-3.5 h-3.5 me-2" /> Tirar Outra
 						</Button>
 					</div>
 
 					<div class="w-6/12 pl-1">
-						<Button on:click={startSubmitting} type="button" color="green" class="w-full">
+						<Button on:click={startSubmitting} type="button" color="green" class="w-full text-lg">
 							Enviar <ArrowRightToBracketOutline class="w-3.5 h-3.5 ms-2" />
 						</Button>
 					</div>
@@ -173,6 +249,7 @@
 		{/if}
 	</div>
 </div>
+<canvas id="canvas" class="display-none" width="1000" height="1000"></canvas>
 
 <Centro show={showLocationModal}>
 	<div class="flex justify-center">
@@ -200,12 +277,12 @@
 
 	<div class="flex justify-center">
 		<Button
-		on:click={() => {
-			window.location.reload();
-		}}
-		color="light"
-		class="mb-2">Voltar</Button
-	>
+			on:click={() => {
+				window.location.reload();
+			}}
+			color="light"
+			class="mb-2">Voltar</Button
+		>
 	</div>
 </Centro>
 

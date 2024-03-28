@@ -8,7 +8,7 @@
 </script>
 
 {#if data.reports && data.reports.length > 0 && data.plate}
-    <div class="felx">
+    <div>
         <Heading tag="h1" class="text-xxl mb-2">{data.plate.number} é um imbecil</Heading>
         <P class="mb-5 text-justify">
             O proprietário da viatura com a matrícula {data.plate.number} é um imbecil, já estacionou abusivamente pelo menos
@@ -27,6 +27,12 @@
 			municipality={report.municipality ?? null}
 		/>
 	{/each}
+    <div class="flex">
+        <P>
+            Ou se calhar não é esta a matrícula, qualquer utilizador pode escrever o que quiser no formulário. Não
+            é possível ter a certeza absoluta, mas pode ser. Cada um tira as conclusões que quiser.
+        </P>
+    </div>
 {:else}
     <Heading tag="h1" class="text-xxl mb-2">Estranho</Heading>
 	<P class="text-justify">
