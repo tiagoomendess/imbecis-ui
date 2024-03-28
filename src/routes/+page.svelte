@@ -59,7 +59,7 @@
 </script>
 
 <section class="bg-white dark:bg-gray-900">
-	<Heading class="mb-4">Feed</Heading>
+	<Heading class="mb-4">Imbecis App</Heading>
 
 	{#each data.reports as report}
 		<ImbecileSq
