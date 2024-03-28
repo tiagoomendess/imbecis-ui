@@ -57,8 +57,8 @@
 
 			lens.style.left = x - radius + 'px';
 			lens.style.top = y - radius + 'px';
-			lens.style.backgroundPosition = '-' + (x * 2 - radius) + 'px -' + (y * 2 - radius) + 'px';
-			lens.style.backgroundSize = image.offsetWidth * 2 + 'px ' + image.offsetHeight * 2 + 'px';
+			lens.style.backgroundPosition = '-' + (x * 3 - radius) + 'px -' + (y * 3 - radius) + 'px';
+			lens.style.backgroundSize = image.offsetWidth * 3 + 'px ' + image.offsetHeight * 3 + 'px';
 			lens.style.visibility = 'visible';
 		}
 
