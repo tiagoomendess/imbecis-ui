@@ -125,6 +125,7 @@
 		loadingMessage.set('A pedir um imbecil fresquinho');
 		await goto('/votar', { replaceState: true, invalidateAll: true });
 		await new Promise((r) => setTimeout(r, 200));
+		initMagnifyingGlass();
 		$isLoading = false;
 	};
 
