@@ -16,9 +16,9 @@
 	} from 'flowbite-svelte';
 
 	export let data: PageData;
-	let currentPage = 1 as number;
 	let maxPage = Math.ceil(data.platesResponse.total / 10);
 	$: queryParams = $page.url.searchParams;
+	$: currentPage = parseInt(queryParams.get('page') ?? '1');
 
 	const getFlag = (country: string): string => {
 		switch (country) {
@@ -101,7 +101,7 @@
 
 	{#if currentPage < maxPage}
 		<a href={`?page=${currentPage + 1}`}>
-			<PaginationItem large on:click={next}>Próxima</PaginationItem>
+			<PaginationItem large>Próxima</PaginationItem>
 		</a>
 	{/if}
 </div>
