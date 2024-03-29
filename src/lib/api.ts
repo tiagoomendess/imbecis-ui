@@ -177,9 +177,10 @@ export const submitReportVote = async (reportId: string, request : VoteRequest):
     } catch (error : any) {
         console.error("Error submitting report vote: ", error)
         if (error.response) {
+            const customMessage = error.response.status === 429 ? 'Está a votar muito rápido' : "Erro desconhecido"
             return {
                 success: false,
-                message: error.response.data.message ?? "Erro desconhecido"
+                message: error.response.data.message ?? customMessage
             }
         } else {
             return {

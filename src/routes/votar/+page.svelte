@@ -10,6 +10,7 @@
 	import { submitReportVote } from '$lib/api';
 	import { goto } from '$app/navigation';
 	import { showNotification } from '$lib/utils/notifications';
+	import Country from '$lib/Country.svelte';
 
 	export let data: PageData;
 	let plateCountry = 'pt' as string;
@@ -130,11 +131,6 @@
 		initMagnifyingGlass();
 		$isLoading = false;
 	};
-
-	const countryClicked = () => {
-		console.log('Country');
-		showNotification('Por agora apenas matrículas portuguesas são aceites', 'info');
-	};
 </script>
 
 {#if data.reportForReview != null}
@@ -147,12 +143,7 @@
 		<div class="flex mb-2">
 			<!-- Matricula 🇵🇹 -->
 			<div class="w-2/12">
-				<Button
-					on:click={countryClicked}
-					id="country_button"
-					color="light"
-					class="text-center mt-7 pl-2 pr-2 w-full text-lg">🇵🇹</Button
-				>
+				<Country bind:value={plateCountry} />
 			</div>
 			<div class="w-10/12 pl-2">
 				<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
