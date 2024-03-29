@@ -1,5 +1,5 @@
 <script>
-	import { Heading, P, A, Img } from 'flowbite-svelte';
+	import { Heading, P, A, Img, Button } from 'flowbite-svelte';
 </script>
 
 <div class="flex justify-center mb-4"></div>

@@ -3,6 +3,7 @@
     import {  SearchOutline } from 'flowbite-svelte-icons';
     import { getPlateByCountryAndNumber } from '$lib/api';
     import { goto } from '$app/navigation';
+    import { showNotification } from '$lib/utils/notifications';
 
 	let plateNumber = '';
 	let plateCountry = 'pt';
@@ -15,7 +16,7 @@
 
     const countryClicked = () => {
         console.log('country clicked');
-        alert('Apenas matrículas Portuguesas são suportadas de momento');
+        showNotification('Apenas matrículas Portuguesas são suportadas de momento', 'info')
     }
 
     const normalizePlateNumber = (plateNumber: string) => {
@@ -47,7 +48,7 @@
         const plateObj = await getPlateByCountryAndNumber(plateCountry, plateStr);
         if (!plateObj) {
             console.log('plate not found');
-            alert(`${plateStr} não é um imbecil`)
+            showNotification(`${plateStr} não foi encontrada`, 'success')
             plateNumber = '';
             isSearching = false;
             return;

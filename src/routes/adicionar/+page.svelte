@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Camera from '$lib/Camera.svelte';
 	import { createReport, uploadPicture } from '$lib/api';
-	import Notification from '$lib/Notification.svelte';
 	import { location } from '$lib/stores/location';
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { Heading, P, Button } from 'flowbite-svelte';
@@ -9,12 +8,11 @@
 	import Centro from '$lib/Centro.svelte';
 	import * as faceapi from 'face-api.js';
 	import { onMount } from 'svelte';
+	import { showNotification } from '$lib/utils/notifications';
 
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
 	$: isSubmitting = false as boolean;
-	$: reportSentNotification = false as boolean;
-	$: errorSendingReportNotification = false as boolean;
 
 	onMount(async () => {
 		loadModels();
@@ -97,20 +95,6 @@
 		return seconds > 60;
 	};
 
-	const showReportSentNotification = () => {
-		reportSentNotification = true;
-		setTimeout(() => {
-			reportSentNotification = false;
-		}, 5000);
-	};
-
-	const showErrorSendingReportNotification = () => {
-		errorSendingReportNotification = true;
-		setTimeout(() => {
-			errorSendingReportNotification = false;
-		}, 5000);
-	};
-
 	const handlePictureTaken = (event: CustomEvent<Blob>) => {
 		image = event.detail;
 	};
@@ -170,27 +154,29 @@
 		isSubmitting = true;
 		isLoading.set(true);
 
-		const newReportId = await createReport();
-		if (!newReportId) {
+		const newReportRes = await createReport();
+		if (!newReportRes.success) {
+			showNotification(`Erro. ${newReportRes.message}`, 'error');
 			isSubmitting = false;
 			isLoading.set(false);
 			return;
 		}
 
 		if (!image) {
+			showNotification('Imagem não encontrada', 'error');
 			isSubmitting = false;
 			isLoading.set(false);
 			return;
 		}
 
 		loadingMessage.set('A enviar fotografia');
-		const uploaded = await uploadPicture(newReportId, image);
+		const uploadResponse = await uploadPicture(newReportRes.reportId, image);
 
-		if (uploaded) {
-			showReportSentNotification();
+		if (uploadResponse.success) {
+			showNotification('Denúncia enviada com sucesso', 'success');
 			clearImage();
 		} else {
-			showErrorSendingReportNotification();
+			showNotification(`Erro. ${uploadResponse.message}`, 'error');
 			clearImage();
 		}
 
@@ -198,18 +184,6 @@
 		isLoading.set(false);
 	};
 </script>
-
-{#if reportSentNotification || true}
-	<Notification type="success" show={reportSentNotification}>
-		Fotografia enviada com sucesso
-	</Notification>
-{/if}
-
-{#if errorSendingReportNotification}
-	<Notification type="error" show={errorSendingReportNotification}>
-		Erro a enviar fotografia
-	</Notification>
-{/if}
 
 <div class="camera-wrapper">
 	<div class="container max-w-md mx-auto p-4 mb-20">

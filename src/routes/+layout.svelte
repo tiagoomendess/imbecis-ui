@@ -7,6 +7,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { isLoading } from '$lib/stores/loading';
 	import { navigating } from '$app/stores';
+	import NotificationsWrapper from '$lib/NotificationsWrapper.svelte';
 
 	navigating.subscribe((value) => {
 		isLoading.set(value !== null);
@@ -29,9 +30,10 @@
 
 </script>
 
+<NotificationsWrapper />
 <Loader/>
 <div class="w-full">
-	<div class="container max-w-md mx-auto p-4 mb-20">
+	<div class="container max-w-md mx-auto p-4 mb-20">	
 		<slot />
 	</div>
 </div>

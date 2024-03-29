@@ -9,6 +9,7 @@
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { submitReportVote } from '$lib/api';
 	import { goto } from '$app/navigation';
+	import { showNotification } from '$lib/utils/notifications';
 
 	export let data: PageData;
 	let plateCountry = 'pt' as string;
@@ -113,13 +114,14 @@
 		};
 
 		// send request to api
-		const success = await submitReportVote(data.reportForReview?.id || '', request);
+		const response = await submitReportVote(data.reportForReview?.id || '', request);
 
 		// reset view values
-		if (success) {
+		if (response.success) {
 			plateNumber = '';
+			showNotification('Voto registado com sucesso', 'success');
 		} else {
-			alert('Voto não foi registado');
+			showNotification(`Erro. ${response.message}`, 'error')
 		}
 
 		loadingMessage.set('A pedir um imbecil fresquinho');
@@ -131,7 +133,7 @@
 
 	const countryClicked = () => {
 		console.log('Country');
-		alert('Por agora apenas matrículas portuguesas são aceites');
+		showNotification('Por agora apenas matrículas portuguesas são aceites', 'info');
 	};
 </script>
 

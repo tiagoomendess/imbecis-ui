@@ -33,7 +33,13 @@ export const getFeed = async (page: number = 1) => {
     }
 }
 
-export const createReport = async (): Promise<string | null> => {
+export interface CreateReportResponse {
+    success: boolean
+    message: string
+    reportId: string
+}
+
+export const createReport = async (): Promise<CreateReportResponse> => {
     const body = {
         location: {
             latitude: coordinates.latitude,
@@ -42,6 +48,12 @@ export const createReport = async (): Promise<string | null> => {
     }
 
     const uuid = getDeviceUUID()
+
+    let toReturn = {
+        success: false,
+        message: "Erro desconhecido",
+        reportId: ""
+    }
 
     try {
         const response = await axios.post(`${BASE_URL}/reports`, body, {
@@ -53,21 +65,37 @@ export const createReport = async (): Promise<string | null> => {
         })
 
         if (response.status !== 201 || !response.data.success) {
-            return null
+            toReturn.message = response.data.message ?? `Pedido falhou com status ${response.status}`
+            return toReturn
         }
 
-        return response.data.payload.id
-    } catch (error) {
-        console.error("Creating report: ", error)
-        return null
+        toReturn.reportId = response.data.payload.id
+        toReturn.success = true
+        toReturn.message = "Report criado com sucesso"
+    } catch (error : any) {
+        if (error.response) {
+            toReturn.message = error.response.data.message ?? "Erro desconhecido"
+        }
     }
+
+    return toReturn
 }
 
-export const uploadPicture = async (reportId: string, picture: Blob): Promise<boolean> => {
+export interface UploadPictureResponse {
+    success: boolean
+    message: string
+}
+
+export const uploadPicture = async (reportId: string, picture: Blob): Promise<UploadPictureResponse> => {
 
     const uuid = getDeviceUUID()
     const formData = new FormData()
     formData.append('picture', picture)
+
+    let toReturn = {
+        success: false,
+        message: "Erro desconhecido"
+    }
 
     try {
         const response = await axios.post(`${BASE_URL}/reports/${reportId}/upload-picture`, formData, {
@@ -79,14 +107,20 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<bo
         })
 
         if (response.status !== 201 || !response.data.success) {
-            return false
+            toReturn.message = response.data.message ?? `Pedido falhou com status ${response.status}`
+            return toReturn
         }
 
-        return true
-    } catch (error) {
+        toReturn.success = true
+        toReturn.message = "Imagem submetida com sucesso"
+    } catch (error : any) {
         console.error("Error uploading picture: ", error)
-        return false
+        if (error.response) {
+            toReturn.message = error.response.data.message ?? "Erro desconhecido"
+        }
     }
+
+    return toReturn
 }
 
 export const getReportForReview = async (): Promise<Report | null> => {
@@ -111,7 +145,12 @@ export const getReportForReview = async (): Promise<Report | null> => {
     }
 }
 
-export const submitReportVote = async (reportId: string, request : VoteRequest): Promise<boolean> => {
+export interface SubmitReportVoteResponse {
+    success: boolean
+    message: string
+}
+
+export const submitReportVote = async (reportId: string, request : VoteRequest): Promise<SubmitReportVoteResponse> => {
     try {
         const uuid = getDeviceUUID()
         const response = await axios.post(`${BASE_URL}/reports/${reportId}/vote`, request, {
@@ -124,14 +163,31 @@ export const submitReportVote = async (reportId: string, request : VoteRequest):
 
         if (response.status !== 201 || !response.data.success) {
             console.error("Error submitting report vote: ", response.data)
-            return false
+            return {
+                success: false,
+                message: response.data.message ?? "Erro desconhecido"
+            }
         }
-    } catch (error) {
-        console.error("Error submitting report review: ", error)
-        return false
-    }
 
-    return true
+        return {
+            success: true,
+            message: "Voto submetido com sucesso"
+        }
+
+    } catch (error : any) {
+        console.error("Error submitting report vote: ", error)
+        if (error.response) {
+            return {
+                success: false,
+                message: error.response.data.message ?? "Erro desconhecido"
+            }
+        } else {
+            return {
+                success: false,
+                message: "Erro desconhecido"
+            }
+        }
+    }
 }
 
 export const getPlateByCountryAndNumber = async (country: string, number: string): Promise<Plate | null> => {
