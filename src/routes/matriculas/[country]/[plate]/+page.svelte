@@ -7,6 +7,15 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+    {#if data.plate}
+    <title>Imbecis :: {data.plate?.number}</title>
+    {:else}
+    <title>Imbecis :: Matrícula</title>
+    {/if}
+    
+</svelte:head>
+
 {#if data.reports && data.reports.length > 0 && data.plate}
     <div>
         <Heading tag="h1" class="text-xxl mb-2">{data.plate.number} é um imbecil</Heading>

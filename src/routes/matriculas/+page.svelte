@@ -65,6 +65,10 @@
 	};
 </script>
 
+<svelte:head>
+    <title>Imbecis :: Matrículas</title>
+</svelte:head>
+
 <Heading class="mb-5">Matrículas</Heading>
 
 <Table class="mb-5">

@@ -185,6 +185,10 @@
 	};
 </script>
 
+<svelte:head>
+    <title>Imbecis :: Adicionar</title>
+</svelte:head>
+
 <div class="camera-wrapper">
 	<div class="container max-w-md mx-auto p-4 mb-20">
 		{#if image && !isSubmitting}

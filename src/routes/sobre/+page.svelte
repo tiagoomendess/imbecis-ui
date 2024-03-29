@@ -2,6 +2,10 @@
 	import { Heading, P, A, Img, Button } from 'flowbite-svelte';
 </script>
 
+<svelte:head>
+    <title>Imbecis :: Sobre</title>
+</svelte:head>
+
 <div class="flex justify-center mb-4"></div>
 
 <div class="flex-col justify-center items-center mb-7">

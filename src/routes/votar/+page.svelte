@@ -133,6 +133,10 @@
 	};
 </script>
 
+<svelte:head>
+    <title>Imbecis :: Votar</title>
+</svelte:head>
+
 {#if data.reportForReview != null}
 	<div>
 		<div class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg relative">

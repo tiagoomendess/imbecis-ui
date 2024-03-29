@@ -68,6 +68,10 @@
 	};
 </script>
 
+<svelte:head>
+    <title>Imbecis :: Procurar</title>
+</svelte:head>
+
 <div>
 	<Heading class="mb-4">Procurar Imbecil</Heading>
 

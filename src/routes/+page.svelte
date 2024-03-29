@@ -58,6 +58,10 @@
 	});
 </script>
 
+<svelte:head>
+    <title>Imbecis App</title>
+</svelte:head>
+
 <section class="bg-white dark:bg-gray-900">
 	<Heading class="mb-4">Imbecis</Heading>
 
