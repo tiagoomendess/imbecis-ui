@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Plate from '$lib/Plate.svelte';
     import { MapLocationOutline, CalendarMonthOutline } from 'flowbite-svelte-icons';
 
@@ -7,6 +8,22 @@
 	export let plateCountry: string | null = null;
 	export let municipality: string | null = 'Local Desconhecido';
     export let date: string | null = null;
+    export let id: string | null = null;
+    
+    const clicks = [] as Date[]
+
+    const mapIconClicked = () => {
+        if (clicks.length > 30) {
+            clicks.length = 0
+        }
+
+        clicks.push(new Date())
+        // if clicked 3 times in less than 2 second
+        if (id && clicks.length >= 3 && clicks[clicks.length - 1].getTime() - clicks[clicks.length - 3].getTime() < 2000) {
+            clicks.length = 0
+            goto(`/reports/${id}`)
+        }
+    }
 </script>
 
 <div class="aspect-square outer-square">
@@ -15,7 +32,7 @@
 		
         <div class="stick-top text-sm">
             <div class="flex items-center">
-                <MapLocationOutline/>
+                <MapLocationOutline on:click={mapIconClicked}/>
                 <span class="ml-1">{ municipality }</span>
             </div>
             <div class="flex items-center">

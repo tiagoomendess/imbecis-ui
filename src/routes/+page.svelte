@@ -27,7 +27,7 @@
 	// Function to load more data
 	async function loadMore() {
 		if (loading || pagesLoaded.includes(currentPage + 1)) {
-			return
+			return;
 		}
 
 		loading = true;
@@ -36,7 +36,7 @@
 		const newData = await getFeed(currentPage + 1);
 		if (newData.length > 0) {
 			currentPage += 1;
-			
+
 			data.reports = [...data.reports, ...newData];
 		}
 
@@ -59,7 +59,11 @@
 </script>
 
 <svelte:head>
-    <title>Imbecis App</title>
+	<title>Imbecis App</title>
+	<meta property="og:title" content="Imbecis App"/>
+    <meta property="og:type" content="website"/>
+	<meta property="og:image" content="/imbecis_logo_300.png">
+	<meta property="og:description" content="Lista de imbecis nacional. Estacionamentos abusivos catalogados por Município. Adicione e encontre imbecis por matrícula."/>
 </svelte:head>
 
 <section class="bg-white dark:bg-gray-900">
@@ -67,6 +71,7 @@
 
 	{#each data.reports as report}
 		<ImbecileSq
+			id={report.id}
 			picture={report.picture}
 			plateNumber={report.plate?.number}
 			plateCountry={report.plate?.country}
@@ -78,6 +83,8 @@
 	{#if loading}
 		<Paragraph align="center">A carregar mais...</Paragraph>
 	{:else}
-		<Paragraph align="center">Não existem mais imbecis, <A href="/adicionar">adicione um</A></Paragraph>
+		<Paragraph align="center"
+			>Não existem mais imbecis, <A href="/adicionar">adicione um</A></Paragraph
+		>
 	{/if}
 </section>

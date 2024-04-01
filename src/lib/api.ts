@@ -87,7 +87,6 @@ export interface UploadPictureResponse {
 }
 
 export const uploadPicture = async (reportId: string, picture: Blob): Promise<UploadPictureResponse> => {
-
     const uuid = getDeviceUUID()
     const formData = new FormData()
     formData.append('picture', picture)
@@ -242,4 +241,82 @@ export const getPlatesOfConfirmedImbeciles = async (page: number = 1): Promise<P
             total: 0
         }
     }
+}
+
+export interface GetReportByIdResponse {
+    success: boolean
+    message: string
+    report: Report | null
+}
+
+export const getReportById = async (id: string): Promise<GetReportByIdResponse> => {
+    let toReturn = {
+        success: false,
+        message: "Erro desconhecido",
+        report: null
+    } as GetReportByIdResponse
+
+    try {
+        const response = await axios.get(`${BASE_URL}/reports/${id}`)
+
+        if (!response.data.success) {
+            toReturn.message = response.data.message ?? "Erro desconhecido"
+            return toReturn
+        }
+
+        toReturn.success = true
+        toReturn.message = "Report encontrado"
+        toReturn.report = response.data.payload as Report
+
+        return toReturn
+    } catch (error : any) {
+        console.error("Error getting plates of confirmed imbeciles: ", error)
+    
+        if (error.response) {
+            toReturn.message = error.response.data.message ?? "Erro desconhecido"
+        }
+
+        return toReturn
+    }
+}
+
+export interface UpdateReportPictureResponse {
+    success: boolean
+    message: string
+}
+
+export const updateReportPicture = async (reportId: string, picture: Blob): Promise<UpdateReportPictureResponse> => {
+    const uuid = getDeviceUUID()
+    const formData = new FormData()
+    formData.append('picture', picture)
+
+    let toReturn = {
+        success: false,
+        message: "Erro desconhecido"
+    } as UpdateReportPictureResponse
+
+    try {
+        const response = await axios.post(`${BASE_URL}/reports/${reportId}/update-picture`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Accept': 'application/json',
+                'device-uuid': uuid
+            }
+        })
+
+        if (response.status !== 201 || !response.data.success) {
+            toReturn.message = response.data.message ?? `Pedido falhou com status ${response.status}`
+            return toReturn
+        }
+
+        toReturn.success = true
+        toReturn.message = "Imagem alterada com sucesso"
+    } catch (error : any) {
+        console.error("Error uploading picture: ", error)
+        if (error.response) {
+            toReturn.message = error.response.data.message ?? "Erro desconhecido"
+        }
+    }
+
+    return toReturn
 }

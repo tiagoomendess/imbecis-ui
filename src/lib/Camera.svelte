@@ -145,7 +145,7 @@
 	</video>
 
 	<div class="flex justify-center items-center mt-3 mb-10">
-		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600">&nbsp;<CameraFotoOutline/>&nbsp;</Button>
+		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full">&nbsp;<CameraFotoOutline/>&nbsp;</Button>
 	</div>
 
 	<div class="flex justify-center">
@@ -169,7 +169,7 @@
 		/>
 	</div>
 	<div class="mt-5 text-center">
-		<span class="text-center text-xs">zoom e brilho experimental, não funciona em todos os telemóveis</span>
+		<p class="text-center text-xs">Zoom e brilho experimental, não funciona em todos os telemóveis. Apenas 1 imbecil por foto</p>
 	</div>
 </div>
 
