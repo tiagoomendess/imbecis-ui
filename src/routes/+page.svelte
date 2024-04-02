@@ -63,7 +63,7 @@
 	<meta property="og:title" content="Imbecis App"/>
     <meta property="og:type" content="website"/>
 	<meta property="og:image" content="/imbecis_logo_300.png">
-	<meta property="og:description" content="Lista de imbecis nacional. Estacionamentos abusivos catalogados por Município. Adicione e encontre imbecis por matrícula."/>
+	<meta property="og:description" content="Lista nacional de imbecis. Estacionamentos abusivos catalogados por Município. Adicione ou encontre imbecis por matrícula."/>
 </svelte:head>
 
 <section class="bg-white dark:bg-gray-900">

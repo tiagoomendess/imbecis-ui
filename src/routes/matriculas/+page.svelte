@@ -67,6 +67,8 @@
 
 <svelte:head>
     <title>Imbecis :: Matrículas</title>
+	<meta property="og:description" content="Todas as matrículas de imbecis"/>
+	<meta property="og:image" content="/imbecis_logo_300.png" />
 </svelte:head>
 
 <Heading class="mb-5">Matrículas</Heading>

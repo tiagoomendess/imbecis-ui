@@ -5,6 +5,12 @@
 
 <svelte:head>
 	<title>Imbecis :: Sobre</title>
+	<meta
+		property="og:description"
+		content="Esta app está a ser desenvolvida que está por alguém que está farto de ver pessoas egoístas
+	a fazer o que lhes apetece na rua, violando constantemente o código da estrada e os deveres cívicos
+	mais básicos sem nenhuma consequência."
+	/>
 </svelte:head>
 
 <div class="flex justify-center mb-4"></div>
@@ -30,6 +36,7 @@
 	<Li><A href="#motivacao">Motivação</A></Li>
 	<Li><A href="#policia">A Polícia não faz nada</A></Li>
 	<Li><A href="#remover">Pedidos de Remoção</A></Li>
+	<Li><A href="#ler_mais">Ler Mais</A></Li>
 </List>
 
 <Heading id="permissoes" tag="h3" class="mb-2">Permissões e Privacidade</Heading>
@@ -68,10 +75,10 @@
 <Heading id="como_participar" tag="h3" class="mb-2">Como Participar?</Heading>
 
 <P class="mb-3 text-justify">
-	Para participar é muito fácil, basta encontrar um imbecil na rua estacionado de forma abusiva,
-	e submeter uma nova denúncia clicando <A href="/adicionar">aqui</A>.
-	Apenas 1 imbecil por denúncia deve estar visível, e text-center mostrar tambem algum do ambiente
-	em redor para perceber se está de facto em incumprimento ou não.
+	Para participar é muito fácil, basta encontrar um imbecil na rua estacionado de forma abusiva, e
+	submeter uma nova denúncia clicando <A href="/adicionar">aqui</A>. Apenas 1 imbecil por denúncia
+	deve estar visível, e text-center mostrar tambem algum do ambiente em redor para perceber se está
+	de facto em incumprimento ou não.
 </P>
 <P class="mb-3 text-justify">
 	Os imbecis aprovados pelos outros utilizadores aparecem na <A href="/">pagina inicial</A>. Todas
@@ -81,10 +88,13 @@
 	>.
 </P>
 <P class="mb-7 text-justify">
-	Se quiser fazer ainda mais por esta causa, pode ainda fazer download do <A href="/imbecis_cartaz.pdf" target="_blank">cartaz A4</A>
+	Se quiser fazer ainda mais por esta causa, pode ainda fazer download do <A
+		href="/imbecis_cartaz.pdf"
+		target="_blank">cartaz A4</A
+	>
 	para imprimir e colocar em zonas habitualmente infestadas por imbecis. Ou fazer o download deste
-	<A href="/imbecis_registado.pdf" target="_blank">panfeleto</A> para colocar nos parabrisas dos imbecis que encontrar depois de adicionar
-	à App.
+	<A href="/imbecis_registado.pdf" target="_blank">panfeleto</A> para colocar nos parabrisas dos imbecis
+	que encontrar depois de adicionar à App.
 </P>
 
 <Heading id="motivacao" tag="h3" class="mb-2">Motivação</Heading>
@@ -130,35 +140,55 @@
 
 <Heading id="policia" tag="h3" class="mb-2">A polícia não faz nada</Heading>
 <P class="mb-3 text-justify">
-	Esta não é uma ferramenta de denúncia à polícia. Para isso existem estas duas aplicações que recomendo: "Aqui Não" e "DenúnciaEstacionamento"
+	Esta não é uma ferramenta de denúncia à polícia. Para isso existem estas duas aplicações que
+	recomendo: "Aqui Não" e "DenúnciaEstacionamento"
 </P>
 <P class="mb-3 text-justify">
-	Esta ferramenta surge precisamente porque a polícia ignora ativamente as denúncias feitas através dessas aplicações. Muitas vezes faz pior, em alguns casos
-	a mesma polícia vaza os dados pessoais do denunciante ao prevaricador (1), e em outros a polícia exige que o denunciante retire
-	tempo do seu dia para ser testemunha da contraordenação (2), o que é um absurdo. Principalmente se tivermos em conta que o artigo 170.º do Código da Estrada prevê que,
-	a autoridade que tiver notícia por denúncia de contra-ordenarão, levanta auto, não carecendo de presenciar tal contra-ordenarão rodoviária.
+	Esta ferramenta surge precisamente porque a polícia ignora ativamente as denúncias feitas através
+	dessas aplicações. Muitas vezes faz pior, em alguns casos a mesma polícia vaza os dados pessoais
+	do denunciante ao prevaricador (1), e em outros a polícia exige que o denunciante retire tempo do
+	seu dia para ser testemunha da contraordenação (2), o que é um absurdo. Principalmente se tivermos
+	em conta que o artigo 170.º do Código da Estrada prevê que, a autoridade que tiver notícia por
+	denúncia de contra-ordenarão, levanta auto, não carecendo de presenciar tal contra-ordenarão
+	rodoviária.
 </P>
 
 <P class="mb-3 text-justify">
-	Há situações em que as pessoas são impedidas de entrar nas próprias garagens, ligam para a polícia a solicitar a remoção do veículo, e são ignoradas.
+	Há situações em que as pessoas são impedidas de entrar nas próprias garagens, ligam para a polícia
+	a solicitar a remoção do veículo, e são ignoradas.
 </P>
 
 <P class="mb-7 text-justify">
-	Por isso não resta muito mais do que apontar o dedo nas esperança que alguns destes imbecis se sintam envergonhados e mudem de comportamento.
-	Estamos entregues aos bichos, e no caminho certo para nos tornarmos num país de terceiro mundo.
+	Por isso não resta muito mais do que apontar o dedo nas esperança que alguns destes imbecis se
+	sintam envergonhados e mudem de comportamento. Estamos entregues aos bichos, e no caminho certo
+	para nos tornarmos num país de terceiro mundo.
 </P>
 
 <Heading id="remover" tag="h3" class="mb-2">Pedidos de Remoção</Heading>
 
-<P class="mb-3 text-justify">
+<P class="mb-7 text-justify">
 	Se a sua viatura ou cara está registada e deseja removê-la, envie um email para <A
 		href="mailto:remover@imbecis.app">remover@imbecis.app</A
 	>. A remoção é feita manualmente e será efetuada tão rápido como possível.
 </P>
 
+<Heading id="ler_mais" tag="h3" class="mb-2">Ler mais</Heading>
+
 <P class="mb-5 text-justify">
-	Lê mais e educa-te sobre mobilidade, planeamento urbanístico e liberta-te da mentalidade carrocentrica em
+	Lê mais e educa-te sobre mobilidade, planeamento urbanístico e liberta-te da mentalidade
+	carro-cêntrica em
 	<A href="https://www.reddit.com/r/menoscarros/" target="_blank">r/menoscarros</A>,
 	<A href="https://www.strongtowns.org/" target="_blank">strongtowns.org</A>
-	e <A href="https://www.youtube.com/@NotJustBikes" target="_blank">NotJustBikes</A>
+	e <A href="https://www.youtube.com/@NotJustBikes" target="_blank">NotJustBikes</A>. Um bom ponto
+	de partida é este vídeo:
 </P>
+
+<iframe
+	class="mb-5 w-full aspect-[16/9] rounded-lg"
+	src="https://www.youtube.com/embed/uxykI30fS54?si=tJqsgNOV_jwzfYpD"
+	title="YouTube video player"
+	frameborder="0"
+	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+	referrerpolicy="strict-origin-when-cross-origin"
+	allowfullscreen
+></iframe>
