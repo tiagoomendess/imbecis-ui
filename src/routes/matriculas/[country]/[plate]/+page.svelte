@@ -16,7 +16,6 @@
 		<title>Imbecis :: Matrícula</title>
 		<meta property="og:title" content={`Imbecis :: Matrículas`} />
 	{/if}
-
 	{#if data.reports && data.reports.length > 0}
 		<meta property="og:image" content={data.reports[0].picture} />
 	{/if}

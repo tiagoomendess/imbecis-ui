@@ -1,10 +1,10 @@
 <script>
-	import { Heading, P, A, Img, Button, List, Li } from 'flowbite-svelte';
-	import { page } from '$app/stores';
+	import { Heading, P, A, Img, Li } from 'flowbite-svelte';
 </script>
 
 <svelte:head>
 	<title>Imbecis :: Sobre</title>
+	<meta property="og:image" content="/imbecis_logo_300.png">
 	<meta
 		property="og:description"
 		content="Esta app está a ser desenvolvida que está por alguém que está farto de ver pessoas egoístas
@@ -31,7 +31,7 @@
 <Heading tag="h3" class="mb-2">Índice</Heading>
 
 <List class="pl-3 mb-7">
-	<Li><A href="#permissoes">Permissões</A></Li>
+	<Li><A href="#permissoes">Permissões e Privacidade</A></Li>
 	<Li><A href="#como_participar">Como Participar?</A></Li>
 	<Li><A href="#motivacao">Motivação</A></Li>
 	<Li><A href="#policia">A Polícia não faz nada</A></Li>

@@ -69,7 +69,8 @@
 </script>
 
 <svelte:head>
-    <title>Imbecis :: Procurar</title>
+    <title>Imbecis :: Procurar Imbecis</title>
+    <meta property="og:image" content="/imbecis_logo_300.png">
 </svelte:head>
 
 <div>
