@@ -17,9 +17,9 @@
 
 <div class="flex-col justify-center items-center mb-7">
 	<div class="w-full flex items-center place-content-center mb-2">
-		<Img class="size-25 center" src="/imbecis_logo_300.png" />
+		<Img class="size-20 center" src="/imbecis_logo_300.png" />
 	</div>
-	<Heading class="mb-4  text-center">Sobre</Heading>
+	<Heading class="mb-4 text-center">Sobre</Heading>
 </div>
 
 <P class="mb-7 text-justify">
