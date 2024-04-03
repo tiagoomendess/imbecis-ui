@@ -1,5 +1,5 @@
 <script>
-	import { Heading, P, A, Img, Li } from 'flowbite-svelte';
+	import { Heading, P, A, Img, List, Li } from 'flowbite-svelte';
 </script>
 
 <svelte:head>
