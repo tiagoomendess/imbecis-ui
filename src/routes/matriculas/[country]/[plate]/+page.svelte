@@ -5,11 +5,15 @@
 	import moment from 'moment';
 
 	export let data: PageData;
+
+    export const prerender = true;
+    export const ssr = true;
 </script>
 
 <svelte:head>
 	{#if data.plate}
 		<title>Imbecis :: {data.plate?.number}</title>
+        <meta name="description" content={`O proprietário do veículo com a matrícula ${data.plate.number} é um imbecil.`}>
 		<meta property="og:title" content={`Imbecis :: ${data.plate?.number}`} />
         <meta property="og:description" content={`O proprietário do veículo com a matrícula ${data.plate.number} é um imbecil.`}/>
 	{:else}
