@@ -16,7 +16,7 @@
 	} from 'flowbite-svelte';
 
 	export let data: PageData;
-	let maxPage = Math.ceil(data.platesResponse.total / 10);
+	let maxPage = Math.ceil(data.total / 10);
 	$: queryParams = $page.url.searchParams;
 	$: currentPage = parseInt(queryParams.get('page') ?? '1');
 
@@ -79,7 +79,7 @@
 		<TableHeadCell>Matrícula</TableHeadCell>
 	</TableHead>
 	<TableBody>
-		{#each data.platesResponse.plates as plate}
+		{#each data.plates as plate}
 			<TableBodyRow>
 				<TableBodyCell>
 					{getFlag(plate.country)}

@@ -1,7 +1,6 @@
 import type { PageLoad } from './$types';
 import type { Plate, Report, ApiResponse } from '$lib/types';
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+import { BASE_URL } from '$lib/api';
 
 export const load: PageLoad = async ({ params, fetch }) => {
     const plateResponse = await fetch(`${BASE_URL}/plates/${params.country}/${params.plate}`)

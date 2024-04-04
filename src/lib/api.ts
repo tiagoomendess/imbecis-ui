@@ -3,7 +3,7 @@ import type { Report, Coordinates, VoteRequest, Plate, PaginatedPlatesList } fro
 import { location } from '$lib/stores/location'
 
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
 location.subscribe((value : Coordinates) => {
