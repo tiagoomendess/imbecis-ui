@@ -43,3 +43,9 @@ export interface Notification {
     message: string;
     type: NotificationType;
 }
+
+export interface ApiResponse {
+    success: boolean
+    message: string
+    payload: any
+}
