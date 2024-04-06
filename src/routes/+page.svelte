@@ -5,7 +5,7 @@
 	import ImbecileSq from '$lib/ImbecileSq.svelte';
 	import moment from 'moment';
 	import { Heading, A } from 'flowbite-svelte';
-	import { getFeed } from '$lib/api';
+	import { getFeed, countAvailableReportsForReview } from '$lib/api';
 
 	export let data: PageData;
 
