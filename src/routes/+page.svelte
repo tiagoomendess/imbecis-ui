@@ -41,6 +41,10 @@
 		}
 
 		loading = false;
+
+		if (currentPage === 3) {
+			countReportsForReview();
+		}
 	}
 
 	function isBrowser() {
@@ -56,6 +60,15 @@
 			};
 		}
 	});
+
+	const countReportsForReview = () => {
+		const count = countAvailableReportsForReview();
+
+		if (count > 0) {
+			showNotification(`Existem ${count} possíveis imbecis à espera para serem revistos na página de votar.`);
+		}
+	}
+
 </script>
 
 <svelte:head>

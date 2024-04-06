@@ -2,7 +2,6 @@ import axios from 'axios'
 import type { Report, Coordinates, VoteRequest, Plate, PaginatedPlatesList } from '$lib/types'
 import { location } from '$lib/stores/location'
 
-
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
@@ -240,6 +239,25 @@ export const getPlatesOfConfirmedImbeciles = async (page: number = 1): Promise<P
             page: 1,
             total: 0
         }
+    }
+}
+
+export const countAvailableReportsForReview = async (): Promise<number> => {
+    try {
+        const response = await axios.get(`${BASE_URL}/reports/for-review/count`, {
+            headers: {
+                'device-uuid': getDeviceUUID()
+            }
+        })
+
+        if (!response.data.success) {
+            return 0
+        }
+
+        return response.data.payload.count as number
+    } catch (error) {
+        console.error("Error counting available reports for review: ", error)
+        return 0
     }
 }
 
