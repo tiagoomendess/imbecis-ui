@@ -33,7 +33,7 @@
 
 	async function loadImage() {
 		const image = new Image();
-		image.crossOrigin = "cdn.imbecis.app";
+		image.crossOrigin = "anonymous";
 		image.src = data.report?.picture as string;
 		image.onload = () => {
 			previewCanvas.width = image.width;
