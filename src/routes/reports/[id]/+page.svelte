@@ -6,6 +6,7 @@
 	import { showNotification } from '$lib/utils/notifications';
     import { isLoading, loadingMessage } from '$lib/stores/loading';
 
+	export const ssr = false;
 	export let data: PageData;
 	let originalCanvas: HTMLCanvasElement;
 	let originalContext: CanvasRenderingContext2D;
@@ -33,7 +34,6 @@
 	async function loadImage() {
 		const image = new Image();
 		image.src = data.report?.picture as string;
-        image.crossOrigin = 'anonymous';
 		image.onload = () => {
 			previewCanvas.width = image.width;
 			previewCanvas.height = image.height;
