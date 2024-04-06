@@ -66,7 +66,7 @@
 		const count = await countAvailableReportsForReview();
 
 		if (count > 0) {
-			showNotification(`Existem ${count} possíveis imbecis à espera para serem revistos na página de votar.`);
+			showNotification(`Existem ${count} possíveis imbecis à espera na página de votar.`);
 		}
 	}
 
