@@ -102,6 +102,12 @@
 		submitVeredict('imbecile');
 	};
 
+	const handleKeyDown = (event: KeyboardEvent) => {
+		if (event.key === 'Enter' && canAdvance) {
+			imbecileClicked();
+		}
+	};
+
 	const submitVeredict = async (veredict: string = 'not_sure') => {
 		loadingMessage.set('A submeter voto');
 		$isLoading = true;
@@ -120,9 +126,10 @@
 		// reset view values
 		if (response.success) {
 			plateNumber = '';
+			plateCountry = 'pt';
 			showNotification('Voto registado com sucesso', 'success');
 		} else {
-			showNotification(`Erro. ${response.message}`, 'error')
+			showNotification(`Erro. ${response.message}`, 'error');
 		}
 
 		loadingMessage.set('A pedir um imbecil fresquinho');
@@ -134,7 +141,7 @@
 </script>
 
 <svelte:head>
-    <title>Imbecis :: Votar</title>
+	<title>Imbecis :: Votar</title>
 </svelte:head>
 
 {#if data.reportForReview != null}
@@ -153,6 +160,7 @@
 				<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
 				<Input
 					bind:value={plateNumber}
+					on:keydown={handleKeyDown}
 					class="text-center uppercase text-lg"
 					id="plate_input"
 					placeholder="AA 00 AA"
