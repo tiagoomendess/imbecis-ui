@@ -6,6 +6,7 @@
 	import moment from 'moment';
 	import { Heading, A } from 'flowbite-svelte';
 	import { getFeed, countAvailableReportsForReview } from '$lib/api';
+	import { showNotification } from '$lib/utils/notifications';
 
 	export let data: PageData;
 
@@ -61,8 +62,8 @@
 		}
 	});
 
-	const countReportsForReview = () => {
-		const count = countAvailableReportsForReview();
+	const countReportsForReview = async () => {
+		const count = await countAvailableReportsForReview();
 
 		if (count > 0) {
 			showNotification(`Existem ${count} possíveis imbecis à espera para serem revistos na página de votar.`);
