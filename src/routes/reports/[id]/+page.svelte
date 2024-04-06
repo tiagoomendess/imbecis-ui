@@ -34,7 +34,7 @@
 	async function loadImage() {
 		const image = new Image();
 		image.crossOrigin = "anonymous";
-		image.src = data.report?.picture as string;
+		image.src = data.report?.pictureSignedUrl as string;
 		image.onload = () => {
 			previewCanvas.width = image.width;
 			previewCanvas.height = image.height;
