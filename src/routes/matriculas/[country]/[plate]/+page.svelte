@@ -190,7 +190,7 @@
 			frameborder="0"
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 			referrerpolicy="strict-origin-when-cross-origin"
-			allowfullscreen
+			allowfullscreen={true}
 		></iframe>
 		<P class="mb-3 text-justify">
 			Se você é o dono deste veículo, coloque a mão na consciência e pense no impacto negativo que está a ter
