@@ -159,8 +159,8 @@
 		<Img class="rounded-lg mb-3" src="/houston_1980.jpg" alt="Houston nos Estados Unidos em 1920"/>
 		<P class="mb-3 text-justify">
 			Não, não é um circuito eletrónico, nem caiu ali uma bomba nuclear, eles fizeram isto de propósito a eles próprios. É apenas mais estacionamento do que sítios para viver, estudar e trabalhar.
-			Estacionamento gratuito não falta, mas negócios e habitações que são quem pagam impostos e evitam a bancarrota da a cidade há menos, muito menos. E se não tiver dinheiro para carro ou se não
-			pode conduzir por motivos de saúde, temos pena, não há escola, não há trabalho, não há vida para ti. É isto que estamos a pedir?
+			Estacionamento gratuito não falta, mas negócios e habitações que são quem pagam impostos e evitam a bancarrota da cidade há menos, muito menos. E se não tiver dinheiro para carro ou se não
+			pode conduzir por motivos de saúde, temos pena, não há escola, não há trabalho, não há vida para si. É isto que estamos a pedir?
 		</P>
 		<P class="mb-3 text-justify">
 			Entretanto a cidade de Houston já reconheceu o erro e está a tentar corrigir, e hojé já não está assim, mas é um processo lento, doloroso e caro.
