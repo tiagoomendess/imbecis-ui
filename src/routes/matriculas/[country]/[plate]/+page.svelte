@@ -123,7 +123,7 @@
 		<Heading tag="h2" class="mb-5">Disclaimer</Heading>
 		<P class="text-justify">
 			{disclaimerMsg}
-			Resumindo, é impossível ter a certeza e provar que as fotografias coorespondem à legenda inserida por utilizadores anonimos na internet.</P>
+			Resumindo, é impossível ter a certeza e provar que as fotografias coorespondem realmente à legenda inserida por utilizadores anonimos na internet.</P>
 	</div>
 	<div class="mt-5">
 		<Heading tag="h2" class="mb-5">Existem alternativas</Heading>
