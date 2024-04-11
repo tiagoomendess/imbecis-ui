@@ -25,7 +25,7 @@
 <P class="mb-7 text-justify">
 	Esta webapp <b>está a ser desenvolvida</b> (beta v0.8) por alguém que está farto de ver pessoas egoístas
 	a fazer o que lhes apetece na rua, violando constantemente o código da estrada e os deveres cívicos
-	mais básicos sem nenhuma consequência.
+	mais básicos sem nenhuma consequência. Esta é uma consequência, e uma forma de tentar educar o condutor Português.
 </P>
 
 <Heading tag="h3" class="mb-2">Índice</Heading>
