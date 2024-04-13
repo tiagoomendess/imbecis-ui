@@ -65,7 +65,7 @@
 	const countReportsForReview = async () => {
 		const count = await countAvailableReportsForReview();
 
-		if (count > 0) {
+		if (count >= 3) {
 			showNotification(`Existem ${count} possíveis imbecis à espera na página de votar.`);
 		}
 	}

@@ -77,15 +77,20 @@
 <P class="mb-3 text-justify">
 	Para participar é muito fácil, basta encontrar um imbecil na rua estacionado de forma abusiva, e
 	submeter uma nova denúncia clicando <A href="/adicionar">aqui</A>. Apenas 1 imbecil por denúncia
-	deve estar visível, e text-center mostrar tambem algum do ambiente em redor para perceber se está
-	de facto em incumprimento ou não.
+	deve estar visível, e inclua tambem algum do ambiente em redor para perceber se está de facto em
+	incumprimento ou não.
 </P>
 <P class="mb-3 text-justify">
 	Os imbecis aprovados pelos outros utilizadores aparecem na <A href="/">pagina inicial</A>. Todas
 	as matrículas de imbecis confirmados aparecem
-	<A href="/matriculas">aqui</A>. Alternativamente pode pesquisar por uma matrícula <A
+	<A href="/matriculas">na lista de matrículas</A>. Alternativamente pode pesquisar por uma matrícula <A
 		href="/procurar">nesta página</A
 	>.
+</P>
+<P class="mb-3 text-justify">
+	Pode também votar nos potenciais imbecis que foram enviados por outros utilizadores. Apenas confirme
+	aqueles que de facto tem a certeza que está em incumprimento e que consegue ler claramente a matrícula.
+	Em todos os outros casos, com mais ou menos dúvida, clicar em "Não Tenho a Certeza".
 </P>
 <P class="mb-7 text-justify">
 	Se quiser fazer ainda mais por esta causa, pode ainda fazer download do <A
@@ -96,6 +101,7 @@
 	<A href="/imbecis_registado.pdf" target="_blank">panfeleto</A> para colocar nos parabrisas dos imbecis
 	que encontrar depois de adicionar à App.
 </P>
+
 
 <Heading id="motivacao" tag="h3" class="mb-2">Motivação</Heading>
 
