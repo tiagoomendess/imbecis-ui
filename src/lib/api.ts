@@ -4,6 +4,7 @@ import { location } from '$lib/stores/location'
 
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
+let csrfToken = ""
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
 location.subscribe((value : Coordinates) => {
     coordinates = value
@@ -68,6 +69,8 @@ export const createReport = async (): Promise<CreateReportResponse> => {
             return toReturn
         }
 
+        csrfToken = response.headers['csrf-token'] || ""
+
         toReturn.reportId = response.data.payload.id
         toReturn.success = true
         toReturn.message = "Report criado com sucesso"
@@ -100,7 +103,8 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
-                'device-uuid': uuid
+                'device-uuid': uuid,
+                'csrf-token': csrfToken
             }
         })
 
@@ -136,7 +140,11 @@ export const getReportForReview = async (): Promise<Report | null> => {
             return null
         }
 
-        return response.data.payload as Report
+        csrfToken = response.headers['csrf-token'] || ""
+
+        const report = response.data.payload as Report
+
+        return report
     } catch (error) {
         console.error("Getting report for review: ", error)
         return null
@@ -156,6 +164,7 @@ export const submitReportVote = async (reportId: string, request : VoteRequest):
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'device-uuid': uuid,
+                'csrf-token': csrfToken,
             }
         })
 

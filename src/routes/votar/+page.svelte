@@ -117,7 +117,7 @@
 		const request: VoteRequest = {
 			plateNumber: plate,
 			plateCountry: plateCountry,
-			result: veredict
+			result: veredict,
 		};
 
 		// send request to api
