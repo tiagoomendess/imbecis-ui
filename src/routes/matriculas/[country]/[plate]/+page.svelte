@@ -129,7 +129,7 @@
 	<div class="mt-5">
 		<Heading tag="h2" class="mb-5">Existem alternativas</Heading>
 		<P class="mb-3 text-justify">
-			Este não é o único modo de vida possível, esta realidade é relativamente recente e
+			Este não é o único modo de vida possível, esta realidade de dependência total do carro é relativamente recente e
 			insustentável. É insustentável para o ambiente, e não, os carros elétricos não resolvem esta
 			questão. Mas é principalmente economicamente insustentável tanto para as autarquias como para
 			as pessoas.
