@@ -98,7 +98,7 @@
 		target="_blank">cartaz A4</A
 	>
 	para imprimir e colocar em zonas habitualmente infestadas por imbecis. Ou fazer o download deste
-	<A href="/imbecis_registado.pdf" target="_blank">panfeleto</A> para colocar nos parabrisas dos imbecis
+	<A href="/imbecis_registado.pdf" target="_blank">panfleto</A> para colocar nos parabrisas dos imbecis
 	que encontrar depois de adicionar à App.
 </P>
 
