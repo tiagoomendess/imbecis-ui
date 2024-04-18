@@ -18,9 +18,14 @@ const getDeviceUUID = (): string => {
     return localStorage.getItem('deviceUUID') || ""
 }
 
-export const getFeed = async (page: number = 1) => {
+export const getFeed = async (page: number = 1, municipality : string = "") : Promise<Report[]> => {
     try {
-        const response = await axios.get(`${BASE_URL}/reports/feed?page=${page}`)
+        let url = `${BASE_URL}/reports/feed?page=${page}`
+        if (municipality) {
+            url += `&municipality=${municipality}`
+        }
+
+        const response = await axios.get(url)
 
         if (response.status !== 200 || !response.data.success) {
             return []
