@@ -14,26 +14,35 @@
 	});
 
 	const ensuredeviceUUID = () => {
-		if (!localStorage)
-			return
+		if (!localStorage) return;
 
 		const deviceUuid = localStorage.getItem('deviceUUID');
 		if (!deviceUuid) {
 			localStorage.setItem('deviceUUID', uuidv4());
 		}
-	}
+	};
 
 	onMount(() => {
-		initFlowbite()
-		ensuredeviceUUID()
+		initFlowbite();
+		ensuredeviceUUID();
 	});
-
 </script>
 
+<svelte:head>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="white" />
+	<link rel="apple-touch-startup-image" href="/imbecis_logo_300.png" />
+	<link rel="apple-touch-icon" href="/imbecis_logo_300.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/imbecis_logo_300.png" />
+
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" sizes="196x196" href="/imbecis_logo_300.png" />
+	<link rel="shortcut icon" sizes="128x128" href="/imbecis_logo_300.png" />
+</svelte:head>
 <NotificationsWrapper />
-<Loader/>
+<Loader />
 <div class="w-full">
-	<div class="container max-w-md mx-auto p-4 mb-20">	
+	<div class="container max-w-md mx-auto p-4 mb-20">
 		<slot />
 	</div>
 </div>
