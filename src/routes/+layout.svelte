@@ -29,13 +29,11 @@
 </script>
 
 <svelte:head>
-	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="white" />
 	<link rel="apple-touch-startup-image" href="/imbecis_logo_300.png" />
 	<link rel="apple-touch-icon" href="/imbecis_logo_300.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/imbecis_logo_300.png" />
 
-	<meta name="mobile-web-app-capable" content="yes" />
 	<link rel="shortcut icon" sizes="196x196" href="/imbecis_logo_300.png" />
 	<link rel="shortcut icon" sizes="128x128" href="/imbecis_logo_300.png" />
 </svelte:head>
