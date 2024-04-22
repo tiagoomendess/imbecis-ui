@@ -23,9 +23,10 @@
 </div>
 
 <P class="mb-7 text-justify">
-	Esta webapp <b>está a ser desenvolvida</b> (beta v0.8) por alguém que está farto de ver pessoas egoístas
-	a fazer o que lhes apetece na rua, violando constantemente o código da estrada e os deveres cívicos
-	mais básicos sem nenhuma consequência. Esta é uma consequência, e uma forma de tentar educar o condutor Português.
+	Esta webapp é um protesto ao estado das nossas ruas e à ineficácia das autiridades. <b>Está a ser desenvolvida</b>
+	(beta v0.8) por alguém que está farto de ver pessoas egoístas a fazer o que lhes apetece na rua, sem qualquer respeito pelo próximo,
+	violando constantemente o código da estrada e os deveres cívicos mais básicos sem nenhuma consequência. Esta é uma consequência, e uma forma de
+	tentar educar o condutor Português. Não seja imbecil!
 </P>
 
 <Heading tag="h3" class="mb-2">Índice</Heading>
@@ -67,9 +68,11 @@
 	Para os imbecís egoístas ainda é mais facil, basta não ser um peso morto na sociedade e não violar
 	o código da estrada, não estacionando de forma abusiva. É garantido que a sua viatura não aparece
 	na app. De qualquer das formas a matricula é desfocada antes de ser pública, e é impossível saber
-	qual era a que lá estava porque não são guardadas copias nem o original. Por isso a matrícula que
-	aparece em texto à frente pode não ser a que está na imagem. Mas tipo é, mas pode não ser,
-	legalmente falando.
+	qual era a que lá estava porque não são guardadas copias nem o original. Por isso <b>a matrícula que
+	aparece à frente em texto à frente pode não ser a que está na imagem. Não é possível saber nem garantir que
+	que é a mesma</b>, uma vez que o conteúdo é um campo de texto livre que é preenchido manualmente por utilizadores
+	anónimos da internet, que <b>podem inserir o que quiserem</b>, como um comentário numa rede social. E a imagem
+	foi irreversivelmente desfocada antes de ser publicada como no Google Maps.
 </P>
 
 <Heading id="como_participar" tag="h3" class="mb-2">Como Participar?</Heading>
@@ -130,11 +133,10 @@
 ></iframe>
 
 <P class="mb-3 text-justify">
-	Caminhamos no sentido oposto do progresso, o que se passa em Portugal não acontece nos países mais
-	desenvolvidos e mais ricos que o nosso, por alguma razão. Não acontece porque existem
-	consequências, e nos meses de verão podemos observar Portugueses Emigrantes a fazer cá o que com
-	certeza não fazem lá. A impunidade é total, a polícia não faz nada, denuncias são ignoradas,
-	chamadas telefónicas a pedir para rebocar veículos são ignoradas.
+	Caminhamos no sentido oposto do progresso, quando as principais economias da europa procuram reduzir a dependência do automóvel,
+	nós incentivamos o uso e abuso dele. O que se passa em Portugal não acontece nos países mais
+	desenvolvidos e ricos que o nosso, por alguma razão. Existem consequências, e nos meses de verão podemos observar Portugueses
+	Emigrantes a fazer cá o que com certeza não fazem lá.
 </P>
 
 <P class="mb-5 text-justify">
@@ -145,35 +147,31 @@
 </P>
 
 <Heading id="policia" tag="h3" class="mb-2">A polícia não faz nada</Heading>
+
 <P class="mb-3 text-justify">
-	Esta não é uma ferramenta de denúncia à polícia. Para isso existem estas duas aplicações que
-	recomendo: "Aqui Não" e "DenúnciaEstacionamento"
-</P>
-<P class="mb-3 text-justify">
-	Esta ferramenta surge precisamente porque a polícia ignora ativamente as denúncias feitas através
-	dessas aplicações. Muitas vezes faz pior, em alguns casos a mesma polícia vaza os dados pessoais
-	do denunciante ao prevaricador (1), e em outros a polícia exige que o denunciante retire tempo do
-	seu dia para ser testemunha da contraordenação (2), o que é um absurdo. Principalmente se tivermos
-	em conta que o artigo 170.º do Código da Estrada prevê que, a autoridade que tiver notícia por
-	denúncia de contra-ordenarão, levanta auto, não carecendo de presenciar tal contra-ordenarão
-	rodoviária.
+	Esta não é uma ferramenta de denúncia à polícia, pelo menos por enquanto. Para isso existem estas duas aplicações que
+	recomendo: "Aqui Não" e "DenúnciaEstacionamento". No entanto está a ser desenvolvida esta funcionalidade e será lançada no
+	futuro.
 </P>
 
 <P class="mb-3 text-justify">
-	Há situações em que as pessoas são impedidas de entrar nas próprias garagens, ligam para a polícia
-	a solicitar a remoção do veículo, e são ignoradas.
+	Esta aplicação surge precisamente pela inação e/ou ineficácia da polícia em certos pontos do país.
+	Não acontece em 100% do território, mas em muitas localidades as autoridades fazem vista grossa e
+	ignoram os abusos, perpetuando a impunidade, a falta de respeito e incentivando a continuação do ato ilícito.
+	Em variados casos as denúncias enviadas através dos meios legais são ignoradas, não resultando em nenhuma consequência
+	para o infrator.
 </P>
 
 <P class="mb-7 text-justify">
 	Por isso não resta muito mais do que apontar o dedo nas esperança que alguns destes imbecis se
-	sintam envergonhados e mudem de comportamento. Estamos entregues aos bichos, e no caminho certo
-	para nos tornarmos num país de terceiro mundo.
+	sintam envergonhados e mudem de comportamento. Pessoas com mobilidade reduzida, crianças e todos
+	no geral merecem o respeito que lhes é devido.
 </P>
 
 <Heading id="remover" tag="h3" class="mb-2">Pedidos de Remoção</Heading>
 
 <P class="mb-7 text-justify">
-	Se a sua viatura ou cara está registada e deseja removê-la, envie um email para <A
+	Se a sua matrícula ou cara está visível e deseja removê-la, envie um email para <A
 		href="mailto:remover@imbecis.app">remover@imbecis.app</A
 	>. A remoção é feita manualmente e será efetuada tão rápido como possível.
 </P>

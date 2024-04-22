@@ -81,12 +81,12 @@
 		<title>Imbecis :: {data.plate?.number}</title>
 		<meta
 			name="description"
-			content={`O proprietário do veículo com a matrícula ${data.plate.number} é um imbecil.`}
+			content={`O proprietário do veículo com a matrícula ${data.plate.number} é alegadamente um imbecil.`}
 		/>
 		<meta property="og:title" content={`Imbecis :: ${data.plate?.number}`} />
 		<meta
 			property="og:description"
-			content={`O proprietário do veículo com a matrícula ${data.plate.number} é um imbecil.`}
+			content={`O proprietário do veículo com a matrícula ${data.plate.number} é alegadamente um imbecil.`}
 		/>
 	{:else}
 		<title>Imbecis :: Matrícula</title>
@@ -99,9 +99,9 @@
 
 {#if data.reports && data.reports.length > 0 && data.plate}
 	<div>
-		<Heading tag="h1" class="text-xxl mb-2">{formattedPlate} é imbecil</Heading>
+		<Heading tag="h1" class="text-xxl mb-2">{formattedPlate} é alegadamente imbecil</Heading>
 		<P class="mb-5 text-justify">
-			O proprietário da viatura com a matrícula {formattedPlate} é alegadamente um imbecil, já estacionou
+			O proprietário da viatura com a matrícula {formattedPlate} é <b>alegadamente</b> um imbecil, já estacionou
 			abusivamente pelo menos
 			{#if data.reports.length === 1}
 				uma vez. Confira a denuncia abaixo.
@@ -120,17 +120,21 @@
 		/>
 	{/each}
 	<div class="">
+		<Heading tag="h2" class="mb-5">Nota Importante</Heading>
 		<P class="text-justify">
 			{disclaimerMsg}
 			Resumindo, é impossível ter a certeza e provar que as fotografias coorespondem realmente à legenda
-			inserida por utilizadores anonimos na internet.</P
+			inserida por utilizadores anonimos na internet. Esta legenda provém de um campo de texto livre onde os utilizadores
+			podem escrever o que bem entenderem, como um comentário numa rede social. E a imagem foi irreversivelmente desfocada
+			antes de ser publicada como no Google Maps.</P
 		>
 	</div>
 	<div class="mt-5">
-		<Heading tag="h2" class="mb-5">Existem alternativas</Heading>
+		<Heading tag="h2" class="mb-5">Continue a Ler</Heading>
 		<P class="mb-3 text-justify">
-			Este não é o único modo de vida possível, esta realidade de dependência total do carro é relativamente recente e
-			insustentável. É insustentável para o ambiente, e não, os carros elétricos não resolvem esta
+			Este não é o único modo de vida possível, esta realidade de dependência total do carro é relativamente recente,
+			e até há bem pouco tempo ninguem precisava de um carro para ir para a escola ou fazer compras.
+			É insustentável para o ambiente, e não, os carros elétricos não resolvem esta
 			questão. Mas é principalmente economicamente insustentável tanto para as autarquias como para
 			as pessoas.
 		</P>
@@ -139,10 +143,10 @@
 			asfixiante, e deixa outros serviços essenciais sub financiados. Os preços dos automóveis
 			aumentam a um ritmo mais elevado que a inflação, a sua manutenção é um scam e os produtores de
 			combustíveis limitam propositadamente a oferta para manter os preços artificialmente altos.
-			Estamos a ser burlados e a gostar.
+			Está a ser burlado, a gostar e a pedir mais do mesmo.
 		</P>
 		<P class="mb-3 text-justify">
-			Para além disso, o espaço e o dinheiro que alocamos para infraestrutura automóvel nas nossas
+			Para além disso, o espaço que alocamos para infraestrutura automóvel nas nossas
 			cidades é um absurdo. O automóvel privado é o meio de transporte menos eficiente de todos para
 			realizar deslocações urbanas pela sua reduzida ocupação, e pelo imenso espaço que ocupa tanto
 			a circular, como depois 99% do tempo que não está a ser usado e está estacionado. Ocupando
@@ -173,8 +177,8 @@
 			propósito a eles próprios. É apenas mais estacionamento do que sítios para viver, estudar e
 			trabalhar. Estacionamento gratuito não falta, mas negócios e habitações que são quem pagam
 			impostos e evitam a bancarrota da cidade há menos, muito menos. E se não tiver dinheiro para
-			carro ou se não pode conduzir por motivos de saúde, temos pena, não há vida para si. É isto
-			que estamos a pedir?
+			carro ou se não pode conduzir por motivos de saúde, temos pena, não há vida para si. <b>É isto
+			que estamos a pedir?</b>
 		</P>
 		<P class="mb-3 text-justify">
 			Entretanto a cidade de Houston já reconheceu o erro e está a tentar corrigir, e hojé já não
