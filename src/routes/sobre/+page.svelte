@@ -22,11 +22,15 @@
 	<Heading class="mb-4 text-center">Sobre</Heading>
 </div>
 
-<P class="mb-7 text-justify">
+<P class="mb-3 text-justify">
 	Esta webapp é um protesto ao estado das nossas ruas e à ineficácia das autiridades. <b>Está a ser desenvolvida</b>
 	(beta v0.8) por alguém que está farto de ver pessoas egoístas a fazer o que lhes apetece na rua, sem qualquer respeito pelo próximo,
 	violando constantemente o código da estrada e os deveres cívicos mais básicos sem nenhuma consequência. Esta é uma consequência, e uma forma de
-	tentar educar o condutor Português. Não seja imbecil!
+	tentar educar o condutor Português.
+</P>
+<P class="mb-7 text-justify">
+	Explicando o funcionamento da aplicação de forma muito resumida, utilizadores não autenticados na internet submetem fotografias de veículos
+	que acham estar estacionados de forma abusiva, e outros utilizadores também não autenticados votam se acham que é ou não é um imbecil.
 </P>
 
 <Heading tag="h3" class="mb-2">Índice</Heading>
