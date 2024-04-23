@@ -73,7 +73,7 @@
 	o código da estrada, não estacionando de forma abusiva. É garantido que a sua viatura não aparece
 	na app. De qualquer das formas a matricula é desfocada antes de ser pública, e é impossível saber
 	qual era a que lá estava porque não são guardadas copias nem o original. Por isso <b>a matrícula que
-	aparece à frente em texto à frente pode não ser a que está na imagem. Não é possível saber nem garantir que
+	aparece à frente em texto pode não ser a que está na imagem. Não é possível saber nem garantir que
 	que é a mesma</b>, uma vez que o conteúdo é um campo de texto livre que é preenchido manualmente por utilizadores
 	anónimos da internet, que <b>podem inserir o que quiserem</b>, como um comentário numa rede social. E a imagem
 	foi irreversivelmente desfocada antes de ser publicada como no Google Maps.
