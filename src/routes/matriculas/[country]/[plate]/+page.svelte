@@ -42,6 +42,10 @@
 
 	const formattedPlate = formatPlate(data.plate?.country || '', data.plate?.number || '');
 	onMount(() => {
+		if (!data.reports || data.reports.length === 0) {
+			return;
+		}
+
 		let day = moment(data.reports[0].createdAt).format('D');
 		if (day.length > 1) {
 			day = day[day.length - 1];
