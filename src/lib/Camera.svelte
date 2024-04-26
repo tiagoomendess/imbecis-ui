@@ -17,6 +17,8 @@
 	let stream: MediaStream | null = null;
 	$: hasCameraPermissions = false;
 
+	let debug = ""
+
 	let zoomEnabled = false;
 	let zoomLevel = 1;
 	let minZoom = 1;
@@ -73,9 +75,8 @@
 			return;
 		}
 
-		console.log(
-			`Brightness: ${brightnessLevel} (${minBrightness} -> ${maxBrightness} | ${brightnessStep}), Zoom: ${zoomLevel} (${minZoom} -> ${maxZoom} | ${zoomStep})`
-		);
+		debug = `Brightness: ${brightnessLevel} (${minBrightness} -> ${maxBrightness} | ${brightnessStep}), Zoom: ${zoomLevel} (${minZoom} -> ${maxZoom} | ${zoomStep})`;
+		console.log(debug);
 
 		try {
 			videoTrack.applyConstraints({ advanced: [{ zoom: zoomLevel }] });
@@ -218,6 +219,10 @@
 	<div class="mt-5 text-center">
 		<p class="text-center text-xs">
 			Zoom e brilho experimental, não funciona em todos os telemóveis. Apenas 1 imbecil por foto
+		</p>
+
+		<p class="text-center text-xs">
+			{debug}
 		</p>
 	</div>
 </div>
