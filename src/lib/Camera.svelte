@@ -199,7 +199,7 @@
 			/>
 		{/if}
 
-		{#if brightnessEnabled && 1 == 2}
+		{#if brightnessEnabled}
 			<input
 				class="ml-2 slider"
 				type="range"
