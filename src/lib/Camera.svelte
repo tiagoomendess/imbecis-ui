@@ -2,6 +2,7 @@
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { CameraFotoOutline } from 'flowbite-svelte-icons';
 	import { Alert, Button } from 'flowbite-svelte';
+	import { showNotification } from './utils/notifications';
 
 	onMount(async () => {
 		askCameraPermissions();
@@ -15,43 +16,81 @@
 	let videoElement: HTMLVideoElement;
 	let stream: MediaStream | null = null;
 	$: hasCameraPermissions = false;
-	$: videoElementStyle = `filter: brightness(${brightnessLevel});`;
 
+	let zoomEnabled = false;
 	let zoomLevel = 1;
+	let minZoom = 1;
+	let maxZoom = 3;
+	let zoomStep = 0.1;
+
+	let brightnessEnabled = false;
 	let brightnessLevel = 1;
+	let minBrightness = 0;
+	let maxBrightness = 2;
+	let brightnessStep = 0.1;
+
 	let videoTrack: MediaStreamTrack | null = null;
 	let supportedConstraints: MediaTrackSupportedConstraints | null = null;
 	let settings: MediaTrackSettings | null = null;
 
-	const checkCameraCapabilities = () => {
+	const checkCameraCapabilities = async (): Promise<void> => {
+		return new Promise((resolve) => {
+			if (!videoTrack) {
+				return;
+			}
+
+			const capabilities = videoTrack.getCapabilities();
+			console.log('Camera capabilities: ', capabilities);
+
+			// Check if zoom is supported
+			if ('zoom' in capabilities) {
+				zoomEnabled = true;
+				minZoom = capabilities.zoom.min;
+				maxZoom = capabilities.zoom.max;
+				zoomStep = capabilities.zoom.step;
+				zoomLevel = minZoom;
+			} else {
+				// Zoom is not supported
+				console.warn('Zoom is not supported');
+				showNotification('Zoom não está disponível', 'warning');
+			}
+
+			if ('brightness' in capabilities) {
+				brightnessEnabled = true;
+				minBrightness = capabilities.brightness.min;
+				maxBrightness = capabilities.brightness.max;
+				brightnessStep = capabilities.brightness.step;
+				brightnessLevel = 1;
+			} else {
+				console.warn('Brightness is not supported');
+				showNotification('Ajuste de brilho não disponível', 'warning');
+			}
+
+			resolve();
+		});
+	};
+
+	const updateConstraints = () => {
 		if (!videoTrack) {
 			return;
 		}
 
-		const capabilities = videoTrack.getCapabilities();
+		console.log(
+			`Brightness: ${brightnessLevel} (${minBrightness} -> ${maxBrightness} | ${brightnessStep}), Zoom: ${zoomLevel} (${minZoom} -> ${maxZoom} | ${zoomStep})`
+		);
 
-		// Check if zoom is supported
-		if ('zoom' in capabilities) {
-			// Zoom is supported
-			// You can adjust the range of your zoom slider based on capabilities.zoom
-			console.log('Zoom is supported', capabilities.zoom);
-		} else {
-			// Zoom is not supported
-			console.error('Zoom is not supported');
+		try {
+			videoTrack.applyConstraints({ advanced: [{ zoom: zoomLevel }] });
+		} catch (error) {
+			console.log('Error updating constraints: ', error);
+			showNotification('Não foi possível aplicar zoom', 'error');
 		}
-	};
 
-	const updateConstraints = () => {
-		if (videoTrack) {
-			console.log('zoom: ', zoomLevel, 'brightness: ', brightnessLevel);
-			videoTrack.applyConstraints({
-				advanced: [
-					{
-						brightness: brightnessLevel,
-						zoom: zoomLevel
-					}
-				]
-			});
+		try {
+			videoTrack.applyConstraints({ advanced: [{ brightness: brightnessLevel }] });
+		} catch (error) {
+			console.log('Error updating constraints: ', error);
+			showNotification('Não foi possível aplicar brilho', 'error');
 		}
 	};
 
@@ -84,6 +123,8 @@
 			videoElement.srcObject = stream;
 			videoTrack = stream.getVideoTracks()[0];
 			settings = videoTrack.getSettings();
+			await checkCameraCapabilities();
+			updateConstraints();
 
 			hasCameraPermissions = true;
 		} catch (err) {
@@ -108,7 +149,7 @@
 				console.log('User has changed PTZ permission status.');
 			});
 		} catch (error) {
-			console.log("Ask for zoom error: ", error);
+			console.log('Ask for zoom error: ', error);
 		}
 	};
 
@@ -140,36 +181,46 @@
 		<Alert color="blue">Por favor, dá permissões para utilizar a câmara</Alert>
 	{/if}
 
-	<video bind:this={videoElement} autoplay playsinline style={videoElementStyle}>
+	<video bind:this={videoElement} autoplay playsinline>
 		<track kind="captions" />
 	</video>
 
 	<div class="flex justify-center items-center mt-3 mb-10">
-		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full">&nbsp;<CameraFotoOutline/>&nbsp;</Button>
+		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full"
+			>&nbsp;<CameraFotoOutline />&nbsp;</Button
+		>
 	</div>
 
 	<div class="flex justify-center">
-		<input
-			class="mr-2"
-			type="range"
-			min="1"
-			max="3"
-			step="0.1"
-			bind:value={zoomLevel}
-			on:change={updateConstraints}
-		/>
-		<input
-			class="ml-2"
-			type="range"
-			min="0.5"
-			max="1.5"
-			step="0.1"
-			bind:value={brightnessLevel}
-			on:change={updateConstraints}
-		/>
+		{#if zoomEnabled}
+			<input
+				class="mr-2"
+				type="range"
+				min={minZoom}
+				max={maxZoom}
+				step={zoomStep}
+				bind:value={zoomLevel}
+				on:change={updateConstraints}
+				disabled={!zoomEnabled}
+			/>
+		{/if}
+
+		{#if brightnessEnabled}
+			<input
+				class="ml-2"
+				type="range"
+				min={minBrightness}
+				max={maxBrightness}
+				step={brightnessStep}
+				bind:value={brightnessLevel}
+				on:change={updateConstraints}
+			/>
+		{/if}
 	</div>
 	<div class="mt-5 text-center">
-		<p class="text-center text-xs">Zoom e brilho experimental, não funciona em todos os telemóveis. Apenas 1 imbecil por foto</p>
+		<p class="text-center text-xs">
+			Zoom e brilho experimental, não funciona em todos os telemóveis. Apenas 1 imbecil por foto
+		</p>
 	</div>
 </div>
 
