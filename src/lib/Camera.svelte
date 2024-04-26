@@ -17,8 +17,6 @@
 	let stream: MediaStream | null = null;
 	$: hasCameraPermissions = false;
 
-	let debug = ""
-
 	let zoomEnabled = false;
 	let zoomLevel = 1;
 	let minZoom = 1;
@@ -75,18 +73,15 @@
 			return;
 		}
 
-		debug = `Brightness: ${brightnessLevel} (${minBrightness} -> ${maxBrightness} | ${brightnessStep}), Zoom: ${zoomLevel} (${minZoom} -> ${maxZoom} | ${zoomStep})`;
-		console.log(debug);
-
 		try {
-			videoTrack.applyConstraints({ advanced: [{ zoom: zoomLevel }] });
+			videoTrack.applyConstraints({ advanced: [{ zoom: zoomLevel } as any] });
 		} catch (error) {
 			console.log('Error updating constraints: ', error);
 			showNotification('Não foi possível aplicar zoom', 'error');
 		}
 
 		try {
-			videoTrack.applyConstraints({ advanced: [{ brightness: brightnessLevel }] });
+			videoTrack.applyConstraints({ advanced: [{ brightness: brightnessLevel } as any] });
 		} catch (error) {
 			console.log('Error updating constraints: ', error);
 			showNotification('Não foi possível aplicar brilho', 'error');
@@ -136,7 +131,7 @@
 			const panTiltZoomPermissionStatus = await navigator.permissions.query({
 				name: 'camera',
 				panTiltZoom: true
-			});
+			} as any);
 
 			if (panTiltZoomPermissionStatus.state == 'granted') {
 				// User has granted access to the website to control camera PTZ.
@@ -193,7 +188,7 @@
 	<div class="flex justify-center">
 		{#if zoomEnabled}
 			<input
-				class="mr-2"
+				class="mr-2 slider"
 				type="range"
 				min={minZoom}
 				max={maxZoom}
@@ -204,9 +199,9 @@
 			/>
 		{/if}
 
-		{#if brightnessEnabled}
+		{#if brightnessEnabled && 1 == 2}
 			<input
-				class="ml-2"
+				class="ml-2 slider"
 				type="range"
 				min={minBrightness}
 				max={maxBrightness}
@@ -218,11 +213,7 @@
 	</div>
 	<div class="mt-5 text-center">
 		<p class="text-center text-xs">
-			Zoom e brilho experimental, não funciona em todos os telemóveis. Apenas 1 imbecil por foto
-		</p>
-
-		<p class="text-center text-xs">
-			{debug}
+			Apenas 1 imbecil por foto.
 		</p>
 	</div>
 </div>
@@ -232,5 +223,9 @@
 		width: 100%;
 		height: auto;
 		border-radius: 10px;
+	}
+
+	.slider {
+		width: 100%;
 	}
 </style>
