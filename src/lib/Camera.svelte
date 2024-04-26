@@ -39,8 +39,7 @@
 				return;
 			}
 
-			const capabilities = videoTrack.getCapabilities();
-			console.log('Camera capabilities: ', capabilities);
+			const capabilities = videoTrack.getCapabilities() as any;
 
 			// Check if zoom is supported
 			if ('zoom' in capabilities) {
@@ -48,7 +47,7 @@
 				minZoom = capabilities.zoom.min;
 				maxZoom = capabilities.zoom.max;
 				zoomStep = capabilities.zoom.step;
-				zoomLevel = minZoom;
+				zoomLevel = 1;
 			} else {
 				// Zoom is not supported
 				console.warn('Zoom is not supported');
@@ -63,7 +62,6 @@
 				brightnessLevel = 1;
 			} else {
 				console.warn('Brightness is not supported');
-				showNotification('Ajuste de brilho não disponível', 'warning');
 			}
 
 			resolve();
@@ -198,7 +196,7 @@
 				type="range"
 				min={minZoom}
 				max={maxZoom}
-				step={zoomStep}
+				step="0.1"
 				bind:value={zoomLevel}
 				on:change={updateConstraints}
 				disabled={!zoomEnabled}
