@@ -112,8 +112,10 @@
 	const startSubmitting = async () => {
 		isLoading.set(true);
 		loadingMessage.set('A desfocar caras...');
-		const imageElement = document.getElementById('photo_preview');
-		await blurFaces(imageElement);
+
+		// Do not blur faces for now, checking if this is the cause of the picture issue
+		//const imageElement = document.getElementById('photo_preview');
+		// await blurFaces(imageElement);
 
 		if (shouldAskForGeolocation()) {
 			askForGeolocation();
