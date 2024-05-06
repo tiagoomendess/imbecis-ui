@@ -2,8 +2,13 @@
 	import { FilterOutline } from 'flowbite-svelte-icons';
 	import { Modal, Button } from 'flowbite-svelte';
 	import { MUNICIPALITIES } from '$lib/utils/constants';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let municipality = '';
+
+	$: municipality = decodeURI($page.url.searchParams.get('municipio') || '');
+
 	let filterModal = false;
 	let showAutoComplete = false;
 	let canFilter = false;
@@ -24,12 +29,15 @@
 	const handleFilterClicked = () => {
 		municipality = searchText;
 		filterModal = false;
+		goto(`?municipio=${municipality}`);
 	};
 
 	const handleFilterReset = () => {
 		municipality = '';
 		searchText = '';
 		filterModal = false;
+		$page.url.searchParams.delete('municipio');
+		goto('/');
 	};
 
 	const selectMunicipality = (name: string, event : any) => {

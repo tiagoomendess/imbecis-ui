@@ -9,6 +9,8 @@
 	import { showNotification } from '$lib/utils/notifications';
 	import FeedFilter from '$lib/FeedFilter.svelte';
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
+	import { MUNICIPALITIES } from '$lib/utils/constants';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	let municipality = '' as string;
@@ -16,10 +18,25 @@
 	let currentPage = 1 as number;
 	let loading = false;
 	let pagesLoaded = [1] as number[];
+	let listenTochanges = false
 
 	$: municipalityChanged(municipality);
 
+	setInterval(() => {
+		listenTochanges = true
+	}, 1000)
+
 	const municipalityChanged = async (newMunicipality: string) => {
+		if (newMunicipality !== "" && !MUNICIPALITIES.includes(newMunicipality)) {
+			municipality = '';
+			goto('/')
+			return
+		}
+		
+		if (!listenTochanges) {
+			return
+		}
+
 		isLoading.set(true);
 
 		let loadingMsg = 'A procurar imbecis em todo o lado';
