@@ -13,8 +13,8 @@
 <style>
 	.main-view {
 		width: 100%;
-		height: 100%;
-		margin-bottom: 64px;
+		height: calc(100vh - 64px);
 		z-index: 1;
+		overflow: hidden;
 	}
 </style>

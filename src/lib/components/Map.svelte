@@ -345,7 +345,7 @@
 
 <style>
 	#map {
-		height: 100vh;
+		height: calc(100vh - 64px);
 		z-index: 1;
 	}
 
@@ -354,7 +354,7 @@
 		top: 0;
 		right: 0;
 		width: 350px;
-		height: 100vh;
+		height: calc(100vh - 64px);
 		z-index: 4;
 		padding: 10px;
 		overflow-y: auto;
