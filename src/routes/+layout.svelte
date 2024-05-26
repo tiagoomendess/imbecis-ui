@@ -39,9 +39,9 @@
 </svelte:head>
 <NotificationsWrapper />
 <Loader />
-<div class="master">
+<main class="master" id="master">
 	<slot />
-</div>
+</main>
 
 <Navbar />
 

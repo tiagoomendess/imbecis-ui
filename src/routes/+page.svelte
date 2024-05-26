@@ -21,6 +21,7 @@
 	let loading = false;
 	let pagesLoaded = [1] as number[];
 	let listenTochanges = false;
+	let masterDiv : HTMLElement | null;
 
 	$: municipalityChanged(municipality);
 
@@ -58,7 +59,11 @@
 
 	// Function to check if the user is near the bottom of the page
 	function isNearBottom() {
-		return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+		if (!masterDiv) {
+			return false;
+		}
+
+		return masterDiv.scrollTop + (masterDiv.clientHeight * 0.20) >= masterDiv.scrollHeight - masterDiv.clientHeight;
 	}
 
 	const handleScroll = () => {
@@ -96,11 +101,10 @@
 
 	onMount(() => {
 		if (isBrowser()) {
-			window.addEventListener('scroll', handleScroll);
-
-			return () => {
-				window.removeEventListener('scroll', handleScroll);
-			};
+			masterDiv = document.getElementById('master');
+			if (masterDiv) {
+				masterDiv.addEventListener('scroll', handleScroll);
+			}
 		}
 	});
 
@@ -123,6 +127,8 @@
 		content="Lista nacional de imbecis. Estacionamentos abusivos catalogados por Município. Adicione ou encontre imbecis por matrícula."
 	/>
 </svelte:head>
+
+
 
 <Content>
 	<section class="bg-white dark:bg-gray-900">
