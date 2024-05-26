@@ -1,20 +1,22 @@
 <script lang="ts">
-	import { Button } from 'flowbite-svelte';
+	import { Button, Modal } from 'flowbite-svelte';
 	import { Label, Input, Heading, P } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { Img } from 'flowbite-svelte';
 	import type { VoteRequest } from '$lib/types';
-	import Centro from '$lib/Centro.svelte';
+	import Centro from '$lib/components/Centro.svelte';
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { submitReportVote } from '$lib/api';
 	import { goto } from '$app/navigation';
 	import { showNotification } from '$lib/utils/notifications';
-	import Country from '$lib/Country.svelte';
+	import Country from '$lib/components/Country.svelte';
+	import Content from '$lib/components/Content.svelte';
 
 	export let data: PageData;
 	let plateCountry = 'pt' as string;
 	let plateNumber = '' as string;
+	let tutorialModal = false as boolean;
 
 	$: $isLoading = $isLoading;
 	$: canAdvance = false as boolean;
@@ -26,6 +28,8 @@
 		setTimeout(() => {
 			initMagnifyingGlass();
 		}, 500);
+
+		loadTutorialModal();
 	});
 
 	const initMagnifyingGlass = () => {
@@ -75,6 +79,26 @@
 		}
 	};
 
+	const loadTutorialModal = () => {
+		const understandTutorialModalAt = localStorage.getItem('voteTutorialModalAt');
+		if (!understandTutorialModalAt) {
+			tutorialModal = true;
+			return;
+		}
+
+		const date = new Date(understandTutorialModalAt);
+		const now = new Date();
+		const diff = now.getTime() - date.getTime();
+		const seconds = diff / 1000;
+
+		tutorialModal = seconds > 60 * 60 * 24 * 5;
+	};
+
+	const handleUnderstandTutorialClicked = () => {
+		localStorage.setItem('voteTutorialModalAt', new Date().toISOString());
+		tutorialModal = false;
+	};
+
 	const normalizePlateNumber = (plateNumber: string) => {
 		return plateNumber
 			.trim()
@@ -117,7 +141,7 @@
 		const request: VoteRequest = {
 			plateNumber: plate,
 			plateCountry: plateCountry,
-			result: veredict,
+			result: veredict
 		};
 
 		// send request to api
@@ -144,70 +168,95 @@
 	<title>Imbecis :: Votar</title>
 </svelte:head>
 
-{#if data.reportForReview != null}
-	<div>
-		<div class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg relative">
-			<Img src={data.reportForReview?.picture} alt={data.reportForReview?.id} class="rounded-lg" />
-			<div id="magnifierLens" class="magnifierLens"></div>
-		</div>
-
-		<div class="flex mb-2">
-			<!-- Matricula 🇵🇹 -->
-			<div class="w-2/12">
-				<Country bind:value={plateCountry} />
-			</div>
-			<div class="w-10/12 pl-2">
-				<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
-				<Input
-					bind:value={plateNumber}
-					on:keydown={handleKeyDown}
-					class="text-center uppercase text-lg"
-					id="plate_input"
-					placeholder="AA 00 AA"
-					autofocus
-				/>
-			</div>
-		</div>
-
-		<div class="flex">
-			<!-- Vote Butons -->
-			<div class="w-8/12 mr-1">
-				<Button on:click={notSureClicked} class="w-full" color="green">Não Tenho a Certeza</Button>
-			</div>
-			<div class="w-4/12">
-				<Button on:click={imbecileClicked} disabled={!canAdvance} class="w-full" color="red"
-					>É Imbecil</Button
-				>
-			</div>
-		</div>
-	</div>
-{/if}
-
-{#if data.reportForReview == null}
-	<Centro>
-		<div class="w-full flex justify-center">
-			<svg
-				class="w-[100px] h-[100px] text-gray-800 dark:text-white"
-				aria-hidden="true"
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
+<Content>
+	{#if data.reportForReview != null}
+		<div>
+			<div
+				class="mb-2 aspect-square bg-gradient-to-r from-gray-200 to-gray-500 rounded-lg relative"
 			>
-				<path
-					stroke="currentColor"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="1"
-					d="m8 12 2 2 5-5m4.5 5.3 1-.9a2 2 0 0 0 0-2.8l-1-.9a2 2 0 0 1-.6-1.4V7a2 2 0 0 0-2-2h-1.2a2 2 0 0 1-1.4-.5l-.9-1a2 2 0 0 0-2.8 0l-.9 1a2 2 0 0 1-1.4.6H7a2 2 0 0 0-2 2v1.2c0 .5-.2 1-.5 1.4l-1 .9a2 2 0 0 0 0 2.8l1 .9c.3.4.6.9.6 1.4V17a2 2 0 0 0 2 2h1.2c.5 0 1 .2 1.4.5l.9 1a2 2 0 0 0 2.8 0l.9-1a2 2 0 0 1 1.4-.6H17a2 2 0 0 0 2-2v-1.2c0-.5.2-1 .5-1.4Z"
+				<Img
+					src={data.reportForReview?.picture}
+					alt={data.reportForReview?.id}
+					class="rounded-lg"
 				/>
-			</svg>
+				<div id="magnifierLens" class="magnifierLens"></div>
+			</div>
+
+			<div class="flex mb-2">
+				<!-- Matricula 🇵🇹 -->
+				<div class="w-2/12">
+					<Country bind:value={plateCountry} />
+				</div>
+				<div class="w-10/12 pl-2">
+					<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
+					<Input
+						bind:value={plateNumber}
+						on:keydown={handleKeyDown}
+						class="text-center uppercase text-lg"
+						id="plate_input"
+						placeholder="AA 00 AA"
+						autofocus
+					/>
+				</div>
+			</div>
+
+			<div class="flex">
+				<!-- Vote Butons -->
+				<div class="w-8/12 mr-1">
+					<Button on:click={notSureClicked} class="w-full" color="green">Não Tenho a Certeza</Button
+					>
+				</div>
+				<div class="w-4/12">
+					<Button on:click={imbecileClicked} disabled={!canAdvance} class="w-full" color="red"
+						>É Imbecil</Button
+					>
+				</div>
+			</div>
 		</div>
-		<Heading tag="h2" class="mt-2 text-center mb-4">Tudo Analisado</Heading>
-		<P class="text-center"
-			>Não temos mais potenciais imbecís por agora, por favor volte mais tarde.</P
-		>
-	</Centro>
-{/if}
+	{/if}
+
+	{#if data.reportForReview == null}
+		<Centro>
+			<div class="w-full flex justify-center">
+				<svg
+					class="w-[100px] h-[100px] text-gray-800 dark:text-white"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1"
+						d="m8 12 2 2 5-5m4.5 5.3 1-.9a2 2 0 0 0 0-2.8l-1-.9a2 2 0 0 1-.6-1.4V7a2 2 0 0 0-2-2h-1.2a2 2 0 0 1-1.4-.5l-.9-1a2 2 0 0 0-2.8 0l-.9 1a2 2 0 0 1-1.4.6H7a2 2 0 0 0-2 2v1.2c0 .5-.2 1-.5 1.4l-1 .9a2 2 0 0 0 0 2.8l1 .9c.3.4.6.9.6 1.4V17a2 2 0 0 0 2 2h1.2c.5 0 1 .2 1.4.5l.9 1a2 2 0 0 0 2.8 0l.9-1a2 2 0 0 1 1.4-.6H17a2 2 0 0 0 2-2v-1.2c0-.5.2-1 .5-1.4Z"
+					/>
+				</svg>
+			</div>
+			<Heading tag="h2" class="mt-2 text-center mb-4">Tudo Analisado</Heading>
+			<P class="text-center"
+				>Não temos mais potenciais imbecís por agora, por favor volte mais tarde.</P
+			>
+		</Centro>
+	{/if}
+
+	<Modal title="Antes de votar lembre-se:" bind:open={tutorialModal} autoclose={false} outsideclose={false}>
+		<ul class="mt-1.5 ms-4 list-disc list-inside text-gray-600">
+			<li>Se não tem a certeza absoluta que é contra ordenação, clique "Não tenho a certeza"</li>
+			<li>Se não conseguir ler bem a matrícula, clique "Não tenho a certeza"</li>
+			<li>Se a viatura está em contra-ordenação e consegue ler a matrícula, insira-a e clique "É Imbecil"</li>
+			<li>Se a matrícula não for Portuguesa tenha o cuidado de alterar o país</li>
+		</ul>
+		<p class="mb-4">
+			Seja honesto e contribua com algum do seu tempo, e se errar involuntáriamente não faz mal,
+			várias pessoas diferentes votam na mesma denúncia para precaver o erro humano. Apenas as denuncias que reunam consenso
+			serão enviadas para as autoridades.
+		</p>
+		<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandTutorialClicked()}
+			>Entendi</Button>
+	</Modal>
+</Content>
 
 <style>
 	.magnifierLens {

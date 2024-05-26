@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Plate from '$lib/Plate.svelte';
+	import Plate from '$lib/components/Plate.svelte';
     import { MapLocationOutline, CalendarMonthOutline } from 'flowbite-svelte-icons';
 
 	export let picture = 'https://via.placeholder.com/900';

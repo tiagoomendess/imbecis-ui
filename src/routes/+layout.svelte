@@ -2,12 +2,12 @@
 	import '../app.css';
 	import { initFlowbite } from 'flowbite';
 	import { onMount } from 'svelte';
-	import Navbar from '$lib/Navbar.svelte';
-	import Loader from '$lib/Loader.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
+	import Loader from '$lib/components/Loader.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { isLoading } from '$lib/stores/loading';
 	import { navigating } from '$app/stores';
-	import NotificationsWrapper from '$lib/NotificationsWrapper.svelte';
+	import NotificationsWrapper from '$lib/components/NotificationsWrapper.svelte';
 
 	navigating.subscribe((value) => {
 		isLoading.set(value !== null);
@@ -39,9 +39,7 @@
 </svelte:head>
 <NotificationsWrapper />
 <Loader />
-<div class="w-full">
-	<div class="container max-w-md mx-auto p-4 mb-20">
-		<slot />
-	</div>
-</div>
+
+<slot />
+
 <Navbar />

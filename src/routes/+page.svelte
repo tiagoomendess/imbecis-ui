@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Paragraph from '$lib/Paragraph.svelte';
+	import Paragraph from '$lib//components/Paragraph.svelte';
 	import type { PageData } from './$types';
-	import ImbecileSq from '$lib/ImbecileSq.svelte';
+	import ImbecileSq from '$lib/components/ImbecileSq.svelte';
 	import moment from 'moment';
-	import { Heading, A } from 'flowbite-svelte';
+	import { Heading, A, Alert } from 'flowbite-svelte';
 	import { getFeed, countAvailableReportsForReview } from '$lib/api';
 	import { showNotification } from '$lib/utils/notifications';
-	import FeedFilter from '$lib/FeedFilter.svelte';
+	import FeedFilter from '$lib/components/FeedFilter.svelte';
 	import { isLoading, loadingMessage } from '$lib/stores/loading';
 	import { MUNICIPALITIES } from '$lib/utils/constants';
 	import { goto } from '$app/navigation';
+	import Content from '$lib/components/Content.svelte';
+	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	export let data: PageData;
 	let municipality = '' as string;
@@ -18,23 +20,23 @@
 	let currentPage = 1 as number;
 	let loading = false;
 	let pagesLoaded = [1] as number[];
-	let listenTochanges = false
+	let listenTochanges = false;
 
 	$: municipalityChanged(municipality);
 
 	setInterval(() => {
-		listenTochanges = true
-	}, 1000)
+		listenTochanges = true;
+	}, 1000);
 
 	const municipalityChanged = async (newMunicipality: string) => {
-		if (newMunicipality !== "" && !MUNICIPALITIES.includes(newMunicipality)) {
+		if (newMunicipality !== '' && !MUNICIPALITIES.includes(newMunicipality)) {
 			municipality = '';
-			goto('/')
-			return
+			goto('/');
+			return;
 		}
-		
+
 		if (!listenTochanges) {
-			return
+			return;
 		}
 
 		isLoading.set(true);
@@ -45,7 +47,7 @@
 		}
 
 		loadingMessage.set(loadingMsg);
-		
+
 		municipality = newMunicipality;
 		currentPage = 1;
 		pagesLoaded = [1];
@@ -122,33 +124,50 @@
 	/>
 </svelte:head>
 
-<section class="bg-white dark:bg-gray-900">
-	<Heading class="mb-4">Imbecis</Heading>
+<Content>
+	<section class="bg-white dark:bg-gray-900">
+		<Heading class="mb-4">Imbecis</Heading>
 
-	<FeedFilter bind:municipality />
+		<Alert class="mb-4" color="green" dismissable>
+			<InfoCircleSolid slot="icon" class="w-5 h-5" />
+			As denúncias <b>ainda não</b> estão a ser enviadas para as autoridades. Ajuda a mapear as
+			polícias de cada região clicando
+			<a
+				target="_blank"
+				href="https://www.reddit.com/r/menoscarros/comments/1cs3mnb/ajuda_a_mapear_jurisdi%C3%A7%C3%A3o_de_pol%C3%ADcias/"
+				>aqui</a
+			>.
+		</Alert>
 
-	{#if data.reports.length > 0}
-		{#each data.reports as report}
-			<ImbecileSq
-				id={report.id}
-				picture={report.picture}
-				plateNumber={report.plate?.number}
-				plateCountry={report.plate?.country}
-				date={moment(report.createdAt).format('D/M/YYYY') ?? null}
-				municipality={report.municipality ?? null}
-			/>
-		{/each}
+		<FeedFilter bind:municipality />
 
-		{#if loading}
-			<Paragraph align="center">A carregar mais...</Paragraph>
+		{#if data.reports.length > 0}
+			{#each data.reports as report}
+				<ImbecileSq
+					id={report.id}
+					picture={report.picture}
+					plateNumber={report.plate?.number}
+					plateCountry={report.plate?.country}
+					date={moment(report.createdAt).format('D/M/YYYY') ?? null}
+					municipality={report.municipality ?? null}
+				/>
+			{/each}
+
+			{#if loading}
+				<Paragraph align="center">A carregar mais...</Paragraph>
+			{:else}
+				<Paragraph align="center"
+					>Não existem mais imbecis, <A href="/adicionar">adicione um</A></Paragraph
+				>
+			{/if}
+		{:else if municipality != ''}
+			<Paragraph align="center"
+				>Não existem imbecis em {municipality}. <A href="/adicionar">adicione um</A>.</Paragraph
+			>
 		{:else}
 			<Paragraph align="center"
-				>Não existem mais imbecis, <A href="/adicionar">adicione um</A></Paragraph
+				>Não existem imbecis. <A href="/adicionar">adicione um</A>.</Paragraph
 			>
 		{/if}
-	{:else if municipality != ''}
-		<Paragraph align="center">Não existem imbecis em {municipality}. <A href="/adicionar">adicione um</A>.</Paragraph>
-	{:else}
-		<Paragraph align="center">Não existem imbecis. <A href="/adicionar">adicione um</A>.</Paragraph>
-	{/if}
-</section>
+	</section>
+</Content>

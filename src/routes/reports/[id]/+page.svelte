@@ -4,7 +4,8 @@
 	import { Heading, Button } from 'flowbite-svelte';
 	import { updateReportPicture } from '$lib/api';
 	import { showNotification } from '$lib/utils/notifications';
-    import { isLoading, loadingMessage } from '$lib/stores/loading';
+	import { isLoading, loadingMessage } from '$lib/stores/loading';
+	import Content from '$lib/components/Content.svelte';
 
 	export const ssr = false;
 	export let data: PageData;
@@ -33,7 +34,7 @@
 
 	async function loadImage() {
 		const image = new Image();
-		image.crossOrigin = "anonymous";
+		image.crossOrigin = 'anonymous';
 		image.src = data.report?.pictureSignedUrl as string;
 		image.onload = () => {
 			previewCanvas.width = image.width;
@@ -140,24 +141,24 @@
 	}
 
 	async function save() {
-        isLoading.set(true);
-        loadingMessage.set('A guardar imagem');
-        const dataURL = previewCanvas.toDataURL('image/webp'); 
-        const blob = dataURLToBlob(dataURL);
+		isLoading.set(true);
+		loadingMessage.set('A guardar imagem');
+		const dataURL = previewCanvas.toDataURL('image/webp');
+		const blob = dataURLToBlob(dataURL);
 
-        const response = await updateReportPicture(data.report?.id as string, blob);
-        if (response.success) {
-            loadingMessage.set('A carregar imagem editada...');
-            showNotification('Imagem guardada com sucesso', 'success');
-            reset()
-            location.reload()
-        } else {
-            showNotification(response.message, 'error');
-            isLoading.set(false);
-        }
+		const response = await updateReportPicture(data.report?.id as string, blob);
+		if (response.success) {
+			loadingMessage.set('A carregar imagem editada...');
+			showNotification('Imagem guardada com sucesso', 'success');
+			reset();
+			location.reload();
+		} else {
+			showNotification(response.message, 'error');
+			isLoading.set(false);
+		}
 	}
 
-	function dataURLToBlob(dataURL : string) {
+	function dataURLToBlob(dataURL: string) {
 		const byteString = atob(dataURL.split(',')[1]);
 		const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
 		const ab = new ArrayBuffer(byteString.length);
@@ -169,21 +170,20 @@
 	}
 </script>
 
-<div>
-	<Heading class="mb-5">Report</Heading>
-	<canvas bind:this={previewCanvas} class="rounded-lg aspect-square w-full" on:click={addPoint}
-	></canvas>
+<Content>
+	<div>
+		<Heading class="mb-5">Report</Heading>
+		<canvas bind:this={previewCanvas} class="rounded-lg aspect-square w-full" on:click={addPoint}
+		></canvas>
 
-	<div class="mt-5 flex justify-center">
-		<Button disabled={!canBlur} color="blue" class="m-1" on:click={handleBlur}>Blur</Button>
-		<Button disabled={!canReset} color="red" class="m-1" on:click={reset}>Reset</Button>
-		<Button disabled={!canSave} color="green" class="m-1" on:click={save}>Guardar</Button>
+		<div class="mt-5 flex justify-center">
+			<Button disabled={!canBlur} color="blue" class="m-1" on:click={handleBlur}>Blur</Button>
+			<Button disabled={!canReset} color="red" class="m-1" on:click={reset}>Reset</Button>
+			<Button disabled={!canSave} color="green" class="m-1" on:click={save}>Guardar</Button>
+		</div>
+
+		<div class="mt-2">
+			<p class="text-center text-xs">Apenas dispositivos autorizados conseguem editar a imagem</p>
+		</div>
 	</div>
-
-    <div class="mt-2">
-        <p class="text-center text-xs">Apenas dispositivos autorizados conseguem editar a imagem</p>
-    </div>
-</div>
-
-<style>
-</style>
+</Content>

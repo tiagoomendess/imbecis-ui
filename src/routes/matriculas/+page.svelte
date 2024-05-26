@@ -14,6 +14,7 @@
 		PaginationItem,
 		P
 	} from 'flowbite-svelte';
+	import Content from '$lib/components/Content.svelte';
 
 	export let data: PageData;
 	let maxPage = Math.ceil(data.total / 10);
@@ -66,48 +67,50 @@
 </script>
 
 <svelte:head>
-    <title>Imbecis :: Matrículas</title>
-	<meta property="og:description" content="Todas as matrículas de imbecis"/>
+	<title>Imbecis :: Matrículas</title>
+	<meta property="og:description" content="Todas as matrículas de imbecis" />
 	<meta property="og:image" content="/imbecis_logo_300.png" />
 </svelte:head>
 
-<Heading class="mb-5">Matrículas</Heading>
+<Content>
+	<Heading class="mb-5">Matrículas</Heading>
 
-<Table class="mb-5">
-	<TableHead>
-		<TableHeadCell>País</TableHeadCell>
-		<TableHeadCell>Matrícula</TableHeadCell>
-	</TableHead>
-	<TableBody>
-		{#each data.plates as plate}
-			<TableBodyRow>
-				<TableBodyCell>
-					{getFlag(plate.country)}
-				</TableBodyCell>
-				<TableBodyCell
-					><A href={`/matriculas/${plate.country}/${plate.number}`}
-						>{formatPlate(plate.country, plate.number)}</A
-					></TableBodyCell
-				>
-			</TableBodyRow>
-		{/each}
-	</TableBody>
-</Table>
+	<Table class="mb-5">
+		<TableHead>
+			<TableHeadCell>País</TableHeadCell>
+			<TableHeadCell>Matrícula</TableHeadCell>
+		</TableHead>
+		<TableBody>
+			{#each data.plates as plate}
+				<TableBodyRow>
+					<TableBodyCell>
+						{getFlag(plate.country)}
+					</TableBodyCell>
+					<TableBodyCell
+						><A href={`/matriculas/${plate.country}/${plate.number}`}
+							>{formatPlate(plate.country, plate.number)}</A
+						></TableBodyCell
+					>
+				</TableBodyRow>
+			{/each}
+		</TableBody>
+	</Table>
 
-<div class="mb-2">
-	<P size="sm" class="text-center">Página {queryParams.get('page') ?? 1} de {maxPage}</P>
-</div>
+	<div class="mb-2">
+		<P size="sm" class="text-center">Página {queryParams.get('page') ?? 1} de {maxPage}</P>
+	</div>
 
-<div class="flex space-x-3 rtl:space-x-reverse justify-center">
-	{#if currentPage > 1}
-		<a href={`?page=${currentPage - 1}`}>
-			<PaginationItem large>Anterior</PaginationItem>
-		</a>
-	{/if}
+	<div class="flex space-x-3 rtl:space-x-reverse justify-center">
+		{#if currentPage > 1}
+			<a href={`?page=${currentPage - 1}`}>
+				<PaginationItem large>Anterior</PaginationItem>
+			</a>
+		{/if}
 
-	{#if currentPage < maxPage}
-		<a href={`?page=${currentPage + 1}`}>
-			<PaginationItem large>Próxima</PaginationItem>
-		</a>
-	{/if}
-</div>
+		{#if currentPage < maxPage}
+			<a href={`?page=${currentPage + 1}`}>
+				<PaginationItem large>Próxima</PaginationItem>
+			</a>
+		{/if}
+	</div>
+</Content>

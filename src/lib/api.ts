@@ -1,16 +1,16 @@
 import axios from 'axios'
-import type { Report, Coordinates, VoteRequest, Plate, PaginatedPlatesList } from '$lib/types'
+import type { Report, Coordinates, VoteRequest, Plate, PaginatedPlatesList, ReporterInfo } from '$lib/types'
 import { location } from '$lib/stores/location'
 
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 let csrfToken = ""
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
-location.subscribe((value : Coordinates) => {
+location.subscribe((value: Coordinates) => {
     coordinates = value
 })
 
-const getDeviceUUID = (): string => {
+export const getDeviceUUID = (): string => {
     if (typeof localStorage === 'undefined') {
         return ""
     }
@@ -18,7 +18,7 @@ const getDeviceUUID = (): string => {
     return localStorage.getItem('deviceUUID') || ""
 }
 
-export const getFeed = async (page: number = 1, municipality : string = "") : Promise<Report[]> => {
+export const getFeed = async (page: number = 1, municipality: string = ""): Promise<Report[]> => {
     try {
         let url = `${BASE_URL}/reports/feed?page=${page}`
         if (municipality) {
@@ -44,12 +44,21 @@ export interface CreateReportResponse {
     reportId: string
 }
 
-export const createReport = async (): Promise<CreateReportResponse> => {
+export const createReport = async (
+    imageHash : string,
+    reporterInfo : ReporterInfo | null,
+    sendReporterInfo = false,
+): Promise<CreateReportResponse> => {
     const body = {
+        imageHash: imageHash,
         location: {
             latitude: coordinates.latitude,
             longitude: coordinates.longitude
         }
+    } as any
+
+    if (reporterInfo !== null && sendReporterInfo) {
+        body.reporterInfo = reporterInfo
     }
 
     const uuid = getDeviceUUID()
@@ -79,7 +88,7 @@ export const createReport = async (): Promise<CreateReportResponse> => {
         toReturn.reportId = response.data.payload.id
         toReturn.success = true
         toReturn.message = "Report criado com sucesso"
-    } catch (error : any) {
+    } catch (error: any) {
         if (error.response) {
             toReturn.message = error.response.data.message ?? "Erro desconhecido"
         }
@@ -120,7 +129,7 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
 
         toReturn.success = true
         toReturn.message = "Imagem submetida com sucesso"
-    } catch (error : any) {
+    } catch (error: any) {
         console.error("Error uploading picture: ", error)
         if (error.response) {
             toReturn.message = error.response.data.message ?? "Erro desconhecido"
@@ -161,7 +170,7 @@ export interface SubmitReportVoteResponse {
     message: string
 }
 
-export const submitReportVote = async (reportId: string, request : VoteRequest): Promise<SubmitReportVoteResponse> => {
+export const submitReportVote = async (reportId: string, request: VoteRequest): Promise<SubmitReportVoteResponse> => {
     try {
         const uuid = getDeviceUUID()
         const response = await axios.post(`${BASE_URL}/reports/${reportId}/vote`, request, {
@@ -186,7 +195,7 @@ export const submitReportVote = async (reportId: string, request : VoteRequest):
             message: "Voto submetido com sucesso"
         }
 
-    } catch (error : any) {
+    } catch (error: any) {
         console.error("Error submitting report vote: ", error)
         if (error.response) {
             const customMessage = error.response.status === 429 ? 'Está a votar muito rápido' : "Erro desconhecido"
@@ -227,7 +236,7 @@ export const getPlateReports = async (plateId: string): Promise<Report[] | null>
         }
 
         return response.data.payload as Report[]
-    } catch(error) {
+    } catch (error) {
         console.error("Error getting plate reports: ", error)
         return null
     }
@@ -301,9 +310,9 @@ export const getReportById = async (id: string): Promise<GetReportByIdResponse> 
         toReturn.report = response.data.payload as Report
 
         return toReturn
-    } catch (error : any) {
+    } catch (error: any) {
         console.error("Error getting plates of confirmed imbeciles: ", error)
-    
+
         if (error.response) {
             toReturn.message = error.response.data.message ?? "Erro desconhecido"
         }
@@ -343,7 +352,7 @@ export const updateReportPicture = async (reportId: string, picture: Blob): Prom
 
         toReturn.success = true
         toReturn.message = "Imagem alterada com sucesso"
-    } catch (error : any) {
+    } catch (error: any) {
         console.error("Error uploading picture: ", error)
         if (error.response) {
             toReturn.message = error.response.data.message ?? "Erro desconhecido"

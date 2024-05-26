@@ -25,7 +25,7 @@ export interface VoteRequest {
 }
 
 export interface Plate {
-    id : string
+    id: string
     country: string
     number: string
 }
@@ -48,4 +48,53 @@ export interface ApiResponse {
     success: boolean
     message: string
     payload: any
+}
+
+// GeoJSON basic types
+export type GeoJsonGeometryTypes =
+    | 'Point'
+    | 'MultiPoint'
+    | 'LineString'
+    | 'MultiLineString'
+    | 'Polygon'
+    | 'MultiPolygon'
+    | 'GeometryCollection';
+export type GeoJsonTypes = 'Feature' | 'FeatureCollection' | 'GeometryCollection';
+
+// Basic Geometry object
+export interface GeoJsonGeometry {
+    type: GeoJsonGeometryTypes;
+    coordinates: any;
+}
+
+// Geometry with Polygon type
+export interface PolygonGeometry extends GeoJsonGeometry {
+    type: 'Polygon';
+    coordinates: number[][][];
+}
+
+// Feature object
+export interface GeoJsonFeature {
+    type: 'Feature';
+    geometry: GeoJsonGeometry;
+    properties: { [key: string]: any } | null;
+}
+
+// GeoJSON object
+export interface GeoJson {
+    type: GeoJsonTypes;
+    features: GeoJsonFeature[];
+}
+
+export interface NotificationRecipient { 
+    type: String,
+    target: String
+}
+
+export interface ReporterInfo {
+    name: string;
+    idType: string;
+    idNumber: string;
+    email: string;
+    obs: string;
 }

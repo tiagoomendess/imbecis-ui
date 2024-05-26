@@ -4,16 +4,17 @@
 	import { getPlateByCountryAndNumber } from '$lib/api';
 	import { goto } from '$app/navigation';
 	import { showNotification } from '$lib/utils/notifications';
-	import Country from '$lib/Country.svelte';
+	import Country from '$lib/components/Country.svelte';
+	import Content from '$lib/components/Content.svelte';
 
 	let plateNumber = '';
 	let isSearching = false;
 
 	$: plateCountry = 'pt';
-    $: platePlaceholder = getPlatePlaceholder(plateCountry);
+	$: platePlaceholder = getPlatePlaceholder(plateCountry);
 	$: canSearch = false as boolean;
 	$: {
-        platePlaceholder = getPlatePlaceholder(plateCountry);
+		platePlaceholder = getPlatePlaceholder(plateCountry);
 		canSearch = validatePlateNumber(plateNumber);
 	}
 
@@ -24,7 +25,7 @@
 			.toUpperCase();
 	};
 
-	const getPlatePlaceholder = (country : string = plateCountry) => {
+	const getPlatePlaceholder = (country: string = plateCountry) => {
 		switch (country) {
 			case 'pt':
 				return 'AA 00 AA';
@@ -69,46 +70,48 @@
 </script>
 
 <svelte:head>
-    <title>Imbecis :: Procurar Imbecis</title>
-    <meta property="og:image" content="/imbecis_logo_300.png">
+	<title>Imbecis :: Procurar Imbecis</title>
+	<meta property="og:image" content="/imbecis_logo_300.png" />
 </svelte:head>
 
-<div>
-	<Heading class="mb-4">Procurar Imbecil</Heading>
+<Content>
+	<div>
+		<Heading class="mb-4">Procurar Imbecil</Heading>
 
-	<P class="text-center">Procure por matrícula e país</P>
+		<P class="text-center">Procure por matrícula e país</P>
 
-	<div class="container max-w-md mx-auto p-4 mb-20 flex mt-8">
-		<div class="w-2/12">
-			<Country bind:value={plateCountry} />
-		</div>
-		<div class="w-8/12">
-			<Label class="space-y-2 ml-2 mr-2 text-center">
-				<span>Matrícula</span>
-				<Input
-					bind:value={plateNumber}
-					type="text"
-					placeholder={getPlatePlaceholder()}
+		<div class="container max-w-md mx-auto p-4 mb-20 flex mt-8">
+			<div class="w-2/12">
+				<Country bind:value={plateCountry} />
+			</div>
+			<div class="w-8/12">
+				<Label class="space-y-2 ml-2 mr-2 text-center">
+					<span>Matrícula</span>
+					<Input
+						bind:value={plateNumber}
+						type="text"
+						placeholder={getPlatePlaceholder()}
+						size="md"
+						class="text-center uppercase text-lg"
+						autofocus
+					/>
+				</Label>
+			</div>
+			<div class="w-2/12">
+				<Button
+					on:click={searchClicked}
+					disabled={!canSearch}
+					class="w-full text-center mt-7 center text-lg"
 					size="md"
-					class="text-center uppercase text-lg"
-					autofocus
-				/>
-			</Label>
-		</div>
-		<div class="w-2/12">
-			<Button
-				on:click={searchClicked}
-				disabled={!canSearch}
-				class="w-full text-center mt-7 center text-lg"
-				size="md"
-				color="green"
-				>&nbsp;
-				{#if isSearching}
-					<Spinner class="me-3 text-center" size="4" />
-				{:else}
-					<SearchOutline class="w-3.5 h-3.5 me-2" />
-				{/if}
-			</Button>
+					color="green"
+					>&nbsp;
+					{#if isSearching}
+						<Spinner class="me-3 text-center" size="4" />
+					{:else}
+						<SearchOutline class="w-3.5 h-3.5 me-2" />
+					{/if}
+				</Button>
+			</div>
 		</div>
 	</div>
-</div>
+</Content>

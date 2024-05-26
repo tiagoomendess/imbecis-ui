@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { NotificationType } from './types';
+	import type { NotificationType } from '../types';
 	import { Toast } from 'flowbite-svelte';
 	import { CheckCircleSolid, CloseSolid, ExclamationCircleSolid } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';

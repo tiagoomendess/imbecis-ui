@@ -40,8 +40,8 @@
 		goto('/');
 	};
 
-	const selectMunicipality = (name: string, event : any) => {
-        event.stopPropagation();
+	const selectMunicipality = (name: string, event: any) => {
+		event.stopPropagation();
 		searchText = name;
 		setTimeout(() => {
 			showAutoComplete = false;
@@ -69,7 +69,7 @@
 
 <Modal title="Filtrar Imbecis" bind:open={filterModal} autoclose outsideclose class="h-full">
 	<div class="flex-row justify-center">
-        <small>Município:</small>
+		<small>Município:</small>
 		<input
 			type="text"
 			bind:value={searchText}
@@ -95,20 +95,20 @@
 </Modal>
 
 <style>
-    .no-padding-important {
-        padding: 0px!important;
-    }
-    .full-width-button {
-        width: 100%;
-        background: none;
-        border: none;
-        text-align: left;
-        padding: 8px;
-        cursor: pointer;
-    }
-    .full-width-button:hover {
-        background-color: #f8f9fa;
-    }
+	.no-padding-important {
+		padding: 0px !important;
+	}
+	.full-width-button {
+		width: 100%;
+		background: none;
+		border: none;
+		text-align: left;
+		padding: 8px;
+		cursor: pointer;
+	}
+	.full-width-button:hover {
+		background-color: #f8f9fa;
+	}
 	.filter {
 		height: 24px;
 	}

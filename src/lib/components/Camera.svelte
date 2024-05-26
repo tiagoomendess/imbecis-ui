@@ -2,7 +2,7 @@
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { CameraFotoOutline } from 'flowbite-svelte-icons';
 	import { Alert, Button } from 'flowbite-svelte';
-	import { showNotification } from './utils/notifications';
+	import { showNotification } from '../utils/notifications';
 
 	onMount(async () => {
 		askCameraPermissions();
@@ -149,8 +149,8 @@
 
 	const takePicture = () => {
 		const canvas = document.createElement('canvas');
-		canvas.width = videoElement.videoWidth;
-		canvas.height = videoElement.videoHeight;
+		canvas.width = 1000;
+		canvas.height = 1000;
 		const context = canvas.getContext('2d');
 		context?.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
@@ -160,7 +160,7 @@
 				return;
 			}
 			dispatch('pictureTaken', blob);
-		}, 'image/png');
+		}, 'image/webp', 0.95);
 	};
 
 	const stopCamera = () => {
@@ -210,11 +210,6 @@
 				on:change={updateConstraints}
 			/>
 		{/if}
-	</div>
-	<div class="mt-5 text-center">
-		<p class="text-center text-xs">
-			Apenas 1 imbecil por foto.
-		</p>
 	</div>
 </div>
 
