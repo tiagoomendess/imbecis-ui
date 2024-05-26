@@ -39,15 +39,13 @@
 </svelte:head>
 <NotificationsWrapper />
 <Loader />
-<main class="master" id="master">
+<div class="main">
 	<slot />
-</main>
-
+</div>
 <Navbar />
 
 <style>
-	.master {
-		height: calc(100vh - 64px);
-        overflow-y: auto;
+	.main {
+		padding-bottom: 64px;
 	}
 </style>

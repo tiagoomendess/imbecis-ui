@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import Paragraph from '$lib//components/Paragraph.svelte';
 	import type { PageData } from './$types';
 	import ImbecileSq from '$lib/components/ImbecileSq.svelte';
@@ -16,12 +16,10 @@
 
 	export let data: PageData;
 	let municipality = '' as string;
-
 	let currentPage = 1 as number;
 	let loading = false;
 	let pagesLoaded = [1] as number[];
 	let listenTochanges = false;
-	let masterDiv : HTMLElement | null;
 
 	$: municipalityChanged(municipality);
 
@@ -59,11 +57,11 @@
 
 	// Function to check if the user is near the bottom of the page
 	function isNearBottom() {
-		if (!masterDiv) {
+		if (!window) {
 			return false;
 		}
 
-		return masterDiv.scrollTop + (masterDiv.clientHeight * 0.20) >= masterDiv.scrollHeight - masterDiv.clientHeight;
+		return document.body.offsetHeight - window.innerHeight <= window.scrollY + (window.innerHeight * 0.15);
 	}
 
 	const handleScroll = () => {
@@ -101,10 +99,15 @@
 
 	onMount(() => {
 		if (isBrowser()) {
-			masterDiv = document.getElementById('master');
-			if (masterDiv) {
-				masterDiv.addEventListener('scroll', handleScroll);
+			if (window) {
+				window.addEventListener('scroll', handleScroll);
 			}
+		}
+	});
+
+	onDestroy(() => {
+		if (isBrowser() && window) {
+			window.removeEventListener('scroll', handleScroll);
 		}
 	});
 
@@ -127,8 +130,6 @@
 		content="Lista nacional de imbecis. Estacionamentos abusivos catalogados por Município. Adicione ou encontre imbecis por matrícula."
 	/>
 </svelte:head>
-
-
 
 <Content>
 	<section class="bg-white dark:bg-gray-900">
