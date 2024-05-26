@@ -446,10 +446,8 @@
 
 <style>
 	.camera-wrapper {
-		position: fixed;
 		width: 100%;
 		top: 0;
 		left: 0;
-		min-height: 100%;
 	}
 </style>
