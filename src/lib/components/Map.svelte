@@ -61,7 +61,6 @@
 		// Event listener for the creation of new layers
 		map.on(L.Draw.Event.CREATED, (event: any) => {
 			const layer = event.layer;
-			drawnItems.addLayer(layer);
 
 			// Get the GeoJSON data of the drawn layer
 			const geojson = layer.toGeoJSON();
@@ -84,6 +83,8 @@
 
 	const drawRegions = (regions: NotificationRegion[]) => {
 		// First remove already existing drawn regions
+
+    drawnItems?.clearLayers();
 
 		regions.forEach((region) => {
 			const polygon = L.geoJSON(region.polygon, {
