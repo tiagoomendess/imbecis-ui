@@ -9,13 +9,13 @@
 	} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	$: activeUrl = $page.url.pathname;
-</script>
+</script>	
 
-<BottomNav {activeUrl} position="fixed" classInner="grid-cols-5" outerClass="z-40">
+<BottomNav {activeUrl} position="fixed" classInner="grid-cols-5" outerClass="z-40 w-full">
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />
 	</BottomNavItem>
-	<BottomNavItem btnName="Procurar" href="/procurar" exact={false}>
+	<BottomNavItem btnName="Procurar" href="/procurar">
 		<SearchOutline />
 	</BottomNavItem>
 	<BottomNavItem btnName="Novo" href="/adicionar">

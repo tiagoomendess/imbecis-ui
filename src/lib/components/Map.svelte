@@ -41,9 +41,9 @@
 				featureGroup: editItems,
 				edit: {
 					selectedPathOptions: {
-            color: '#FF1100',
-            opacity: 0.8,
-            fillOpacity: 0.5
+						color: '#FF1100',
+						opacity: 0.8,
+						fillOpacity: 0.5
 					}
 				}
 			},
@@ -72,7 +72,10 @@
 			console.log('Edited event: ', event);
 			event.layers.eachLayer((layer: L.Layer) => {
 				drawnItems.eachLayer((drawnLayer: L.Layer) => {
-					if (drawnLayer.options.attribution === layer.options.attribution) {
+					if (
+						(drawnLayer as any).feature.properties.regionId ===
+						(layer as any).feature.properties.regionId
+					) {
 						drawnItems.removeLayer(drawnLayer);
 						drawnItems.addLayer(layer);
 					}
@@ -83,26 +86,27 @@
 
 	const drawRegions = (regions: NotificationRegion[]) => {
 		// First remove already existing drawn regions
-
-    drawnItems?.clearLayers();
+		drawnItems?.clearLayers();
 
 		regions.forEach((region) => {
 			const polygon = L.geoJSON(region.polygon, {
 				style: {
-          fillColor: region.color,
-          fillOpacity: 0.35,
+					fillColor: region.color,
+					fillOpacity: 0.35,
 					color: region.color,
-          opacity: 1,
+					opacity: 1,
 					weight: 1
 				}
 			});
 
-			const layer = polygon.getLayers()[0];
+			const layer = polygon.getLayers()[0] as any;
 			layer.on('click', () => {
 				setOnFocus(region.id);
 			});
 
-			layer.options.attribution = region.id;
+			layer.feature = (layer as any).feature || {};
+			layer.feature.properties = (layer as any).feature.properties || {};
+			layer.feature.properties.regionId = region.id;
 			drawnItems.addLayer(layer);
 		});
 	};
@@ -166,8 +170,9 @@
 			if (region.id === regionId) {
 				regionOnFocus = region;
 				drawnItems.eachLayer((layer: L.Layer) => {
-					if (layer.options.attribution === regionId) {
+					if ((layer as any).feature.properties.regionId === regionId) {
 						editItems.addLayer(layer);
+						map?.fitBounds((layer as L.GeoJSON).getBounds());
 					}
 				});
 			}
@@ -187,7 +192,7 @@
 		}
 
 		drawnItems.eachLayer((layer: L.Layer) => {
-			if (layer.options.attribution === region.id) {
+			if ((layer as any).feature.properties.regionId === region.id) {
 				// Get polygon from layer
 				region.polygon = {
 					type: 'Polygon',
@@ -370,13 +375,13 @@
 		box-shadow: 0 1px 2px rgba(160, 160, 160, 0.1);
 	}
 
-  .color-input {
-    padding: 0;
-    border: 1px solid #e2e8f0;
-    background: none;
-    background-color: rgb(249 250 251);
-    border-radius: 0.5rem;
-    padding: 0.2rem 0.3rem;
-    height: 42px;
-  }
+	.color-input {
+		padding: 0;
+		border: 1px solid #e2e8f0;
+		background: none;
+		background-color: rgb(249 250 251);
+		border-radius: 0.5rem;
+		padding: 0.2rem 0.3rem;
+		height: 42px;
+	}
 </style>
