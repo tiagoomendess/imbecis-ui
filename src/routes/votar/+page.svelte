@@ -241,20 +241,30 @@
 		</Centro>
 	{/if}
 
-	<Modal title="Antes de votar lembre-se:" bind:open={tutorialModal} autoclose={false} outsideclose={false}>
+	<Modal
+		title="Antes de votar lembre-se:"
+		bind:open={tutorialModal}
+		autoclose={false}
+		outsideclose={false}
+		class="z-60"
+	>
 		<ul class="mt-1.5 ms-4 list-disc list-inside text-gray-600">
-			<li>Se não tem a certeza absoluta que é contra ordenação, clique "Não tenho a certeza"</li>
+			<li>Se não tem a certeza absoluta que é contra-ordenação, clique "Não tenho a certeza"</li>
 			<li>Se não conseguir ler bem a matrícula, clique "Não tenho a certeza"</li>
-			<li>Se a viatura está em contra-ordenação e consegue ler a matrícula, insira-a e clique "É Imbecil"</li>
+			<li>
+				Se a viatura está em contra-ordenação e consegue ler a matrícula, insira-a e clique "É
+				Imbecil"
+			</li>
 			<li>Se a matrícula não for Portuguesa tenha o cuidado de alterar o país</li>
 		</ul>
 		<p class="mb-4">
-			Seja honesto e contribua com algum do seu tempo, e se errar involuntáriamente não faz mal,
-			várias pessoas diferentes votam na mesma denúncia para precaver o erro humano. Apenas as denuncias que reunam consenso
+			Seja honesto e contribua, não tem mal se errar involuntáriamente, várias pessoas diferentes
+			votam na mesma denúncia para precaver erros. Apenas as denuncias que reúnam consenso
 			serão enviadas para as autoridades.
 		</p>
 		<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandTutorialClicked()}
-			>Entendi</Button>
+			>Entendi</Button
+		>
 	</Modal>
 </Content>
 

@@ -8,7 +8,18 @@
 	import { onMount } from 'svelte';
 	import { showNotification } from '$lib/utils/notifications';
 	import Content from '$lib/components/Content.svelte';
-	import { Modal, Label, Input, Select, Toggle, Alert, Heading, P, Button, Textarea } from 'flowbite-svelte';
+	import {
+		Modal,
+		Label,
+		Input,
+		Select,
+		Toggle,
+		Alert,
+		Heading,
+		P,
+		Button,
+		Textarea
+	} from 'flowbite-svelte';
 	import type { ReporterInfo } from '$lib/types';
 
 	$: image = null as Blob | null;
@@ -138,7 +149,7 @@
 			return;
 		}
 
-		reporterInfo.obs = ''
+		reporterInfo.obs = '';
 		loadingMessage.set('A enviar fotografia');
 		const uploadResponse = await uploadPicture(newReportRes.reportId, image);
 
@@ -272,8 +283,16 @@
 						</div>
 					{/if}
 					<div class="w-full mt-5 mb-4">
-						<Label for="textarea-id" class="mb-2">Observações para as autoridades: (opcional)</Label>
-						<Textarea maxlength="255" bind:value={reporterInfo.obs} id="textarea-id" placeholder="Outras informações relevantes a serem enviadas" rows="2" name="reporterObs" />
+						<Label for="textarea-id" class="mb-2">Observações para as autoridades: (opcional)</Label
+						>
+						<Textarea
+							maxlength="255"
+							bind:value={reporterInfo.obs}
+							id="textarea-id"
+							placeholder="Outras informações relevantes a serem enviadas"
+							rows="2"
+							name="reporterObs"
+						/>
 					</div>
 					<div class="">
 						<Toggle bind:checked={sendReporterInfo}>Enviar identificação às autoridades?</Toggle>
@@ -342,26 +361,27 @@
 		</div>
 	</Centro>
 
-	<Modal bind:open={setupModal} outsideclose={false} title="Antes de Denunciar, lembre-se:">
+	<Modal
+		bind:open={setupModal}
+		outsideclose={false}
+		title="Antes de Denunciar, lembre-se:"
+		class="z-60"
+	>
 		<div class="text-left">
 			<ul class="mb-5 mt-1.5 ms-4 list-disc list-inside">
 				<li>Apenas 1 Viatura por denúncia</li>
-				<li>Certifique-se de que a matrícula é legível antes de enviar</li>
-				<li>A infração tem de estar visível na fotografia para além da viatura</li>
-				<li>
-					Tire a fotografia e envie no local da infração, são guardadas coordenadas GPS
-				</li>
+				<li>Certifique-se de que a matrícula e infração são visíveis antes de enviar</li>
+				<li>Tire a fotografia e envie no local da infração, são guardadas coordenadas GPS</li>
 				<li>Apenas denuncie viaturas em claro incumprimento do código da estrada</li>
 				<li>
-					Evite enviar pequenas infrações, como por exemplo carros ligeiramente fora dos limites
-					num parque de estacionamento
+					Evite enviar pequenas infrações, como por exemplo carros ligeiramente fora dos limites num
+					parque de estacionamento
 				</li>
 			</ul>
 			<p class="text-sm">
-				<b>Nota Temporária:</b> Alterações profundas estão previstas num futuro próximo. As denuncias
-				confirmadas vão passar a ser comunicadas às autoridades automaticamente, e as coordenadas GPS
-				são importantes tanto para decidir para onde encaminhar como fazer prova. Isto ainda não está
-				a ser feito e será claro quando for. Denuncias anteriores nunca serão enviadas.
+				<b>Nota Temporária:</b> As denuncias confirmadas vão passar a ser comunicadas às autoridades
+				automaticamente em breve, e as coordenadas GPS são importantes tanto para decidir para onde encaminhar
+				como fazer prova. Denuncias anteriores nunca serão enviadas.
 			</p>
 			<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandClicked()}
 				>Entendi</Button
@@ -370,6 +390,8 @@
 	</Modal>
 
 	<Modal
+		class="z-60"
+		style="z-index: 100"
 		title="Dados do Denunciante"
 		bind:open={witnessContactModal}
 		autoclose={false}

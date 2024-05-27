@@ -11,7 +11,7 @@
 	$: activeUrl = $page.url.pathname;
 </script>
 
-<BottomNav {activeUrl} position="fixed" classInner="grid-cols-5">
+<BottomNav {activeUrl} position="fixed" classInner="grid-cols-5" outerClass="z-40">
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />
 	</BottomNavItem>
