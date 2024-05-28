@@ -152,7 +152,6 @@
 		reporterInfo.obs = '';
 		loadingMessage.set('A enviar fotografia');
 		const uploadResponse = await uploadPicture(newReportRes.reportId, image);
-                test = uploadResponse.message;
 		if (uploadResponse.success) {
 			showNotification('Denúncia enviada com sucesso', 'success');
 			clearImage();

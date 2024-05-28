@@ -149,8 +149,8 @@
 
 	const takePicture = () => {
 		const canvas = document.createElement('canvas');
-		canvas.width = videoElement.videoWidth;
-		canvas.height = videoElement.videoHeight;
+		canvas.width = 800;
+		canvas.height = 800;
 		const context = canvas.getContext('2d');
 		context?.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 

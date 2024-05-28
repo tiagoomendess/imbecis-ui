@@ -123,7 +123,7 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
         })
 
         if (response.status !== 201 || !response.data.success) {
-            toReturn.message = response.data.message ?? `Pedido falhou com status ${response.status}`
+            toReturn.message = response.data.message || `Pedido falhou com status ${response.status}`
             return toReturn
         }
 
@@ -132,7 +132,7 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
     } catch (error: any) {
         console.error("Error uploading picture: ", error)
         if (error.response) {
-            toReturn.message = error.response.data.message ?? "Erro desconhecido";
+            toReturn.message = error.response.data.message || "Erro desconhecido";
         } else {
             toReturn.message = "Não obteve resposta do servidor";
         }
