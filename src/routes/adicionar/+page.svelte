@@ -35,7 +35,6 @@
 		{ value: 'passport', name: 'Passaporte' },
 		{ value: 'residency', name: 'Atz. Residência' }
 	];
-        let test = '';
 
 	let hasReporterInfo = false;
 	const reporterInfo: ReporterInfo = {
@@ -466,7 +465,6 @@
 			>
 		</form>
 	</Modal>
-{test}
 </Content>
 
 <style>

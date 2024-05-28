@@ -160,7 +160,7 @@
 				return;
 			}
 			dispatch('pictureTaken', blob);
-		}, 'image/webp', 0.95);
+		}, 'image/webp', 0.80);
 	};
 
 	const stopCamera = () => {
