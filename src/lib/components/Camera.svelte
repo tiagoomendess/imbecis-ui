@@ -149,8 +149,8 @@
 
 	const takePicture = () => {
 		const canvas = document.createElement('canvas');
-		canvas.width = 800;
-		canvas.height = 800;
+		canvas.width = 1000;
+		canvas.height = 1000;
 		const context = canvas.getContext('2d');
 		context?.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
@@ -163,7 +163,7 @@
 
 		const handleFallback = () => {
 			// Fallback to JPEG if WebP is not supported
-			canvas.toBlob(handleBlob, 'image/jpeg', 0.8);
+			canvas.toBlob(handleBlob, 'image/jpeg', 0.9);
 		};
 
 		if (canvas.toBlob) {
@@ -181,7 +181,7 @@
 			);
 		} else {
 			// Fallback for browsers that do not support toBlob
-			const dataURL = canvas.toDataURL('image/webp', 0.8);
+			const dataURL = canvas.toDataURL('image/webp', 0.9);
 			const binary = atob(dataURL.split(',')[1]);
 			const array = [];
 			for (let i = 0; i < binary.length; i++) {
