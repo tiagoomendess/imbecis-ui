@@ -35,6 +35,7 @@
 		{ value: 'passport', name: 'Passaporte' },
 		{ value: 'residency', name: 'Atz. Residência' }
 	];
+        let test = '';
 
 	let hasReporterInfo = false;
 	const reporterInfo: ReporterInfo = {
@@ -152,11 +153,12 @@
 		reporterInfo.obs = '';
 		loadingMessage.set('A enviar fotografia');
 		const uploadResponse = await uploadPicture(newReportRes.reportId, image);
-
+                test = uploadResponse.message;
 		if (uploadResponse.success) {
 			showNotification('Denúncia enviada com sucesso', 'success');
 			clearImage();
 		} else {
+                        alert(uploadResponse.message);
 			showNotification(`Erro. ${uploadResponse.message}`, 'error');
 			clearImage();
 		}
@@ -464,6 +466,7 @@
 			>
 		</form>
 	</Modal>
+{test}
 </Content>
 
 <style>
