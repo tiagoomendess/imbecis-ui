@@ -154,13 +154,46 @@
 		const context = canvas.getContext('2d');
 		context?.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-		// Convert the canvas to a Blob
-		canvas.toBlob((blob) => {
+		const handleBlob = (blob : Blob | null) => {
 			if (!blob) {
 				return;
 			}
 			dispatch('pictureTaken', blob);
-		}, 'image/webp', 0.80);
+		};
+
+		const handleFallback = () => {
+			// Fallback to JPEG if WebP is not supported
+			canvas.toBlob(handleBlob, 'image/jpeg', 0.8);
+		};
+
+		if (canvas.toBlob) {
+			// Try to create a WebP image
+			canvas.toBlob(
+				(blob) => {
+					if (blob && blob.type === 'image/webp') {
+						handleBlob(blob);
+					} else {
+						handleFallback();
+					}
+				},
+				'image/webp',
+				0.8
+			);
+		} else {
+			// Fallback for browsers that do not support toBlob
+			const dataURL = canvas.toDataURL('image/webp', 0.8);
+			const binary = atob(dataURL.split(',')[1]);
+			const array = [];
+			for (let i = 0; i < binary.length; i++) {
+				array.push(binary.charCodeAt(i));
+			}
+			const blob = new Blob([new Uint8Array(array)], { type: 'image/webp' });
+			if (blob && blob.type === 'image/webp') {
+				handleBlob(blob);
+			} else {
+				handleFallback();
+			}
+		}
 	};
 
 	const stopCamera = () => {
