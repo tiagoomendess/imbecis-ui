@@ -132,7 +132,9 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
     } catch (error: any) {
         console.error("Error uploading picture: ", error)
         if (error.response) {
-            toReturn.message = error.response.data.message ?? "Erro desconhecido"
+            toReturn.message = JSON.stringify(error.response.data);
+        } else {
+            toReturn.message = JSON.stringify(error);
         }
     }
 
