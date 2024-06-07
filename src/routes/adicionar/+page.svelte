@@ -268,28 +268,22 @@
 						class="rounded-lg"
 					/>
 
-					<div class="mt-3 w-full">
-						<Alert border color="blue" class="w-full">
-							<InfoCircleSolid slot="icon" class="w-5 h-5" />
-							Certifique-se que a matrícula e a infração são visíveis.
-						</Alert>
-					</div>
 					{#if !sendReporterInfo}
 						<div class="mt-3 w-full">
 							<Alert border color="yellow" class="w-full">
 								<InfoCircleSolid slot="icon" class="w-5 h-5" />
-								Denúncias sem identificação são muito provavelmente descartadas pelas autoridades.
+								Denúncias sem identificação são provavelmente descartadas.
 							</Alert>
 						</div>
 					{/if}
 					<div class="w-full mt-5 mb-4">
-						<Label for="textarea-id" class="mb-2">Observações para as autoridades: (opcional)</Label
+						<Label for="textarea-id" class="mb-2">Observações: (opcional)</Label
 						>
 						<Textarea
 							maxlength="255"
 							bind:value={reporterInfo.obs}
 							id="textarea-id"
-							placeholder="Outras informações relevantes a serem enviadas"
+							placeholder="Outras informações relevantes para as autoridades"
 							rows="2"
 							name="reporterObs"
 						/>
@@ -378,11 +372,6 @@
 					parque de estacionamento
 				</li>
 			</ul>
-			<p class="text-sm">
-				<b>Nota Temporária:</b> As denuncias confirmadas vão passar a ser comunicadas às autoridades
-				automaticamente em breve, e as coordenadas GPS são importantes tanto para decidir para onde encaminhar
-				como fazer prova. Denuncias anteriores nunca serão enviadas.
-			</p>
 			<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandClicked()}
 				>Entendi</Button
 			>

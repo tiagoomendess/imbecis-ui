@@ -258,8 +258,7 @@
 			<li>Se a matrícula não for Portuguesa tenha o cuidado de alterar o país</li>
 		</ul>
 		<p class="mb-4">
-			Seja honesto e contribua, não tem mal se errar involuntáriamente, várias pessoas diferentes
-			votam na mesma denúncia para precaver erros. Apenas as denuncias que reúnam consenso
+			Seja honesto e contribua, não tem mal se errar involuntáriamente, apenas as denuncias que reúnam consenso
 			serão enviadas para as autoridades.
 		</p>
 		<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandTutorialClicked()}
