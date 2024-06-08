@@ -25,7 +25,7 @@
 	$: image = null as Blob | null;
 	$: showLocationModal = false as boolean;
 	$: isSubmitting = false as boolean;
-	let sendReporterInfo = false;
+	let sendReporterInfo = true;
 	let coordinatesLastUpdate = null as Date | null;
 	let setupModal = false;
 	let witnessContactModal = false;
@@ -45,10 +45,15 @@
 		obs: ''
 	};
 
+	const saveSendReporterInfo = () => {
+		localStorage.setItem('sendReporterInfo', sendReporterInfo.toString());
+	};
+
 	onMount(async () => {
 		isSubmitting = false;
 		setupModal = shouldShowSetupModal();
 		loadReporterInfo();
+		sendReporterInfo = localStorage.getItem('sendReporterInfo') === 'true';
 	});
 
 	const shouldAskForGeolocation = () => {
@@ -221,6 +226,7 @@
 	};
 
 	const handleSendClicked = () => {
+		saveSendReporterInfo();
 		if (sendReporterInfo) {
 			console.log('Send Reporter Info enabled, confirm data...');
 			witnessContactModal = true;
