@@ -269,14 +269,14 @@
 					/>
 
 					{#if !sendReporterInfo}
-						<div class="mt-3 w-full">
+						<div class="mt-3 w-full mb-4">
 							<Alert border color="yellow" class="w-full">
 								<InfoCircleSolid slot="icon" class="w-5 h-5" />
 								Denúncias sem identificação são provavelmente descartadas.
 							</Alert>
 						</div>
-					{/if}
-					<div class="w-full mt-5 mb-4">
+					{:else}
+					<div class="w-full mt-4 mb-4">
 						<Label for="textarea-id" class="mb-2">Observações: (opcional)</Label
 						>
 						<Textarea
@@ -288,6 +288,7 @@
 							name="reporterObs"
 						/>
 					</div>
+					{/if}
 					<div class="">
 						<Toggle bind:checked={sendReporterInfo}>Enviar identificação às autoridades?</Toggle>
 					</div>
