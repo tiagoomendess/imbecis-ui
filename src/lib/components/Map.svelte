@@ -185,7 +185,6 @@
 	};
 
 	const handleSaveClicked = async (region: NotificationRegion | null) => {
-		console.log('Region to be saved: ', region);
 		removeOnFocus();
 		if (!region) {
 			return;
@@ -246,7 +245,7 @@
 		}
 
 		regionOnFocus.recipients = regionOnFocus.recipients.filter(
-			(r) => r.target !== recipient.target && r.type !== recipient.type
+			(r) => !(r.target === recipient.target && r.type === recipient.type)
 		);
 
 		// Explicitly reassign regionOnFocus to trigger reactivity
