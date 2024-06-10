@@ -25,18 +25,23 @@
 	</div>
 
 	<P class="mb-3 text-justify">
-		Esta webapp é um protesto ao estado das nossas ruas e à ineficácia das autiridades. <b
+		Esta webapp é um protesto ao estado das nossas ruas e à ineficácia das autoridades. <b
 			>Está a ser desenvolvida</b
 		>
-		(beta v0.8) por alguém que está farto de ver pessoas egoístas a fazer o que lhes apetece na rua,
+		(v1.0) por alguém que está farto de ver pessoas egoístas a fazer o que lhes apetece na rua,
 		sem qualquer respeito pelo próximo, violando constantemente o código da estrada e os deveres cívicos
-		mais básicos sem nenhuma consequência. Esta é uma consequência, e uma forma de tentar educar o condutor
-		Português.
+		mais básicos sem nenhuma consequência.
+	</P>
+	<P class="mb-3 text-justify">
+		Explicando o funcionamento da aplicação de forma muito resumida, utilizadores não autenticados
+		na internet submetem fotografias de veículos que acham estar estacionados de forma abusiva. Depois
+		outros utilizadores, também não autenticados, votam se acham se é verdade ou não. É utilizado o 
+		adjetivo "Imbecil" como forma de "gamificação" da plataforma e incentivar a participação na votação.
 	</P>
 	<P class="mb-7 text-justify">
-		Explicando o funcionamento da aplicação de forma muito resumida, utilizadores não autenticados
-		na internet submetem fotografias de veículos que acham estar estacionados de forma abusiva, e
-		outros utilizadores também não autenticados votam se acham que é ou não é um imbecil.
+		Quando uma denúncia é confirmada por vários utilizadores, <b>é enviado um email às autoridades</b> responsáveis
+		pela fiscalização rodoviária da área onde o veículo foi denunciado, e adicionado ao feed e histórico para
+		a posteridade.
 	</P>
 
 	<Heading tag="h3" class="mb-2">Índice</Heading>
@@ -46,7 +51,7 @@
 		<Li><A href="#como_participar">Como Participar?</A></Li>
 		<Li><A href="#ajudar">Ajudar</A></Li>
 		<Li><A href="#motivacao">Motivação</A></Li>
-		<Li><A href="#policia">A Polícia não faz nada</A></Li>
+		<Li><A href="#fiscalizacao">O problema da fiscalização</A></Li>
 		<Li><A href="#remover">Pedidos de Remoção</A></Li>
 		<Li><A href="#ler_mais">Ler Mais</A></Li>
 	</List>
@@ -55,65 +60,53 @@
 
 	<P class="mb-3 text-justify">
 		São precisas permissões para aceder à Câmara do telemóvel, para que possa tirar a fotografia do
-		carro mal estacionado. Também é necessária a permissão da Localização no momento de enviar a
-		fotografia. Isto é para identificar, de forma vaga, o local onde se encontrava o veículo mal
-		estacionado. Para ver, votar em imbecis e para tudo o resto não é necessário nenhuma permissão.
+		carro mal estacionado. Também é necessária a permissão da Localização no momento de tirar a
+		fotografia. Isto é para identificar o local onde se encontrava o veículo mal estacionado. 
+		Para ver, votar e tudo o resto não é necessário nenhuma permissão.
 	</P>
 
 	<P class="mb-3 text-justify">
-		Para ser o mais transparente possível, são guardados alguns metadados de quem envia denuncias,
-		para garantir que não existem votos duplicados, nem que possam votar no mesmo imbecil que
-		denunciaram. A boa noticia é que são dados que identificam apenas o dispositivo e nunca o
-		individuo. Para além disto, mal um imbecil seja confirmado ou rejeitado, estas informações são
-		apagadas permanentemente do servidor, e só existem backups de imbecis confirmados, ou seja, já
+		Para ser o mais transparente possível, são guardados alguns metadados de quem envia denúncias,
+		para garantir que não existem votos duplicados, nem que possam votar na mesma denúncia que
+		enviaram. A boa notícia é que são dados que identificam apenas o dispositivo e nunca o
+		indivíduo. Para além disto, mal uma denúncia seja confirmada ou rejeitada, estas informações são
+		apagadas permanentemente do servidor, e só existem backups de denúncias confirmadas, ou seja, já
 		sem metadados. Só mantemos os metadados enquanto eles são estritamente necessários.
 	</P>
 
-	<P class="mb-3 text-justify">
-		Faces de pessoas devem ser automaticamente desfocadas. Se por alguma razão existir algum caso em
-		que o processo automatico falhou em identificar uma cara, esta vai ser posteriormente desfocada
-		manualmente por uma pessoa assim que possível.
-	</P>
-
 	<P class="mb-7 text-justify">
-		Para os imbecís egoístas ainda é mais facil, basta não ser um peso morto na sociedade e não
-		violar o código da estrada, não estacionando de forma abusiva. É garantido que a sua viatura não
-		aparece na app. De qualquer das formas a matricula é desfocada antes de ser pública, e é
-		impossível saber qual era a que lá estava porque não são guardadas copias nem o original. Por
-		isso <b
-			>a matrícula que aparece à frente em texto pode não ser a que está na imagem. Não é possível
-			saber nem garantir que que é a mesma</b
-		>, uma vez que o conteúdo é um campo de texto livre que é preenchido manualmente por
-		utilizadores anónimos da internet, que <b>podem inserir o que quiserem</b>, como um comentário
-		numa rede social. E a imagem foi irreversivelmente desfocada antes de ser publicada como no
-		Google Maps.
+		Antes de submeter uma denúncia, o utilizador pode também inserir os dados pessoais para serem enviados
+		junto com a denúncia para as autoridades. É aconselhável que o faça, para diminuir as probabilidades de a 
+		denúncia ser descartada pela polícia. À semelhança dos metadados, estes dados mais sensíveis são apagados
+		permanentemente mal o email é enviado. Neste caso, o utilizador vai ver o email enviado porque vai em Cc,
+		por isso não deve estranhar se horas depois aparecer um email da caixa de entrada.
 	</P>
 
 	<Heading id="como_participar" tag="h3" class="mb-2">Como Participar?</Heading>
 
 	<P class="mb-3 text-justify">
-		Para participar é muito fácil, basta encontrar um imbecil na rua estacionado de forma abusiva, e
-		submeter uma nova denúncia clicando <A href="/adicionar">aqui</A>. Apenas 1 imbecil por denúncia
-		deve estar visível, e inclua tambem algum do ambiente em redor para perceber se está de facto em
+		Para participar é muito fácil, basta encontrar um carro estacionado de forma ilegal, e
+		submeter uma nova denúncia clicando <A href="/adicionar">aqui</A>. Apenas 1 carro por denúncia
+		deve estar visível, e inclua também algum do ambiente em redor para perceber se está de facto em
 		incumprimento ou não.
 	</P>
 	<P class="mb-3 text-justify">
-		Os imbecis aprovados pelos outros utilizadores aparecem na <A href="/">pagina inicial</A>. Todas
-		as matrículas de imbecis confirmados aparecem
+		As denúncias aprovadas pelos outros utilizadores aparecem na <A href="/">pagina inicial</A>. Todas
+		as matrículas de denúncias confirmadas aparecem
 		<A href="/matriculas">na lista de matrículas</A>. Alternativamente pode pesquisar por uma
 		matrícula <A href="/procurar">nesta página</A>.
 	</P>
 	<P class="mb-3 text-justify">
-		Pode também votar nos potenciais imbecis que foram enviados por outros utilizadores. Apenas
+		Pode também votar nas denúncias que foram enviadas por outros utilizadores. Apenas
 		confirme aqueles que de facto tem a certeza que está em incumprimento e que consegue ler
-		claramente a matrícula. Em todos os outros casos, com mais ou menos dúvida, clicar em "Não Tenho
-		a Certeza".
+		claramente a matrícula. Em todos os outros casos, com mais ou menos dúvida, <b>clicar sempre em "Não Tenho
+		a Certeza"</b>.
 	</P>
 
 	<Heading id="ajudar" tag="h3" class="mb-2">Ajudar</Heading>
 
 	<P class="mb-3 text-justify">
-		Se quiser fazer ainda mais por esta causa para além de enviar e classificar imbecis, pode
+		Se quiser fazer ainda mais por esta causa para além de enviar e votar em denúncias, pode
 		começar por partilhar esta aplicação com os seus amigos e familiares, para que chegue e
 		sensibilize o maior número de pessoas possível. Pode ainda fazer download de um cartaz para
 		imprimir e colocar em zonas que habitualmente sofrem com o estacionamento abusivo, para chegar
@@ -123,7 +116,7 @@
 		<Button href="/imbecis_cartaz.pdf" target="_blank">Descarregar Cartaz</Button>
 	</div>
 	<P class="mb-3 text-justify">
-		Pode tambem fazer download de um panfleto para colocar nos parabrisas de carros estacionados de
+		Pode também fazer download de um panfleto para colocar nos parabrisas de carros estacionados de
 		forma abusiva depois de os adicionar à aplicação.
 	</P>
 
@@ -173,34 +166,52 @@
 		selva, uma república das bananas.
 	</P>
 
-	<Heading id="policia" tag="h3" class="mb-2">A polícia não faz nada</Heading>
+	<Heading id="fiscalizacao" tag="h3" class="mb-2">O problema da fiscalização</Heading>
 
 	<P class="mb-3 text-justify">
-		Esta não é uma ferramenta de denúncia à polícia, pelo menos por enquanto. Para isso existem
-		estas duas aplicações que recomendo: "Aqui Não" e "DenúnciaEstacionamento". No entanto está a
-		ser desenvolvida esta funcionalidade e será lançada no futuro.
+		Com a certeza absoluta de que não estou a generalizar demasiado, a fiscalização rodoviária em Portugal é cronicamente ineficaz.
+		Basta sair à rua em qualquer cidade, pequena, média ou grande para constatar este facto. Esta é uma tentativa 
+		de melhorar a situação, de optimizar e facilitar a fiscalização e penalização dos infractores, e de sensibilizar
+		a população civil em geral, mas não só.
 	</P>
 
 	<P class="mb-3 text-justify">
-		Esta aplicação surge precisamente pela inação e/ou ineficácia da polícia em certos pontos do
-		país. Não acontece em 100% do território, mas em muitas localidades as autoridades fazem vista
-		grossa e ignoram os abusos, perpetuando a impunidade, a falta de respeito e incentivando a
-		continuação do ato ilícito. Em variados casos as denúncias enviadas através dos meios legais são
-		ignoradas, não resultando em nenhuma consequência para o infrator.
+		Existem inúmeros relatos de situações de denúncias que são ativamente ignoradas pelas autoridades, ainda que sejam
+		denunciadas por cidadãos devidamente identificados e com provas fotográficas. A sensação que fica é de que a autoridade
+		que deveria fiscalizar e punir os infractores, geralmente dá o benifício da dúvida e defende o infractor, perpetuando
+		e agravando o problema.
+	</P>
+
+	<P class="mb-3 text-justify">
+		Depois o resultado é o que podemos ver diariamente: carros estacionados em vias e paragens de autocarro, em cima de
+		passeios, passadeiras a bloquear carrinhos de bebé e cadeiras de rodas, a obstruir campos de visão em passadeiras,
+		aumentando o risco de atropelamentos. Em cima de ciclovias, obrigando os utilizadores a correr ainda mais riscos 
+		ao necessitarem de entrar na faixa de rodagem constantemente para se desviarem de todos os obstáculos.
+	</P>
+
+	<P class="mb-3 text-justify">
+		Se uma pessoa estaciona legalmente a 100 metros da farmácia, perde 5 minutos a andar a pé, mas uma outra estaciona
+		ilegalmente à porta, causando embaraço a inúmeras pessoas, e para além de não lhe acontecer nada,
+		ainda é atendido primeiro e despacha-se mais rápido, que estrutura de incentivo é esta? Estamos a premiar comportamentos
+		destes e a penalizar quem cumpre as regras. Isto é inaceitável.
 	</P>
 
 	<P class="mb-7 text-justify">
-		Por isso não resta muito mais do que apontar o dedo nas esperança que alguns destes imbecis se
-		sintam envergonhados e mudem de comportamento. Pessoas com mobilidade reduzida, crianças e todos
-		no geral merecem o respeito que lhes é devido.
+		Com esta aplicação não há desculpa, nunca foi tão fácil e rápido denunciar um carro mal estacionado com todas as provas 
+		necessárias. As autoridades também não têm desculpa para não agir e fazerem o seu trabalho de forma bem mais facilitada.
+		As denúncias enviadas enunciam todos os detalhes necessários, incluindo identificação de testemunhas, localização exata,
+		fotografia e checksum SHA256 que garante a integridade da fotografia. Para além, disso agora passa a ser transparente quais
+		são as cidades e autoridades que de facto decidem agir sobre um problema estrutural, e quais as que decidem fazer vista
+		grossa. As denúncias continuarão a ser publicadas no feed da aplicação e no sub reddit 
+		<A target="_blank" href="https://reddit.com/r/imbecis">r/imbecis</A>.
 	</P>
 
 	<Heading id="remover" tag="h3" class="mb-2">Pedidos de Remoção</Heading>
 
 	<P class="mb-7 text-justify">
-		Se a sua matrícula ou cara está visível e deseja removê-la, envie um email para <A
+		Se a sua matrícula ou face está visível e deseja removê-la, envie um email para <A
 			href="mailto:remover@imbecis.app">remover@imbecis.app</A
-		>. A remoção é feita manualmente e será efetuada tão rápido como possível.
+		>. A remoção é feita manualmente e será efetuada tão rápido quanto possível.
 	</P>
 
 	<Heading id="ler_mais" tag="h3" class="mb-2">Ler mais</Heading>

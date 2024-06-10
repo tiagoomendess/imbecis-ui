@@ -88,7 +88,7 @@
 
 		loading = false;
 
-		if (currentPage === 3) {
+		if (currentPage === 2) {
 			countReportsForReview();
 		}
 	}
@@ -135,15 +135,9 @@
 	<section class="bg-white dark:bg-gray-900">
 		<Heading class="mb-4">Imbecis</Heading>
 
-		<Alert class="mb-4" color="green" dismissable>
+		<Alert class="mb-4" color="orange" dismissable>
 			<InfoCircleSolid slot="icon" class="w-5 h-5" />
-			As denúncias <b>ainda não</b> estão a ser enviadas para as autoridades. Ajuda a mapear as
-			polícias de cada região clicando
-			<a
-				target="_blank"
-				href="https://www.reddit.com/r/menoscarros/comments/1cs3mnb/ajuda_a_mapear_jurisdi%C3%A7%C3%A3o_de_pol%C3%ADcias/"
-				>aqui</a
-			>.
+			Atenção: As denúncias <b>já estão</b> a ser enviadas para as autoridades. Use a aplicação de forma honesta
 		</Alert>
 
 		<FeedFilter bind:municipality />
