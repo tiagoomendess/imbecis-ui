@@ -202,7 +202,7 @@
 		As denúncias enviadas enunciam todos os detalhes necessários, incluindo identificação de testemunhas, localização exata,
 		fotografia e checksum SHA256 que garante a integridade da fotografia. Para além, disso agora passa a ser transparente quais
 		são as cidades e autoridades que de facto decidem agir sobre um problema estrutural, e quais as que decidem fazer vista
-		grossa. As denúncias continuarão a ser publicadas no feed da aplicação e no sub reddit 
+		grossa. As denúncias continuarão a ser publicadas no feed da aplicação e no subreddit 
 		<A target="_blank" href="https://reddit.com/r/imbecis">r/imbecis</A>.
 	</P>
 
