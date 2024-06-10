@@ -8,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import { showNotification } from '$lib/utils/notifications';
 	import Content from '$lib/components/Content.svelte';
+	import type { Coordinates } from '$lib/types';
 	import {
 		Modal,
 		Label,
@@ -26,7 +27,6 @@
 	$: showLocationModal = false as boolean;
 	$: isSubmitting = false as boolean;
 	let sendReporterInfo = true;
-	let coordinatesLastUpdate = null as Date | null;
 	let setupModal = false;
 	let witnessContactModal = false;
 	let imageHash = '';
@@ -45,6 +45,11 @@
 		obs: ''
 	};
 
+	let coordinates = { latitude: 0, longitude: 0 } as Coordinates;
+	location.subscribe((value: Coordinates) => {
+		coordinates = value;
+	});
+
 	const saveSendReporterInfo = () => {
 		localStorage.setItem('sendReporterInfo', sendReporterInfo.toString());
 	};
@@ -56,16 +61,8 @@
 		sendReporterInfo = localStorage.getItem('sendReporterInfo') === 'true';
 	});
 
-	const shouldAskForGeolocation = () => {
-		if (!coordinatesLastUpdate) {
-			return true;
-		}
-
-		const now = new Date();
-		const diff = now.getTime() - coordinatesLastUpdate.getTime();
-		const seconds = diff / 1000;
-
-		return seconds > 20;
+	const shouldAskForGeolocation = (): boolean => {
+		return coordinates.latitude === 0 || coordinates.longitude === 0;
 	};
 
 	const handlePictureTaken = (event: CustomEvent<Blob>) => {
@@ -73,11 +70,13 @@
 		generateImageHash().then((hash) => {
 			imageHash = hash;
 		});
+		askForGeolocation();
 	};
 
 	const clearImage = () => {
 		image = null;
 		imageHash = '';
+		location.set({ latitude: 0, longitude: 0 });
 	};
 
 	const locationOptions = {
@@ -88,18 +87,18 @@
 
 	const startSubmitting = async () => {
 		isLoading.set(true);
-		loadingMessage.set('A desfocar caras...');
 
 		if (shouldAskForGeolocation()) {
 			askForGeolocation();
 		} else {
-			console.log('Already have recent coordinates, submitting...');
+			console.log('Already coordinates, submitting...');
 			loadingMessage.set('Localização recente já em memória');
 			submit();
 		}
 	};
 
 	const askForGeolocation = async () => {
+		showLocationModal = true;
 		loadingMessage.set('A obter localização');
 		navigator.geolocation.getCurrentPosition(geoSuccess, getError, locationOptions);
 	};
@@ -110,14 +109,14 @@
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude
 		});
-		coordinatesLastUpdate = new Date();
-
-		submit();
+		showLocationModal = false;
 	};
 
 	const getError = async (error: GeolocationPositionError) => {
-		loadingMessage.set('Erro a obter localização');
-		await new Promise((r) => setTimeout(r, 2000));
+		showNotification('Erro ao obter localização', 'error');
+		loadingMessage.set('Erro a obter localização GPS');
+		location.set({ latitude: 0, longitude: 0 });
+		await new Promise((r) => setTimeout(r, 1000));
 		showLocationModal = true;
 		isLoading.set(false);
 		console.log(`Could not get geo location: ${error.code}, ${error.message}`);
@@ -161,7 +160,7 @@
 			showNotification('Denúncia enviada com sucesso', 'success');
 			clearImage();
 		} else {
-                        alert(uploadResponse.message);
+			alert(uploadResponse.message);
 			showNotification(`Erro. ${uploadResponse.message}`, 'error');
 			clearImage();
 		}
@@ -282,18 +281,17 @@
 							</Alert>
 						</div>
 					{:else}
-					<div class="w-full mt-4 mb-4">
-						<Label for="textarea-id" class="mb-2">Observações: (opcional)</Label
-						>
-						<Textarea
-							maxlength="255"
-							bind:value={reporterInfo.obs}
-							id="textarea-id"
-							placeholder="Outras informações relevantes para as autoridades"
-							rows="2"
-							name="reporterObs"
-						/>
-					</div>
+						<div class="w-full mt-4 mb-4">
+							<Label for="textarea-id" class="mb-2">Observações: (opcional)</Label>
+							<Textarea
+								maxlength="255"
+								bind:value={reporterInfo.obs}
+								id="textarea-id"
+								placeholder="Outras informações relevantes para as autoridades"
+								rows="2"
+								name="reporterObs"
+							/>
+						</div>
 					{/if}
 					<div class="">
 						<Toggle bind:checked={sendReporterInfo}>Enviar identificação às autoridades?</Toggle>
@@ -348,7 +346,7 @@
 		<P class="text-center mb-4"
 			>Precisa de permitir a localização para poder enviar imbecis. A localização apenas é utilizada
 			no momento do envio da fotografia e não é constantemente consumida ou guardada. Por favor
-			permisa o uso da localização e volte a tentar novamente</P
+			permita o uso da localização para enviar a denúncia.</P
 		>
 
 		<div class="flex justify-center">
