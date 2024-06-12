@@ -29,6 +29,7 @@
 	let sendReporterInfo = true;
 	let setupModal = false;
 	let witnessContactModal = false;
+	let canSend = false;
 	let imageHash = '';
 	const idTypes = [
 		{ value: 'cc', name: 'Cartão de Cidadão' },
@@ -98,7 +99,6 @@
 	};
 
 	const askForGeolocation = async () => {
-		showLocationModal = true;
 		loadingMessage.set('A obter localização');
 		navigator.geolocation.getCurrentPosition(geoSuccess, getError, locationOptions);
 	};
@@ -110,19 +110,25 @@
 			longitude: position.coords.longitude
 		});
 		showLocationModal = false;
+		canSend = true;
 	};
 
 	const getError = async (error: GeolocationPositionError) => {
 		showNotification('Erro ao obter localização', 'error');
 		loadingMessage.set('Erro a obter localização GPS');
 		location.set({ latitude: 0, longitude: 0 });
-		await new Promise((r) => setTimeout(r, 1000));
+		canSend = false;
 		showLocationModal = true;
 		isLoading.set(false);
 		console.log(`Could not get geo location: ${error.code}, ${error.message}`);
 	};
 
 	const submit = async () => {
+		if (!canSend) {
+			showNotification('Não pode enviar sem localização GPS', 'error');
+			return
+		}
+
 		console.log('A iniciar processo de submissão de imagem...');
 		loadingMessage.set('A criar denúnica');
 		isSubmitting = true;
@@ -153,6 +159,8 @@
 			return;
 		}
 
+		// Now the report is created, reset canSend to false
+		canSend = false;
 		reporterInfo.obs = '';
 		loadingMessage.set('A enviar fotografia');
 		const uploadResponse = await uploadPicture(newReportRes.reportId, image);
@@ -310,6 +318,8 @@
 								type="button"
 								color="green"
 								class="w-full text-lg"
+								loading={isSubmitting}
+								disabled={!canSend || isSubmitting}
 							>
 								Enviar <ArrowRightToBracketOutline class="w-3.5 h-3.5 ms-2" />
 							</Button>
