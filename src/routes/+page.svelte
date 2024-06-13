@@ -135,11 +135,6 @@
 	<section class="bg-white dark:bg-gray-900">
 		<Heading class="mb-4">Imbecis</Heading>
 
-		<Alert class="mb-4" color="orange" dismissable>
-			<InfoCircleSolid slot="icon" class="w-5 h-5" />
-			Atenção: As denúncias <b>já estão</b> a ser enviadas para as autoridades. Use a aplicação de forma honesta
-		</Alert>
-
 		<FeedFilter bind:municipality />
 
 		{#if data.reports.length > 0}
