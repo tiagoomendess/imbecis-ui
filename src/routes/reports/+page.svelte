@@ -124,6 +124,7 @@
 		}
 
 		url.searchParams.set('sortOrder', data.filters.sortOrder);
+		url.searchParams.set('page', '1');
 		await goto(url, { replaceState: true });
 	};
 
