@@ -38,10 +38,15 @@
 		outros utilizadores, também não autenticados, votam se acham se é verdade ou não. É utilizado o 
 		adjetivo "Imbecil" como forma de "gamificação" da plataforma e incentivar a participação na votação.
 	</P>
-	<P class="mb-7 text-justify">
+	<P class="mb-3 text-justify">
 		Quando uma denúncia é confirmada por vários utilizadores, <b>é enviado um email às autoridades</b> responsáveis
 		pela fiscalização rodoviária da área onde o veículo foi denunciado, e adicionado ao feed e histórico para
 		a posteridade.
+	</P>
+	<P class="mb-7 text-justify">
+		Acompanhe este projeto no subreddit <A target="_blank" href="https://reddit.com/r/imbecis">r/imbecis</A>.
+		Mantenha-se atualizado com as novidades e atualizações da aplicação, participe também na discussão reportando
+		erros, sugerindo alterações e novas funcionalidades.
 	</P>
 
 	<Heading tag="h3" class="mb-2">Índice</Heading>
@@ -74,7 +79,7 @@
 		sem metadados. Só mantemos os metadados enquanto eles são estritamente necessários.
 	</P>
 
-	<P class="mb-7 text-justify">
+	<P class="mb-3 text-justify">
 		Antes de submeter uma denúncia, o utilizador pode também inserir os dados pessoais para serem enviados
 		junto com a denúncia para as autoridades. É aconselhável que o faça, para diminuir as probabilidades de a 
 		denúncia ser descartada pela polícia. À semelhança dos metadados, estes dados mais sensíveis são apagados
@@ -212,12 +217,13 @@
 		Se a sua matrícula ou face está visível e deseja removê-la, envie um email para <A
 			href="mailto:remover@imbecis.app">remover@imbecis.app</A
 		>. A remoção é feita manualmente e será efetuada tão rápido quanto possível.
+		Para todos os outros assuntos, deve enviar um email para <A href="mailto:geral@imbecis.app">geral@imbecis.app</A>.
 	</P>
 
 	<Heading id="ler_mais" tag="h3" class="mb-2">Ler mais</Heading>
 
 	<P class="mb-5 text-justify">
-		Lê mais e educa-te sobre mobilidade, planeamento urbanístico e liberta-te da mentalidade
+		Lê mais e eduque-se sobre mobilidade, planeamento urbanístico e liberta-te da mentalidade
 		carro-cêntrica em
 		<A href="https://www.reddit.com/r/menoscarros/" target="_blank">r/menoscarros</A>,
 		<A href="https://www.strongtowns.org/" target="_blank">strongtowns.org</A>
@@ -234,4 +240,12 @@
 		referrerpolicy="strict-origin-when-cross-origin"
 		allowfullscreen
 	></iframe>
+
+	<P class="mb-3 text-justify">
+		Continue a ler sobre este tema, ainda dentro desta app, clicando no botão abaixo.
+	</P>
+
+	<div class="flex justify-center">
+		<Button href="/sobre/mais">Ler mais</Button>
+	</div>
 </Content>

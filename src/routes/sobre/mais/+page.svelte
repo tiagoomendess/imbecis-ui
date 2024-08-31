@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { P, Heading, Img, A } from 'flowbite-svelte';
+	import { P, Heading, Img, A, Button } from 'flowbite-svelte';
 	import Content from '$lib/components/Content.svelte';
 
 	const videoLinks = [
@@ -13,6 +13,7 @@
 		'https://www.youtube.com/embed/ORzNZUeUHAM?si=DkDEubHPyG_t-UuE',
 		'https://www.youtube.com/embed/OZ1HhLq-Huo?si=U8DlevO-gmrEjLz4',
 		'https://www.youtube.com/embed/2z7o3sRxA5g?si=NMu_89yycJpiC0X7',
+		'https://www.youtube.com/embed/-_4GZnGl55c?si=vYgzVs4o3IflmCYf',
 		'https://www.youtube.com/embed/bQld7iJJSyk?si=hhQyGribY4JLYLqC',
 		'https://www.youtube.com/embed/CHZwOAIect4?si=36k6vbGMVxOcAQ_T',
 		'https://www.youtube.com/embed/uwJeOQVxVZY?si=C9Hy8pX7rLNfelG2',
@@ -24,6 +25,26 @@
 		'https://www.youtube.com/embed/bAxRYrpbnuA?si=pD-kB1ohx7QkA5zY',
 		'https://www.youtube.com/embed/Rs7jHvh7v-4?si=AqFGP4lukf_UTtUq'
 	];
+
+	let currentVideoIndex = Math.floor(Math.random() * videoLinks.length);
+	$: currentVideoLink = videoLinks[currentVideoIndex];
+
+	const nextVideo = () => {
+		if (currentVideoIndex === videoLinks.length - 1) {
+			currentVideoIndex = 0;
+		} else {
+			currentVideoIndex++;
+		}
+	};
+
+	const previousVideo = () => {
+		if (currentVideoIndex === 0) {
+			currentVideoIndex = videoLinks.length - 1;
+		} else {
+			currentVideoIndex--;
+		}
+	}
+
 </script>
 
 <Content>
@@ -105,14 +126,23 @@
 			estão disponíveis)</P
 		>
 		<iframe
-			class="mb-5 w-full aspect-[16/9] rounded-lg"
-			src={videoLinks[Math.floor(Math.random() * videoLinks.length)]}
+			class="mb-2 w-full aspect-[16/9] rounded-lg"
+			src={currentVideoLink}
 			title="YouTube video player"
 			frameborder="0"
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 			referrerpolicy="strict-origin-when-cross-origin"
 			allowfullscreen={true}
 		></iframe>
+		<div class="mb-5">
+			<P class="mb-2 text-xs text-center text-gray-500">
+				Este vídeo foi escolhido aleatoriamente de uma lista, clique nos botões abaixo para navegar pela lista inteira.
+			</P>
+			<div class="flex justify-center text-center">
+				<Button on:click={previousVideo} color="alternative">Anterior</Button>
+				<Button on:click={nextVideo} class="ml-2" color="alternative">Próximo</Button>
+			</div>
+		</div>
 		<P class="mb-3 text-justify">
 			Se você é o dono deste veículo, coloque a mão na consciência e pense no impacto negativo que
 			está a ter na vida dos outros com os seus comportamentos egoístas.

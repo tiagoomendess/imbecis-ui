@@ -89,7 +89,19 @@
 		loading = false;
 
 		if (currentPage === 2) {
+			showNotification('Atenção, todas as denúncias são enviadas às autoridades, utilize com responsabilidade', 'warning');
+		}
+
+		if (currentPage === 3) {
 			countReportsForReview();
+		}
+
+		if (currentPage === 4) {
+			showNotification('Visite o subreddit r/imbecis');
+		}
+
+		if (currentPage === 5) {
+			showNotification('Leia a página "Sobre" para saber mais sobre o projeto');
 		}
 	}
 
@@ -114,7 +126,7 @@
 	const countReportsForReview = async () => {
 		const count = await countAvailableReportsForReview();
 
-		if (count >= 3) {
+		if (count >= 2) {
 			showNotification(`Existem ${count} possíveis imbecis à espera na página de votar.`);
 		}
 	};
