@@ -125,8 +125,17 @@
 		forma abusiva depois de os adicionar à aplicação.
 	</P>
 
-	<div class="flex justify-center mb-7">
+	<div class="flex justify-center mb-3">
 		<Button href="/imbecis_registado.pdf" target="_blank">Descarregar Panfleto</Button>
+	</div>
+	<P class="mb-3 text-justify">
+		Tem também a possibilidade de descarregar este cartão. É um PDF com 9 páginas, ao imprimir
+		deve-se escolher 9 folhas por página, e o resultado é uma folha A4 cheia de pequenos cartões
+		do tamanho de um cartão de Multibanco, para distribuir.
+	</P>
+
+	<div class="flex justify-center mb-7">
+		<Button href="/imbecis_card.pdf" target="_blank">Descarregar Cartões</Button>
 	</div>
 
 	<Heading id="motivacao" tag="h3" class="mb-2">Motivação</Heading>
