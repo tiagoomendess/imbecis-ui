@@ -23,7 +23,8 @@
 		'https://www.youtube.com/embed/RYsqWIGyRVk?si=luuC8MuCeQy5oIul',
 		'https://www.youtube.com/embed/6QjKWciU74o?si=r0CyFjnzZ9FluzIR',
 		'https://www.youtube.com/embed/bAxRYrpbnuA?si=pD-kB1ohx7QkA5zY',
-		'https://www.youtube.com/embed/Rs7jHvh7v-4?si=AqFGP4lukf_UTtUq'
+		'https://www.youtube.com/embed/Rs7jHvh7v-4?si=AqFGP4lukf_UTtUq',
+		'https://www.youtube.com/embed/ArnsSzcD3GI?si=1_PHTUa2qcbDHYal',
 	];
 
 	let currentVideoIndex = Math.floor(Math.random() * videoLinks.length);
