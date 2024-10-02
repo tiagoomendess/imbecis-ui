@@ -25,6 +25,7 @@
 		'https://www.youtube.com/embed/bAxRYrpbnuA?si=pD-kB1ohx7QkA5zY',
 		'https://www.youtube.com/embed/Rs7jHvh7v-4?si=AqFGP4lukf_UTtUq',
 		'https://www.youtube.com/embed/ArnsSzcD3GI?si=1_PHTUa2qcbDHYal',
+		'https://www.youtube.com/embed/Mi_R9vVwPNI?si=7-Pm4pVFKZqJ_LOu',
 	];
 
 	let currentVideoIndex = Math.floor(Math.random() * videoLinks.length);
