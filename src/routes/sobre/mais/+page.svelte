@@ -120,6 +120,7 @@
 			<A href="https://www.youtube.com/@strongtowns" target="_blank">@strongtowns</A>,
 			<A href="https://www.youtube.com/@NotJustBikes" target="_blank">@NotJustBikes</A>,
 			<A href="https://www.youtube.com/@AdamSomething" target="_blank">@AdamSomething</A>,
+			<A href="https://www.youtube.com/@Streetcraft" target="_blank">@Streetcraft</A>,
 			<A href="https://www.youtube.com/@CityBeautiful" target="_blank">@CityBeautiful</A> e
 			<A href="https://www.youtube.com/@ClimateTown" target="_blank">@ClimateTown</A>.
 		</P>
