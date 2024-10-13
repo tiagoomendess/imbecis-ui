@@ -1,17 +1,24 @@
 <script lang="ts">
-	import { BottomNav, BottomNavItem } from 'flowbite-svelte';
+	import { BottomNav, BottomNavItem, Tooltip } from 'flowbite-svelte';
 	import {
 		HomeSolid,
 		SearchOutline,
 		InfoCircleSolid,
 		CirclePlusOutline,
-		InboxOutline
+		InboxOutline,
+		WalletSolid,
+		PlusOutline
 	} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	$: activeUrl = $page.url.pathname;
-</script>	
+</script>
 
-<BottomNav {activeUrl} position="fixed" classInner="grid-cols-5" outerClass="z-40 w-full">
+<BottomNav
+	{activeUrl}
+	position="fixed"
+	classInner="grid-cols-5"
+	outerClass="z-50 w-full"
+>
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />
 	</BottomNavItem>
