@@ -15,8 +15,8 @@
 
 	// Reactive variables for heatmap settings
 	let radius = 10;
-	let blur = 15;
-	let maxZoom = 15;
+	let blur = 16;
+	let maxZoom = 17;
 
 	let currentMapZoom = 7;
 
@@ -40,8 +40,9 @@
 			blur,
 			maxZoom,
 			gradient: {
-				0.4: 'blue',
-				0.5: 'cyan',
+				0.3: 'blue',
+				0.4: 'cyan',
+                0.5: 'green',
 				0.6: 'lime',
 				0.7: 'yellow',
 				0.8: 'orange',
@@ -94,7 +95,7 @@
 <!-- Settings form -->
 <div class="controls">
 	<form>
-		<Label>Zoom {maxZoom}</Label>
+		<Label>Max Zoom {maxZoom}</Label>
 		<Range id="range-steps" min="5" max="40" bind:value={maxZoom} step="1" />
 
 		<Label>Blur {blur}</Label>
