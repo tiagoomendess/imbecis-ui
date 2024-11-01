@@ -5,8 +5,8 @@
 	import { onMount, onDestroy } from 'svelte';
 	import type { HeatCoordinate } from '../types';
 
-    import { Label } from 'flowbite-svelte';
-    import { Range } from 'flowbite-svelte';
+	import { Label } from 'flowbite-svelte';
+	import { Range } from 'flowbite-svelte';
 
 	export let coordinates: HeatCoordinate[];
 
@@ -14,15 +14,17 @@
 	let heatLayer: L.HeatLayer;
 
 	// Reactive variables for heatmap settings
-	let radius = 25;
+	let radius = 20;
 	let blur = 15;
-	let maxZoom = 20;
+	let maxZoom = 17;
+
+	let currentMapZoom = 7;
 
 	onMount(() => {
 		// Initialize the map with restricted zoom levels
 		map = L.map('map', {
 			center: [39.8284, -9.175],
-			zoom: 7,
+			zoom: currentMapZoom,
 			minZoom: 7,
 			maxZoom: 16
 		});
@@ -46,6 +48,12 @@
 				0.9: 'red'
 			}
 		}).addTo(map);
+
+		// Add zoomend event listener
+		map.on('zoomend', () => {
+			const currentZoom = map.getZoom();
+			adjustHeatmapOptions(currentZoom);
+		});
 	});
 
 	// Update heat layer data whenever coordinates change
@@ -67,6 +75,17 @@
 	onDestroy(() => {
 		if (map) map.remove();
 	});
+
+	const adjustHeatmapOptions = (zoom: number) => {
+		let newRadius = (radius * 100) / zoom;
+		let newBlur = (blur * 100) / zoom;
+		let newMaxZoom = (maxZoom * 100) / zoom;
+
+		// Update heat layer with new options
+		if (heatLayer) {
+			heatLayer.setOptions({ newRadius, newBlur, newMaxZoom });
+		}
+	};
 </script>
 
 <!-- Map container -->
@@ -78,10 +97,10 @@
 		<Label>Zoom {maxZoom}</Label>
 		<Range id="range-steps" min="10" max="30" bind:value={maxZoom} step="1" />
 
-        <Label>Blur {blur}</Label>
+		<Label>Blur {blur}</Label>
 		<Range id="range-steps" min="5" max="25" bind:value={blur} step="1" />
 
-        <Label>Radius {radius}</Label>
+		<Label>Radius {radius}</Label>
 		<Range id="range-steps" min="15" max="35" bind:value={radius} step="1" />
 	</form>
 </div>
@@ -99,6 +118,6 @@
 		z-index: 3;
 		background-color: rgba(255, 255, 255, 0.7);
 		border-radius: 10px;
-        padding: 15px;
+		padding: 15px;
 	}
 </style>
