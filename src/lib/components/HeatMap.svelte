@@ -95,13 +95,13 @@
 <div class="controls">
 	<form>
 		<Label>Zoom {maxZoom}</Label>
-		<Range id="range-steps" min="10" max="30" bind:value={maxZoom} step="1" />
+		<Range id="range-steps" min="1" max="40" bind:value={maxZoom} step="1" />
 
 		<Label>Blur {blur}</Label>
-		<Range id="range-steps" min="5" max="25" bind:value={blur} step="1" />
+		<Range id="range-steps" min="1" max="40" bind:value={blur} step="1" />
 
 		<Label>Radius {radius}</Label>
-		<Range id="range-steps" min="15" max="35" bind:value={radius} step="1" />
+		<Range id="range-steps" min="1" max="40" bind:value={radius} step="1" />
 	</form>
 </div>
 
