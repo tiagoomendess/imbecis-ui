@@ -59,7 +59,7 @@
 	// Update heat layer data whenever coordinates change
 	$: if (heatLayer && coordinates.length) {
 		heatLayer.setLatLngs(
-			coordinates.map(({ latitude, longitude, intensity = 0.6 }) => [
+			coordinates.map(({ latitude, longitude, intensity = 1 }) => [
 				latitude,
 				longitude,
 				intensity
@@ -95,13 +95,13 @@
 <div class="controls">
 	<form>
 		<Label>Zoom {maxZoom}</Label>
-		<Range id="range-steps" min="1" max="40" bind:value={maxZoom} step="1" />
+		<Range id="range-steps" min="5" max="40" bind:value={maxZoom} step="1" />
 
 		<Label>Blur {blur}</Label>
-		<Range id="range-steps" min="1" max="40" bind:value={blur} step="1" />
+		<Range id="range-steps" min="5" max="40" bind:value={blur} step="1" />
 
 		<Label>Radius {radius}</Label>
-		<Range id="range-steps" min="1" max="40" bind:value={radius} step="1" />
+		<Range id="range-steps" min="5" max="40" bind:value={radius} step="1" />
 	</form>
 </div>
 
