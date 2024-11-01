@@ -40,9 +40,8 @@
 			blur,
 			maxZoom,
 			gradient: {
-				0.3: 'blue',
-				0.4: 'cyan',
-                0.5: 'green',
+				0.4: 'blue',
+				0.5: 'cyan',
 				0.6: 'lime',
 				0.7: 'yellow',
 				0.8: 'orange',
