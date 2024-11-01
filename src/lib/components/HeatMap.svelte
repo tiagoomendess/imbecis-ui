@@ -1,0 +1,104 @@
+<script lang="ts">
+	import 'leaflet/dist/leaflet.css';
+	import L from 'leaflet';
+	import 'leaflet.heat';
+	import { onMount, onDestroy } from 'svelte';
+	import type { HeatCoordinate } from '../types';
+
+    import { Label } from 'flowbite-svelte';
+    import { Range } from 'flowbite-svelte';
+
+	export let coordinates: HeatCoordinate[];
+
+	let map: L.Map;
+	let heatLayer: L.HeatLayer;
+
+	// Reactive variables for heatmap settings
+	let radius = 25;
+	let blur = 15;
+	let maxZoom = 20;
+
+	onMount(() => {
+		// Initialize the map with restricted zoom levels
+		map = L.map('map', {
+			center: [39.8284, -9.175],
+			zoom: 7,
+			minZoom: 7,
+			maxZoom: 16
+		});
+
+		// Set up the base tile layer
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; OpenStreetMap contributors'
+		}).addTo(map);
+
+		// Initialize heat layer with initial settings
+		heatLayer = L.heatLayer([], {
+			radius,
+			blur,
+			maxZoom,
+			gradient: {
+				0.4: 'blue',
+				0.5: 'cyan',
+				0.6: 'lime',
+				0.7: 'yellow',
+				0.8: 'orange',
+				0.9: 'red'
+			}
+		}).addTo(map);
+	});
+
+	// Update heat layer data whenever coordinates change
+	$: if (heatLayer && coordinates.length) {
+		heatLayer.setLatLngs(
+			coordinates.map(({ latitude, longitude, intensity = 0.5 }) => [
+				latitude,
+				longitude,
+				intensity
+			])
+		);
+	}
+
+	// Update heat layer settings when radius, blur, or maxZoom change
+	$: if (heatLayer) {
+		heatLayer.setOptions({ radius, blur, maxZoom });
+	}
+
+	onDestroy(() => {
+		if (map) map.remove();
+	});
+</script>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Settings form -->
+<div class="controls">
+	<form>
+		<Label>Zoom {maxZoom}</Label>
+		<Range id="range-steps" min="10" max="30" bind:value={maxZoom} step="1" />
+
+        <Label>Blur {blur}</Label>
+		<Range id="range-steps" min="5" max="25" bind:value={blur} step="1" />
+
+        <Label>Radius {radius}</Label>
+		<Range id="range-steps" min="15" max="35" bind:value={radius} step="1" />
+	</form>
+</div>
+
+<style>
+	#map {
+		height: 100vh;
+		width: 100%;
+		z-index: 1;
+	}
+	.controls {
+		position: absolute;
+		top: 10px;
+		left: 55px;
+		z-index: 3;
+		background-color: rgba(255, 255, 255, 0.7);
+		border-radius: 10px;
+        padding: 15px;
+	}
+</style>

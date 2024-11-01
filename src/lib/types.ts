@@ -98,3 +98,9 @@ export interface ReporterInfo {
     email: string;
     obs: string;
 }
+
+export interface HeatCoordinate {
+    latitude: number;
+    longitude: number;
+    intensity?: number;
+  }
