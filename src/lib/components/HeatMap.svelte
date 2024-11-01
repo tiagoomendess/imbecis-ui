@@ -14,9 +14,9 @@
 	let heatLayer: L.HeatLayer;
 
 	// Reactive variables for heatmap settings
-	let radius = 20;
+	let radius = 10;
 	let blur = 15;
-	let maxZoom = 17;
+	let maxZoom = 15;
 
 	let currentMapZoom = 7;
 
@@ -59,7 +59,7 @@
 	// Update heat layer data whenever coordinates change
 	$: if (heatLayer && coordinates.length) {
 		heatLayer.setLatLngs(
-			coordinates.map(({ latitude, longitude, intensity = 0.5 }) => [
+			coordinates.map(({ latitude, longitude, intensity = 0.6 }) => [
 				latitude,
 				longitude,
 				intensity
