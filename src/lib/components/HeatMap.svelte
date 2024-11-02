@@ -14,7 +14,7 @@
 	let heatLayer: L.HeatLayer;
 
 	// Reactive variables for heatmap settings
-	let radius = 10;
+	let radius = 12;
 	let blur = 16;
 	let maxZoom = 17;
 
