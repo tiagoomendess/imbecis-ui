@@ -77,9 +77,9 @@
 	});
 
 	const adjustHeatmapOptions = (zoom: number) => {
-		let newRadius = (radius * 100) / zoom;
-		let newBlur = (blur * 100) / zoom;
-		let newMaxZoom = (maxZoom * 100) / zoom;
+		let newRadius = (radius * 100);
+		let newBlur = (blur * 100);
+		let newMaxZoom = (maxZoom * 100);
 
 		// Update heat layer with new options
 		if (heatLayer) {
