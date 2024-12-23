@@ -14,9 +14,9 @@
 	let heatLayer: L.HeatLayer;
 
 	// Reactive variables for heatmap settings
-	let radius = 12;
-	let blur = 16;
-	let maxZoom = 17;
+	let radius = 10;
+	let blur = 15;
+	let maxZoom = 15;
 
 	let currentMapZoom = 7;
 
@@ -26,7 +26,7 @@
 			center: [39.8284, -9.175],
 			zoom: currentMapZoom,
 			minZoom: 7,
-			maxZoom: 16
+			maxZoom: 17
 		});
 
 		// Set up the base tile layer

@@ -88,10 +88,6 @@
 
 		loading = false;
 
-		if (currentPage === 2) {
-			showNotification('Atenção, todas as denúncias são enviadas às autoridades, utilize com responsabilidade', 'warning');
-		}
-
 		if (currentPage === 3) {
 			countReportsForReview();
 		}
