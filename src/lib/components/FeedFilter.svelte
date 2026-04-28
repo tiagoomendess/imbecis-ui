@@ -67,7 +67,7 @@
 	</div>
 </div>
 
-<Modal title="Filtrar Imbecis" bind:open={filterModal} autoclose outsideclose class="h-full">
+<Modal title="Filtrar Imbecis" bind:open={filterModal} outsideclose>
 	<div class="flex-row justify-center">
 		<small>Município:</small>
 		<input
@@ -80,7 +80,7 @@
 			<ul class="list-group">
 				{#each filteredMunicipalities as m}
 					<li class="list-item no-padding-important">
-						<button on:click={() => selectMunicipality(m, event)} class="full-width-button">
+						<button onclick={(e) => selectMunicipality(m, e)} class="full-width-button">
 							{m}
 						</button>
 					</li>
@@ -88,10 +88,10 @@
 			</ul>
 		{/if}
 	</div>
-	<svelte:fragment slot="footer">
+	{#snippet footer()}
 		<Button disabled={!canFilter} onclick={handleFilterClicked}>Filtrar</Button>
 		<Button onclick={handleFilterReset} color="alternative">Limpar</Button>
-	</svelte:fragment>
+	{/snippet}
 </Modal>
 
 <style>
