@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Plate from '$lib/components/Plate.svelte';
-    import { MapLocationOutline, CalendarMonthOutline } from 'flowbite-svelte-icons';
+    import { MapPinOutline, CalendarMonthOutline } from 'flowbite-svelte-icons';
 
 	export let picture = 'https://via.placeholder.com/900';
 	export let plateNumber: string | null = null;
@@ -32,7 +32,7 @@
 		
         <div class="stick-top text-sm">
             <div class="flex items-center">
-                <MapLocationOutline on:click={mapIconClicked}/>
+                <MapPinOutline on:click={mapIconClicked}/>
                 <span class="ml-1">{ municipality }</span>
             </div>
             <div class="flex items-center">

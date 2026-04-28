@@ -10,7 +10,7 @@
 	import { showNotification } from '../utils/notifications';
 	import { type NotificationRegion } from '$lib/regionsApi';
 	import { Card, Button, Input, Label, Select, Heading } from 'flowbite-svelte';
-	import { TrashBinSolid, MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
+	import { TrashBinSolid, CircleMinusSolid, CirclePlusSolid } from 'flowbite-svelte-icons';
 	import XNotificationRecipient from './XNotificationRecipient.svelte';
 	import { type NotificationRecipient } from '$lib/types';
 
@@ -315,7 +315,7 @@
 								color="alternative"
 								on:click={() => deleteNotificationFromRecipient(recipient)}
 							>
-								<MinusSolid class="w-6 h-6" />
+								<CircleMinusSolid class="w-6 h-6" />
 							</Button>
 						</div>
 					{/each}
@@ -325,7 +325,7 @@
 						<small>Adiciona Notificações</small>
 					</div>
 					<Button class="!p-2 right mt-1" color="alternative" on:click={() => handlePlusClicked()}>
-						<PlusSolid class="w-6 h-6" />
+						<CirclePlusSolid class="w-6 h-6" />
 					</Button>
 				</div>
 			</div>

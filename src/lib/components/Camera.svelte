@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	import { CameraFotoOutline } from 'flowbite-svelte-icons';
+	import { CameraPhotoOutline } from 'flowbite-svelte-icons';
 	import { Alert, Button } from 'flowbite-svelte';
 	import { showNotification } from '../utils/notifications';
 
@@ -214,7 +214,7 @@
 
 	<div class="flex justify-center items-center mt-3 mb-10">
 		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full"
-			>&nbsp;<CameraFotoOutline />&nbsp;</Button
+			>&nbsp;<CameraPhotoOutline />&nbsp;</Button
 		>
 	</div>
 
