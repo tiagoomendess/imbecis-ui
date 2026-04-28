@@ -213,7 +213,7 @@
 	</video>
 
 	<div class="flex justify-center items-center mt-3 mb-10">
-		<Button on:click={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full"
+		<Button onclick={takePicture} color="dark" size="xl" class="hover:bg-gray-600 w-full"
 			>&nbsp;<CameraPhotoOutline />&nbsp;</Button
 		>
 	</div>

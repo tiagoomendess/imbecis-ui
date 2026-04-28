@@ -274,7 +274,7 @@
 					<Button
 						class="!p-2 mt-6 right"
 						color="red"
-						on:click={() => handleDeleteClicked(regionOnFocus)}
+						onclick={() => handleDeleteClicked(regionOnFocus)}
 						><TrashBinSolid class="w-6 h-6" /></Button
 					>
 				</div>
@@ -313,7 +313,7 @@
 							<Button
 								class="!p-2 mt-3"
 								color="alternative"
-								on:click={() => deleteNotificationFromRecipient(recipient)}
+								onclick={() => deleteNotificationFromRecipient(recipient)}
 							>
 								<CircleMinusSolid class="w-6 h-6" />
 							</Button>
@@ -324,14 +324,14 @@
 					<div class="w-full text-center">
 						<small>Adiciona Notificações</small>
 					</div>
-					<Button class="!p-2 right mt-1" color="alternative" on:click={() => handlePlusClicked()}>
+					<Button class="!p-2 right mt-1" color="alternative" onclick={() => handlePlusClicked()}>
 						<CirclePlusSolid class="w-6 h-6" />
 					</Button>
 				</div>
 			</div>
 			<div class="grid md:grid-cols-2">
-				<Button color="alternative" on:click={() => removeOnFocus()}>Cancelar</Button>
-				<Button color="green" class="ml-2" on:click={() => handleSaveClicked(regionOnFocus)}
+			<Button color="alternative" onclick={() => removeOnFocus()}>Cancelar</Button>
+			<Button color="green" class="ml-2" onclick={() => handleSaveClicked(regionOnFocus)}
 					>Guardar</Button
 				>
 			</div>
@@ -342,7 +342,7 @@
 		<Button
 			color={region.id == regionOnFocus?.id ? 'dark' : 'light'}
 			class="w-full mb-1"
-			on:click={() => setOnFocus(region.id)}>{region.name}</Button
+			onclick={() => setOnFocus(region.id)}>{region.name}</Button
 		>
 	{/each}
 </div>

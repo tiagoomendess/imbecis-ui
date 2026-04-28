@@ -99,7 +99,7 @@
 			</div>
 			<div class="w-2/12">
 				<Button
-					on:click={searchClicked}
+					onclick={searchClicked}
 					disabled={!canSearch}
 					class="w-full text-center mt-7 center text-lg"
 					size="md"

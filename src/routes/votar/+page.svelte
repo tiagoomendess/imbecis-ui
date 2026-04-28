@@ -191,7 +191,7 @@
 					<Label for="plate_input" class="block mb-2 text-center">Matrícula</Label>
 					<Input
 						bind:value={plateNumber}
-						on:keydown={handleKeyDown}
+						onkeydown={handleKeyDown}
 						class="text-center uppercase text-lg"
 						id="plate_input"
 						placeholder="AA 00 AA"
@@ -203,11 +203,11 @@
 			<div class="flex">
 				<!-- Vote Butons -->
 				<div class="w-8/12 mr-1">
-					<Button on:click={notSureClicked} class="w-full" color="green">Não Tenho a Certeza</Button
+					<Button onclick={notSureClicked} class="w-full" color="green">Não Tenho a Certeza</Button
 					>
 				</div>
 				<div class="w-4/12">
-					<Button on:click={imbecileClicked} disabled={!canAdvance} class="w-full" color="red"
+					<Button onclick={imbecileClicked} disabled={!canAdvance} class="w-full" color="red"
 						>É Imbecil</Button
 					>
 				</div>
@@ -261,7 +261,7 @@
 			Seja honesto e contribua, não tem mal se errar involuntáriamente, apenas as denuncias que reúnam consenso
 			serão enviadas para as autoridades.
 		</p>
-		<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandTutorialClicked()}
+		<Button class="mt-8 w-full" color="green" onclick={() => handleUnderstandTutorialClicked()}
 			>Entendi</Button
 		>
 	</Modal>

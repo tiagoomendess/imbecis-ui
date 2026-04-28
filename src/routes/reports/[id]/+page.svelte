@@ -177,9 +177,9 @@
 		></canvas>
 
 		<div class="mt-5 flex justify-center">
-			<Button disabled={!canBlur} color="blue" class="m-1" on:click={handleBlur}>Blur</Button>
-			<Button disabled={!canReset} color="red" class="m-1" on:click={reset}>Reset</Button>
-			<Button disabled={!canSave} color="green" class="m-1" on:click={save}>Guardar</Button>
+		<Button disabled={!canBlur} color="blue" class="m-1" onclick={handleBlur}>Blur</Button>
+		<Button disabled={!canReset} color="red" class="m-1" onclick={reset}>Reset</Button>
+		<Button disabled={!canSave} color="green" class="m-1" onclick={save}>Guardar</Button>
 		</div>
 
 		<div class="mt-2">

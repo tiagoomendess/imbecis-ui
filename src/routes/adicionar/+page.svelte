@@ -307,14 +307,14 @@
 
 					<div class="flex justify-center items-center mt-5">
 						<div class="w-6/12 pr-1">
-							<Button on:click={clearImage} type="button" color="red" class="w-full text-lg">
+							<Button onclick={clearImage} type="button" color="red" class="w-full text-lg">
 								<UndoOutline class="w-3.5 h-3.5 me-2" /> Tirar Outra
 							</Button>
 						</div>
 
 						<div class="w-6/12 pl-1">
 							<Button
-								on:click={handleSendClicked}
+								onclick={handleSendClicked}
 								type="button"
 								color="green"
 								class="w-full text-lg"
@@ -360,10 +360,10 @@
 		>
 
 		<div class="flex justify-center">
-			<Button
-				on:click={() => {
-					window.location.reload();
-				}}
+		<Button
+			onclick={() => {
+				window.location.reload();
+			}}
 				color="light"
 				class="mb-2">Voltar</Button
 			>
@@ -387,7 +387,7 @@
 					parque de estacionamento
 				</li>
 			</ul>
-			<Button class="mt-8 w-full" color="green" on:click={() => handleUnderstandClicked()}
+			<Button class="mt-8 w-full" color="green" onclick={() => handleUnderstandClicked()}
 				>Entendi</Button
 			>
 		</div>
@@ -463,7 +463,7 @@
 				</p>
 			{/if}
 
-			<Button type="submit" class="w-full1" on:click={() => handleSaveInfoClicked()}
+			<Button type="submit" class="w-full1" onclick={() => handleSaveInfoClicked()}
 				>Confirmar e Enviar</Button
 			>
 		</form>

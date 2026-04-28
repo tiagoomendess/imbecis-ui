@@ -142,8 +142,8 @@
 				Este vídeo foi escolhido aleatoriamente de uma lista, clique nos botões abaixo para navegar pela lista inteira.
 			</P>
 			<div class="flex justify-center text-center">
-				<Button on:click={previousVideo} color="alternative">Anterior</Button>
-				<Button on:click={nextVideo} class="ml-2" color="alternative">Próximo</Button>
+			<Button onclick={previousVideo} color="alternative">Anterior</Button>
+			<Button onclick={nextVideo} class="ml-2" color="alternative">Próximo</Button>
 			</div>
 		</div>
 		<P class="mb-3 text-justify">

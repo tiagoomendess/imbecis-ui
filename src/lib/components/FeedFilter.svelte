@@ -59,7 +59,7 @@
 		<div class="">
 			<FilterOutline
 				class="right-0 text-right cursor-pointer"
-				on:click={() => {
+				onclick={() => {
 					filterModal = true;
 				}}
 			/>
@@ -89,8 +89,8 @@
 		{/if}
 	</div>
 	<svelte:fragment slot="footer">
-		<Button disabled={!canFilter} on:click={handleFilterClicked}>Filtrar</Button>
-		<Button on:click={handleFilterReset} color="alternative">Limpar</Button>
+		<Button disabled={!canFilter} onclick={handleFilterClicked}>Filtrar</Button>
+		<Button onclick={handleFilterReset} color="alternative">Limpar</Button>
 	</svelte:fragment>
 </Modal>
 

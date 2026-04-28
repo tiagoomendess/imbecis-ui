@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BottomNav, BottomNavItem, Tooltip } from 'flowbite-svelte';
+	import { BottomNav, BottomNavItem } from 'flowbite-svelte';
 	import {
 		HomeSolid,
 		SearchOutline,
@@ -14,9 +14,9 @@
 <BottomNav
 	{activeUrl}
 	position="fixed"
-	classInner="grid-cols-5"
-	outerClass="z-50 w-10/12"
 	navType="application"
+	class="z-50 w-10/12"
+	classes={{ inner: 'grid-cols-5' }}
 >
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />

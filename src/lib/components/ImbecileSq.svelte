@@ -32,7 +32,7 @@
 		
         <div class="stick-top text-sm">
             <div class="flex items-center">
-                <MapPinOutline on:click={mapIconClicked}/>
+                <MapPinOutline onclick={mapIconClicked}/>
                 <span class="ml-1">{ municipality }</span>
             </div>
             <div class="flex items-center">

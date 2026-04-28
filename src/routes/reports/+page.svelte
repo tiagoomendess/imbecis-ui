@@ -277,11 +277,11 @@
 
 			<div class="flex">
 				<div class="w-1/3">
-					<Button on:click={resetFilter} color="light" class="w-full">Reset</Button>
+					<Button onclick={resetFilter} color="light" class="w-full">Reset</Button>
 				</div>
 
 				<div class="w-2/3 ml-3">
-					<Button on:click={applyFilter} color="blue" class="w-full">Aplicar Filtro</Button>
+					<Button onclick={applyFilter} color="blue" class="w-full">Aplicar Filtro</Button>
 				</div>
 			</div>
 		</AccordionItem>
@@ -331,7 +331,7 @@
 								>
 							</tr>
 						</Table>
-						<Button on:click={() => editClick(report.id)} color="light" class="w-full"
+						<Button onclick={() => editClick(report.id)} color="light" class="w-full"
 							>Editar</Button
 						>
 					</div>
@@ -342,11 +342,11 @@
 
 	<div class="flex space-x-3 rtl:space-x-reverse justify-center">
 		{#if data.page > 1}
-			<PaginationItem on:click={previous} large>Anterior</PaginationItem>
+			<PaginationItem onclick={previous} large>Anterior</PaginationItem>
 		{/if}
 
 		{#if data.page < Math.ceil(data.total / 10)}
-			<PaginationItem on:click={next} large>Próxima</PaginationItem>
+			<PaginationItem onclick={next} large>Próxima</PaginationItem>
 		{/if}
 	</div>
 
@@ -398,9 +398,9 @@
 			</div>
 		</div>
 		<svelte:fragment slot="footer">
-			<Button on:click={() => saveClicked()}>Guardar</Button>
+			<Button onclick={() => saveClicked()}>Guardar</Button>
 			{#if reportBeingEdited?.status === 'rejected' || reportBeingEdited?.status === 'removed'}
-				<Button on:click={() => deleteReportClicked(false)} color="red">Apagar</Button>
+				<Button onclick={() => deleteReportClicked(false)} color="red">Apagar</Button>
 			{/if}
 			<Button color="alternative">Cancelar</Button>
 		</svelte:fragment>
@@ -414,7 +414,7 @@
 				Denúncia com o id <b>{reportBeingEdited?.id}</b> vai ser apagada permanentemente e esta ação
 				não pode ser revertida!
 			</p>
-			<Button on:click={() => deleteReportClicked(true)} color="red" class="me-2"
+			<Button onclick={() => deleteReportClicked(true)} color="red" class="me-2"
 				>Sim, Apagar</Button
 			>
 			<Button color="alternative">Não, Cancelar</Button>
