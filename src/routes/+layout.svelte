@@ -46,6 +46,6 @@
 
 <style>
 	.main {
-		padding-bottom: 64px;
+		padding-bottom: 96px;
 	}
 </style>
