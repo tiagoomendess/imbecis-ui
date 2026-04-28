@@ -15,7 +15,7 @@
 	{activeUrl}
 	position="fixed"
 	classInner="grid-cols-5"
-	outerClass="z-50 w-full"
+	outerClass="z-50 w-10/12"
 	navType="application"
 >
 	<BottomNavItem btnName="Inicio" href="/">
