@@ -24,6 +24,7 @@ body {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    @apply bg-white dark:bg-gray-900;
 }
 
 .display-none {

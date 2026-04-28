@@ -4,12 +4,12 @@
 	import { loadingMessage as loadingMessageStore } from '$lib/stores/loading';
 
 	$: loadingMessage = ""
-	loadingMessageStore.subscribe((value) => {
+	loadingMessageStore.subscribe((value: string) => {
 		loadingMessage = value;
 	});
 
 	$: show = false as boolean;
-	isLoading.subscribe((value) => {
+	isLoading.subscribe((value: boolean) => {
 		show = value;
 		if (!value) {
 			loadingMessage = "";
@@ -22,7 +22,7 @@
 		<div class="flex justify-center items-center flex-col container max-w-md mx-auto p-4 mb-20">
 			<Img src="/imbecis_logo_300.png" class="mb-4 w-5/12" />
 			{#if loadingMessage != ''}
-				<P class="text-center mb-5">
+				<P class="text-center mb-5 dark:text-white">
 					{loadingMessage}
 				</P>
 			{/if}
@@ -42,5 +42,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	:global(.dark) .loader {
+		background: radial-gradient(circle, rgb(31, 41, 55) 0%, rgb(17, 24, 39) 100%);
 	}
 </style>

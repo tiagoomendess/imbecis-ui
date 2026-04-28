@@ -4,62 +4,62 @@
 	import { CheckCircleSolid, CloseCircleOutline, ExclamationCircleSolid } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import * as Icon from 'flowbite-svelte-icons';
 
 	export let message: string;
 	export let type: NotificationType = 'info';
 	export let duration = 5;
-	let open = false;
+	export let ondismiss: (() => void) | undefined = undefined;
+
+	let toastStatus = false;
+	let initialized = false;
+	let dismissed = false;
+
+	function handleDismiss() {
+		if (!dismissed) {
+			dismissed = true;
+			ondismiss?.();
+		}
+	}
+
+	$: if (initialized && !toastStatus) {
+		handleDismiss();
+	}
 
 	onMount(() => {
-		setTimeout(() => {
-			open = true;
+		const showTimer = setTimeout(() => {
+			toastStatus = true;
+			initialized = true;
 		}, 50);
 
-		setTimeout(() => {
-			open = false;
+		const hideTimer = setTimeout(() => {
+			toastStatus = false;
 		}, duration * 1000);
+
+		return () => {
+			clearTimeout(showTimer);
+			clearTimeout(hideTimer);
+		};
 	});
+
+	const colorMap: Record<NotificationType, 'green' | 'red' | 'orange' | 'blue'> = {
+		success: 'green',
+		error: 'red',
+		warning: 'orange',
+		info: 'blue'
+	};
 </script>
 
 <div class="mb-1">
-	{#if type === 'success'}
-		<Toast color="green" transition={fly} params={{ y: -200 }} bind:open>
-			<svelte:fragment slot="icon">
-				<CheckCircleSolid class="w-5 h-5" />
-				<span class="sr-only">Check icon</span>
-			</svelte:fragment>
+	<Toast color={colorMap[type]} transition={fly} params={{ y: -200 }} bind:toastStatus>
+		<span class="flex items-center gap-2">
+			{#if type === 'success'}
+				<CheckCircleSolid class="h-5 w-5 shrink-0" />
+			{:else if type === 'error'}
+				<CloseCircleOutline class="h-5 w-5 shrink-0" />
+			{:else}
+				<ExclamationCircleSolid class="h-5 w-5 shrink-0" />
+			{/if}
 			{message}
-		</Toast>
-	{/if}
-
-	{#if type === 'error'}
-		<Toast color="red" transition={fly} params={{ y: -200 }} bind:open>
-			<svelte:fragment slot="icon">
-				<CloseCircleOutline class="w-5 h-5" />
-				<span class="sr-only">Error icon</span>
-			</svelte:fragment>
-			{message}
-		</Toast>
-	{/if}
-
-	{#if type === 'warning'}
-		<Toast color="orange" transition={fly} params={{ y: -200 }} bind:open>
-			<svelte:fragment slot="icon">
-				<ExclamationCircleSolid class="w-5 h-5" />
-				<span class="sr-only">Warning icon</span>
-			</svelte:fragment>
-			{message}
-		</Toast>
-	{/if}
-
-	{#if type === 'info'}
-		<Toast color="blue" transition={fly} params={{ y: -200 }} bind:open>
-			<svelte:fragment slot="icon">
-				<ExclamationCircleSolid class="w-5 h-5" />
-				<span class="sr-only">Info icon</span>
-			</svelte:fragment>
-			{message}
-		</Toast>
-	{/if}
+		</span>
+	</Toast>
 </div>

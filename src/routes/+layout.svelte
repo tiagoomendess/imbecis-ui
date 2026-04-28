@@ -4,12 +4,14 @@
 	import { onMount } from 'svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Loader from '$lib/components/Loader.svelte';
+	import DarkModeToggle from '$lib/components/DarkModeToggle.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { isLoading } from '$lib/stores/loading';
+	import { theme } from '$lib/stores/theme';
 	import { navigating } from '$app/stores';
 	import NotificationsWrapper from '$lib/components/NotificationsWrapper.svelte';
 
-	navigating.subscribe((value) => {
+	navigating.subscribe((value: unknown) => {
 		isLoading.set(value !== null);
 	});
 
@@ -25,6 +27,16 @@
 	onMount(() => {
 		initFlowbite();
 		ensuredeviceUUID();
+		theme.init();
+
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		const onSystemThemeChange = (e: MediaQueryListEvent) => {
+			if (!localStorage.getItem('theme')) {
+				theme.setTheme(e.matches ? 'dark' : 'light');
+			}
+		};
+		mediaQuery.addEventListener('change', onSystemThemeChange);
+		return () => mediaQuery.removeEventListener('change', onSystemThemeChange);
 	});
 </script>
 
@@ -39,6 +51,11 @@
 </svelte:head>
 <NotificationsWrapper />
 <Loader />
+<header
+	class="fixed top-0 right-0 left-0 z-40 flex items-center justify-end border-b border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-900"
+>
+	<DarkModeToggle />
+</header>
 <div class="main">
 	<slot />
 </div>
@@ -46,6 +63,7 @@
 
 <style>
 	.main {
+		padding-top: 44px;
 		padding-bottom: 96px;
 	}
 </style>

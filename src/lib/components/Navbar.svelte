@@ -15,7 +15,7 @@
 	{activeUrl}
 	position="fixed"
 	navType="application"
-	class="z-50 w-10/12"
+	class="z-50 w-10/12 overflow-hidden"
 	classes={{ inner: 'grid-cols-5' }}
 >
 	<BottomNavItem btnName="Inicio" href="/">

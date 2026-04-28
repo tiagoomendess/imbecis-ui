@@ -51,7 +51,7 @@
 
 	<Heading tag="h3" class="mb-2">Índice</Heading>
 
-	<List class="pl-3 mb-7">
+	<List class="pl-3 mb-7 dark:text-white">
 		<Li><A href="#permissoes">Permissões e Privacidade</A></Li>
 		<Li><A href="#como_participar">Como Participar?</A></Li>
 		<Li><A href="#ajudar">Ajudar</A></Li>
