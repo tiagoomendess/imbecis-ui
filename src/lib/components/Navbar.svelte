@@ -14,9 +14,9 @@
 <BottomNav
 	{activeUrl}
 	position="fixed"
-	outerClass="z-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600"
-	classOuter="bottom-4 start-1/2 -translate-x-1/2 rounded-full border shadow-lg overflow-hidden h-20 px-2"
 	classInner="grid-cols-5"
+	outerClass="z-50 w-full"
+	navType="application"
 >
 	<BottomNavItem btnName="Inicio" href="/">
 		<HomeSolid />
