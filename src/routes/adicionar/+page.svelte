@@ -9,6 +9,14 @@
 	import { showNotification } from '$lib/utils/notifications';
 	import Content from '$lib/components/Content.svelte';
 	import type { Coordinates } from '$lib/types';
+	import { isMobile } from '$lib/utils/device';
+	import {
+		extractPhotoMetadata,
+		reencodeTo1000Webp,
+		MissingGpsError,
+		MissingTimestampError,
+		PhotoTooOldError
+	} from '$lib/utils/galleryPhoto';
 	import {
 		Modal,
 		Label,
@@ -27,6 +35,7 @@
 	$: showLocationModal = false as boolean;
 	$: isSubmitting = false as boolean;
 	let sendReporterInfo = true;
+	let confirmedPerjury = false;
 	let setupModal = false;
 	let witnessContactModal = false;
 	let canSend = false;
@@ -36,6 +45,9 @@
 		{ value: 'passport', name: 'Passaporte' },
 		{ value: 'residency', name: 'Atz. Residência' }
 	];
+
+	let showGalleryOption = false;
+	let fileInput: HTMLInputElement;
 
 	let hasReporterInfo = false;
 	const reporterInfo: ReporterInfo = {
@@ -60,6 +72,7 @@
 		setupModal = shouldShowSetupModal();
 		loadReporterInfo();
 		sendReporterInfo = localStorage.getItem('sendReporterInfo') === 'true';
+		showGalleryOption = isMobile() || true; // just for testing, will remove later
 	});
 
 	const shouldAskForGeolocation = (): boolean => {
@@ -74,9 +87,44 @@
 		askForGeolocation();
 	};
 
+	const handleGalleryFile = async (event: Event) => {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+
+		isLoading.set(true);
+		loadingMessage.set('A ler fotografia');
+
+		try {
+			const { coords } = await extractPhotoMetadata(file);
+			const blob = await reencodeTo1000Webp(file);
+
+			image = blob;
+			location.set(coords);
+			canSend = true;
+			generateImageHash().then((hash) => {
+				imageHash = hash;
+			});
+		} catch (err) {
+			if (err instanceof MissingGpsError) {
+				showNotification('Fotografia sem coordenadas GPS', 'error');
+			} else if (err instanceof MissingTimestampError) {
+				showNotification('Fotografia sem data', 'error');
+			} else if (err instanceof PhotoTooOldError) {
+				showNotification('Fotografia tem mais de 12 horas', 'error');
+			} else {
+				showNotification('Erro ao processar fotografia', 'error');
+			}
+			input.value = '';
+		} finally {
+			isLoading.set(false);
+		}
+	};
+
 	const clearImage = () => {
 		image = null;
 		imageHash = '';
+		confirmedPerjury = false;
 		location.set({ latitude: 0, longitude: 0 });
 	};
 
@@ -126,7 +174,7 @@
 	const submit = async () => {
 		if (!canSend) {
 			showNotification('Não pode enviar sem localização GPS', 'error');
-			return
+			return;
 		}
 
 		console.log('A iniciar processo de submissão de imagem...');
@@ -291,19 +339,29 @@
 					{:else}
 						<div class="w-full mt-4 mb-4">
 							<Label for="textarea-id" class="mb-2">Observações: (opcional)</Label>
-							<Textarea
-								maxlength="255"
-								bind:value={reporterInfo.obs}
-								id="textarea-id"
-								placeholder="Outras informações relevantes para as autoridades"
-								rows="2"
-								name="reporterObs"
-							/>
+						<Textarea
+							maxlength="255"
+							bind:value={reporterInfo.obs}
+							id="textarea-id"
+							placeholder="Outras informações relevantes para as autoridades"
+							rows="2"
+							name="reporterObs"
+							class="w-full"
+						/>
 						</div>
 					{/if}
 					<div class="">
 						<Toggle bind:checked={sendReporterInfo}>Enviar identificação às autoridades?</Toggle>
 					</div>
+
+					{#if sendReporterInfo}
+						<div class="mt-3">
+							<Toggle bind:checked={confirmedPerjury}>
+								Confirmo sob pena de perjúrio que a multimédia prestes a ser submetida corresponde
+								à realidade
+							</Toggle>
+						</div>
+					{/if}
 
 					<div class="flex justify-center items-center mt-5">
 						<div class="w-6/12 pr-1">
@@ -319,7 +377,7 @@
 								color="green"
 								class="w-full text-lg"
 								loading={isSubmitting}
-								disabled={!canSend || isSubmitting}
+								disabled={!canSend || isSubmitting || (sendReporterInfo && !confirmedPerjury)}
 							>
 								Enviar <ArrowRightToBracketOutline class="w-3.5 h-3.5 ms-2" />
 							</Button>
@@ -330,6 +388,25 @@
 
 			{#if !image}
 				<Camera on:pictureTaken={handlePictureTaken}></Camera>
+
+				{#if showGalleryOption}
+					<div class="text-center mt-3">
+						<button
+							type="button"
+							class="text-sm underline text-gray-500 dark:text-gray-400"
+							onclick={() => fileInput.click()}
+						>
+							Adicionar da Galeria
+						</button>
+					</div>
+					<input
+						bind:this={fileInput}
+						type="file"
+						accept="image/*"
+						class="hidden"
+						onchange={handleGalleryFile}
+					/>
+				{/if}
 			{/if}
 		</div>
 	</div>
@@ -360,10 +437,10 @@
 		>
 
 		<div class="flex justify-center">
-		<Button
-			onclick={() => {
-				window.location.reload();
-			}}
+			<Button
+				onclick={() => {
+					window.location.reload();
+				}}
 				color="light"
 				class="mb-2">Voltar</Button
 			>
