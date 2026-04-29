@@ -80,7 +80,7 @@
 
 		<P class="text-center">Procure por matrícula e país</P>
 
-		<div class="container max-w-md mx-auto p-4 mb-20 flex mt-8">
+		<div class="container max-w-md mx-auto p-4 mb-20 flex items-end mt-8">
 			<div class="w-2/12">
 				<Country bind:value={plateCountry} />
 			</div>
@@ -101,7 +101,7 @@
 				<Button
 					onclick={searchClicked}
 					disabled={!canSearch}
-					class="w-full text-center mt-7 center text-lg"
+					class="w-full text-center text-lg"
 					size="md"
 					color="green"
 					>&nbsp;

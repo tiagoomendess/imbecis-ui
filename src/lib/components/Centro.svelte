@@ -26,4 +26,8 @@
 		background-color: white;
 		z-index: 15;
 	}
+
+	:global(.dark) .centro {
+		background-color: rgb(17, 24, 39);
+	}
 </style>

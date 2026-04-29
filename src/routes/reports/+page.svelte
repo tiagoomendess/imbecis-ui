@@ -257,7 +257,9 @@
 
 	<Accordion flush class="mb-2">
 		<AccordionItem>
-			<span slot="header">Filtrar</span>
+			{#snippet header()}
+				<span class="text-gray-900 dark:text-white">Filtrar</span>
+			{/snippet}
 
 			<div class="grid grid-cols-2 gap-2 mb-3">
 				<Label>
@@ -288,7 +290,7 @@
 	</Accordion>
 
 	<div class="w-full mb-5">
-		<small
+		<small class="text-gray-900 dark:text-white"
 			>Showing {data.total} items, in page {data.page} of {Math.ceil(data.total / 10) || 1}</small
 		>
 	</div>
@@ -389,6 +391,7 @@
 							<Select
 								placeholder="Escolhe um Status"
 								class="mt-2 text-lg"
+								size="lg"
 								items={statuses}
 								bind:value={editable.status}
 							/>
@@ -397,13 +400,13 @@
 				</div>
 			</div>
 		</div>
-		<svelte:fragment slot="footer">
+		{#snippet footer()}
 			<Button onclick={() => saveClicked()}>Guardar</Button>
 			{#if reportBeingEdited?.status === 'rejected' || reportBeingEdited?.status === 'removed'}
 				<Button onclick={() => deleteReportClicked(false)} color="red">Apagar</Button>
 			{/if}
 			<Button color="alternative">Cancelar</Button>
-		</svelte:fragment>
+		{/snippet}
 	</Modal>
 
 	<Modal bind:open={showDeleteReportConfirmModal} size="xs" autoclose>
