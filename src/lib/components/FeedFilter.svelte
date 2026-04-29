@@ -57,12 +57,12 @@
 			{/if}
 		</div>
 		<div class="">
-			<FilterOutline
-				class="right-0 text-right cursor-pointer"
-				onclick={() => {
-					filterModal = true;
-				}}
-			/>
+		<FilterOutline
+			class="right-0 text-right cursor-pointer text-gray-900 dark:text-white"
+			onclick={() => {
+				filterModal = true;
+			}}
+		/>
 		</div>
 	</div>
 </div>

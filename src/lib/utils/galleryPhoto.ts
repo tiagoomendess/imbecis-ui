@@ -29,7 +29,7 @@ export async function extractPhotoMetadata(
 ): Promise<{ coords: Coordinates; takenAt: Date }> {
 	const exif = await exifr.parse(file, {
 		gps: true,
-		pick: ['DateTimeOriginal', 'CreateDate', 'GPSLatitude', 'GPSLongitude']
+		pick: ['DateTimeOriginal', 'CreateDate', 'GPSLatitude', 'GPSLongitude', 'GPSLatitudeRef', 'GPSLongitudeRef']
 	});
 
 	const lat: number | undefined = exif?.latitude ?? exif?.GPSLatitude;
