@@ -48,9 +48,11 @@ export const createReport = async (
     imageHash : string,
     reporterInfo : ReporterInfo | null,
     sendReporterInfo = false,
+    occurredAt: Date = new Date(),
 ): Promise<CreateReportResponse> => {
     const body = {
         imageHash: imageHash,
+        occurredAt: occurredAt.toISOString(),
         location: {
             latitude: coordinates.latitude,
             longitude: coordinates.longitude

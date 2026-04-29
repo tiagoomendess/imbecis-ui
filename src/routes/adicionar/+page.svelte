@@ -40,6 +40,7 @@
 	let witnessContactModal = false;
 	let canSend = false;
 	let imageHash = '';
+	let photoOccurredAt: Date = new Date();
 	const idTypes = [
 		{ value: 'cc', name: 'Cartão de Cidadão' },
 		{ value: 'passport', name: 'Passaporte' },
@@ -81,6 +82,7 @@
 
 	const handlePictureTaken = (event: CustomEvent<Blob>) => {
 		image = event.detail;
+		photoOccurredAt = new Date();
 		generateImageHash().then((hash) => {
 			imageHash = hash;
 		});
@@ -96,10 +98,11 @@
 		loadingMessage.set('A ler fotografia');
 
 		try {
-			const { coords } = await extractPhotoMetadata(file);
+			const { coords, takenAt } = await extractPhotoMetadata(file);
 			const blob = await reencodeTo1000Webp(file);
 
 			image = blob;
+			photoOccurredAt = takenAt;
 			location.set(coords);
 			canSend = true;
 			generateImageHash().then((hash) => {
@@ -197,7 +200,8 @@
 		const newReportRes = await createReport(
 			imageHash,
 			reporterInfo,
-			sendReporterInfo && hasReporterInfo
+			sendReporterInfo && hasReporterInfo,
+			photoOccurredAt
 		);
 
 		if (!newReportRes.success) {
