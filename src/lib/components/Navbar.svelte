@@ -15,7 +15,7 @@
 	{activeUrl}
 	position="fixed"
 	navType="application"
-	class="z-50 w-10/12 overflow-hidden"
+	class="z-50 w-10/12 overflow-hidden shadow-[0_0_16px_4px_rgba(0,0,0,0.15)] dark:shadow-[0_0_16px_4px_rgba(0,0,0,0.5)]"
 	classes={{ inner: 'grid-cols-5' }}
 >
 	<BottomNavItem btnName="Inicio" href="/">
