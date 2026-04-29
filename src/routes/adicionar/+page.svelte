@@ -73,7 +73,7 @@
 		setupModal = shouldShowSetupModal();
 		loadReporterInfo();
 		sendReporterInfo = localStorage.getItem('sendReporterInfo') === 'true';
-		showGalleryOption = isMobile() || true; // just for testing, will remove later
+		showGalleryOption = isMobile();
 	});
 
 	const shouldAskForGeolocation = (): boolean => {
