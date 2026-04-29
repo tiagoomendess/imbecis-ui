@@ -257,7 +257,7 @@
 
 <div class="overlay-right">
 	{#if regionOnFocus != null}
-		<Card class="mb-1">
+		<Card class="mb-1 p-4">
 			<div class="mb-4">
 				<div class="flex items-center space-x-2">
 					<div class="w-full">
@@ -349,7 +349,7 @@
 
 <style>
 	#map {
-		height: calc(100vh - 64px);
+		height: 100%;
 		z-index: 1;
 	}
 
@@ -358,9 +358,9 @@
 		top: 0;
 		right: 0;
 		width: 350px;
-		height: calc(100vh - 64px);
+		height: 100%;
 		z-index: 4;
-		padding: 10px;
+		padding: 16px;
 		overflow-y: auto;
 		scroll-behavior: smooth;
 		scrollbar-width: thin;
