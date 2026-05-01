@@ -325,6 +325,55 @@ export const getReportById = async (id: string): Promise<GetReportByIdResponse> 
     }
 }
 
+export interface MyReport {
+    id: string
+    picture: string | null
+    status: string
+    municipality: string | null
+    occurredAt: string
+}
+
+export interface PaginatedMyReports {
+    reports: MyReport[]
+    page: number
+    pageSize: number
+    total: number
+    totalPages: number
+}
+
+export const getMyReports = async (page: number = 1, pageSize: number = 10): Promise<PaginatedMyReports> => {
+    const empty: PaginatedMyReports = { reports: [], page: 1, pageSize: 10, total: 0, totalPages: 0 }
+
+    const uuid = getDeviceUUID()
+    if (!uuid) return empty
+
+    try {
+        const response = await axios.get(`${BASE_URL}/reports/mine`, {
+            params: { page, pageSize },
+            headers: {
+                'Accept': 'application/json',
+                'device-uuid': uuid
+            }
+        })
+
+        if (response.status !== 200 || !response.data.success) {
+            return empty
+        }
+
+        const meta = response.data.meta
+        return {
+            reports: response.data.payload as MyReport[],
+            page: meta.page,
+            pageSize: meta.pageSize,
+            total: meta.total,
+            totalPages: meta.totalPages
+        }
+    } catch (error) {
+        console.error("Error getting my reports: ", error)
+        return empty
+    }
+}
+
 export interface UpdateReportPictureResponse {
     success: boolean
     message: string

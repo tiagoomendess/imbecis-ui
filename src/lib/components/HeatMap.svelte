@@ -5,7 +5,6 @@
 	import { onMount, onDestroy } from 'svelte';
 	import type { HeatCoordinate } from '../types';
 
-	import { Label } from 'flowbite-svelte';
 	import { Range } from 'flowbite-svelte';
 
 	export let coordinates: HeatCoordinate[];
@@ -94,14 +93,14 @@
 <!-- Settings form -->
 <div class="controls">
 	<form>
-		<Label>Max Zoom {maxZoom}</Label>
-		<Range id="range-steps" min="5" max="40" bind:value={maxZoom} step="1" />
+		<label for="heatmap-max-zoom">Max Zoom {maxZoom}</label>
+		<Range id="heatmap-max-zoom" min="5" max="40" bind:value={maxZoom} step="1" />
 
-		<Label>Blur {blur}</Label>
-		<Range id="range-steps" min="5" max="40" bind:value={blur} step="1" />
+		<label for="heatmap-blur">Blur {blur}</label>
+		<Range id="heatmap-blur" min="5" max="40" bind:value={blur} step="1" />
 
-		<Label>Radius {radius}</Label>
-		<Range id="range-steps" min="5" max="40" bind:value={radius} step="1" />
+		<label for="heatmap-radius">Radius {radius}</label>
+		<Range id="heatmap-radius" min="5" max="40" bind:value={radius} step="1" />
 	</form>
 </div>
 
@@ -112,12 +111,75 @@
 		z-index: 1;
 	}
 	.controls {
-		position: absolute;
-		top: 10px;
+		position: fixed;
+		top: 54px;
 		left: 55px;
 		z-index: 3;
-		background-color: rgba(255, 255, 255, 0.7);
-		border-radius: 10px;
-		padding: 15px;
+		padding: 14px 16px;
+		border-radius: 12px;
+		border: 1px solid rgb(229 231 235);
+		background-color: rgba(255, 255, 255, 0.92);
+		color: rgb(17 24 39);
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(4px);
+	}
+	.controls form {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.controls label {
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: rgb(17 24 39);
+	}
+	:global(.dark) .controls {
+		border-color: rgb(55 65 81);
+		background-color: rgba(31, 41, 55, 0.92);
+		color: rgb(243 244 246);
+	}
+	:global(.dark) .controls label {
+		color: rgb(243 244 246);
+	}
+
+	.controls :global(input[type='range']) {
+		appearance: none;
+		-webkit-appearance: none;
+		width: 100%;
+		height: 6px;
+		background: rgb(229 231 235);
+		border-radius: 9999px;
+		outline: none;
+		cursor: pointer;
+	}
+	:global(.dark) .controls :global(input[type='range']) {
+		background: rgb(55 65 81);
+	}
+	.controls :global(input[type='range']::-webkit-slider-thumb) {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		border-radius: 9999px;
+		background: rgb(37 99 235);
+		border: 2px solid white;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+	.controls :global(input[type='range']::-moz-range-thumb) {
+		width: 16px;
+		height: 16px;
+		border-radius: 9999px;
+		background: rgb(37 99 235);
+		border: 2px solid white;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+		cursor: pointer;
+	}
+	:global(.dark) .controls :global(input[type='range']::-webkit-slider-thumb) {
+		border-color: rgb(31 41 55);
+	}
+	:global(.dark) .controls :global(input[type='range']::-moz-range-thumb) {
+		border-color: rgb(31 41 55);
 	}
 </style>
