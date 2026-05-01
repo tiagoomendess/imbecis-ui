@@ -506,7 +506,7 @@
 				<div>
 					<Label class="space-y-1">
 						<span>Tipo de Identificação</span>
-						<Select class="mt-2" items={idTypes} bind:value={reporterInfo.idType} />
+						<Select items={idTypes} bind:value={reporterInfo.idType} />
 					</Label>
 				</div>
 
