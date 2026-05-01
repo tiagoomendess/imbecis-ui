@@ -53,7 +53,7 @@
 	<div class="flex flex-row justify-between filter">
 		<div class="w-11/12">
 			{#if municipality != ''}
-				<span>{municipality}</span>
+				<span class="text-gray-900 dark:text-white">{municipality}</span>
 			{/if}
 		</div>
 		<div class="">
@@ -74,13 +74,16 @@
 			type="text"
 			bind:value={searchText}
 			placeholder="Comece a escrever o nome do município..."
-			class="form-input"
+			class="w-full p-2 mb-2.5 border border-gray-300 rounded bg-white text-gray-900 placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
 		/>
 		{#if showAutoComplete}
-			<ul class="list-group">
+			<ul class="w-full list-none p-0 mt-0 bg-white border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
 				{#each filteredMunicipalities as m}
-					<li class="list-item no-padding-important">
-						<button onclick={(e) => selectMunicipality(m, e)} class="full-width-button">
+					<li class="p-0 border-b border-gray-200 last:border-b-0 dark:border-gray-600">
+						<button
+							onclick={(e) => selectMunicipality(m, e)}
+							class="w-full bg-transparent border-none text-left p-2 cursor-pointer text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+						>
 							{m}
 						</button>
 					</li>
@@ -95,48 +98,7 @@
 </Modal>
 
 <style>
-	.no-padding-important {
-		padding: 0px !important;
-	}
-	.full-width-button {
-		width: 100%;
-		background: none;
-		border: none;
-		text-align: left;
-		padding: 8px;
-		cursor: pointer;
-	}
-	.full-width-button:hover {
-		background-color: #f8f9fa;
-	}
 	.filter {
 		height: 24px;
-	}
-	.form-input {
-		width: 100%;
-		padding: 8px;
-		margin-bottom: 10px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
-	.list-group {
-		width: 100%;
-		list-style: none;
-		padding: 0;
-		margin-top: 0;
-		background-color: #fff;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-	}
-	.list-item {
-		padding: 8px;
-		border-bottom: 1px solid #ddd;
-		cursor: pointer;
-	}
-	.list-item:last-child {
-		border-bottom: none;
-	}
-	.list-item:hover {
-		background-color: #f8f9fa;
 	}
 </style>
