@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Content from '$lib/components/Content.svelte';
-	import { Heading, P, A, PaginationItem, Label, Input, Select, Button } from 'flowbite-svelte';
+	import { Heading, P, A, PaginationItem, Label, Input, Select, Button, Dropdown, DropdownItem } from 'flowbite-svelte';
 	import {
 		MapPinOutline,
 		CalendarMonthOutline,
@@ -14,7 +14,9 @@
 		EditOutline,
 		EnvelopeOutline,
 		AddressBookOutline,
-		UserOutline
+		UserOutline,
+		DotsVerticalOutline,
+		DownloadOutline
 	} from 'flowbite-svelte-icons';
 	import type { PageData } from './$types';
 	import { getDeviceUUID } from '$lib/api';
@@ -328,53 +330,81 @@
 		</div>
 
 		<div class="mb-5">
-			{#each data.reports as report (report.id)}
-				<article
-					class="mb-3 flex items-center gap-4 bg-gray-50 p-4 shadow-md dark:bg-gray-800 dark:shadow-black/40"
-					style="border-radius: 1.25rem"
+		{#each data.reports as report (report.id)}
+			<article
+				class="relative mb-3 flex items-center gap-4 bg-gray-50 p-4 shadow-md dark:bg-gray-800 dark:shadow-black/40"
+				style="border-radius: 1.25rem"
+			>
+				<button
+					id={`report-menu-${report.id}`}
+					type="button"
+					aria-label="Opções"
+					class="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
 				>
-					<!-- Fixed-size square image -->
-					<div class="h-28 w-28 flex-shrink-0 overflow-hidden bg-gray-200 dark:bg-gray-700" style="border-radius: 1rem">
-						{#if report.picture}
-							<img
-								src={report.picture}
-								alt="Denúncia"
-								class="h-full w-full object-cover"
-								loading="lazy"
-							/>
-						{:else}
-							<div class="flex h-full w-full items-center justify-center text-gray-400">
-								<CameraPhotoOutline class="h-10 w-10" />
-							</div>
-						{/if}
-					</div>
-
-					<!-- Info panel -->
-					<div class="flex min-w-0 flex-1 flex-col gap-2">
-						<span
-							class="w-fit rounded-full px-3 py-1 text-sm font-medium {statusBadgeClasses(report.status)}"
+					<DotsVerticalOutline class="h-5 w-5" />
+				</button>
+				<Dropdown simple placement="bottom-end" triggeredBy={`#report-menu-${report.id}`}>
+					{#if report.pdf}
+						<DropdownItem href={report.pdf} target="_blank" rel="noopener noreferrer">
+							<span class="inline-flex items-center gap-2">
+								<DownloadOutline class="h-4 w-4" /> Download PDF
+							</span>
+						</DropdownItem>
+					{:else}
+						<DropdownItem
+							class="cursor-not-allowed opacity-50"
+							aria-disabled="true"
+							onclick={(e: MouseEvent) => e.preventDefault()}
 						>
-							{translateStatus(report.status)}
-						</span>
+							<span class="inline-flex items-center gap-2">
+								<DownloadOutline class="h-4 w-4" /> Download PDF
+							</span>
+						</DropdownItem>
+					{/if}
+				</Dropdown>
 
-						<div class="flex min-w-0 items-center gap-1.5 text-gray-700 dark:text-gray-200">
-							<MapPinOutline class="h-4 w-4 shrink-0 text-gray-400" />
-							<span class="truncate">{report.municipality ?? 'Localização desconhecida'}</span>
+				<!-- Fixed-size square image -->
+				<div class="h-28 w-28 flex-shrink-0 overflow-hidden bg-gray-200 dark:bg-gray-700" style="border-radius: 1rem">
+					{#if report.picture}
+						<img
+							src={report.picture}
+							alt="Denúncia"
+							class="h-full w-full object-cover"
+							loading="lazy"
+						/>
+					{:else}
+						<div class="flex h-full w-full items-center justify-center text-gray-400">
+							<CameraPhotoOutline class="h-10 w-10" />
 						</div>
+					{/if}
+				</div>
 
-						<div class="flex flex-wrap items-center gap-y-1 text-gray-500 dark:text-gray-400">
-							<div class="flex items-center gap-1.5">
-								<CalendarMonthOutline class="h-4 w-4 shrink-0" />
-								<span>{formatDate(report.occurredAt)}</span>
-							</div>
-							<div class="ml-4 flex items-center gap-1.5">
-								<ClockOutline class="h-4 w-4 shrink-0" />
-								<span>{formatTime(report.occurredAt)}</span>
-							</div>
+				<!-- Info panel -->
+				<div class="flex min-w-0 flex-1 flex-col gap-2">
+					<span
+						class="w-fit rounded-full px-3 py-1 text-sm font-medium {statusBadgeClasses(report.status)}"
+					>
+						{translateStatus(report.status)}
+					</span>
+
+					<div class="flex min-w-0 items-center gap-1.5 text-gray-700 dark:text-gray-200">
+						<MapPinOutline class="h-4 w-4 shrink-0 text-gray-400" />
+						<span class="truncate">{report.municipality ?? 'Localização desconhecida'}</span>
+					</div>
+
+					<div class="flex flex-wrap items-center gap-y-1 text-gray-500 dark:text-gray-400">
+						<div class="flex items-center gap-1.5">
+							<CalendarMonthOutline class="h-4 w-4 shrink-0" />
+							<span>{formatDate(report.occurredAt)}</span>
+						</div>
+						<div class="ml-4 flex items-center gap-1.5">
+							<ClockOutline class="h-4 w-4 shrink-0" />
+							<span>{formatTime(report.occurredAt)}</span>
 						</div>
 					</div>
-				</article>
-			{/each}
+				</div>
+			</article>
+		{/each}
 		</div>
 
 		<div class="flex space-x-3 rtl:space-x-reverse justify-center">

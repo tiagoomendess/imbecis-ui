@@ -328,6 +328,7 @@ export const getReportById = async (id: string): Promise<GetReportByIdResponse> 
 export interface MyReport {
     id: string
     picture: string | null
+    pdf: string | null
     status: string
     municipality: string | null
     occurredAt: string
