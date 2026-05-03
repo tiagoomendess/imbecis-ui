@@ -16,8 +16,11 @@
 		AddressBookOutline,
 		UserOutline,
 		DotsVerticalOutline,
-		DownloadOutline
+		DownloadOutline,
+		FileSearchOutline
 	} from 'flowbite-svelte-icons';
+
+	const SIGN_PDF_URL = 'https://www.autenticacao.gov.pt/cmd-assinatura';
 	import type { PageData } from './$types';
 	import { getDeviceUUID } from '$lib/api';
 	import type { ReporterInfo } from '$lib/types';
@@ -386,6 +389,15 @@
 							</span>
 						</DropdownItem>
 					{/if}
+					<DropdownItem
+						href={SIGN_PDF_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span class="inline-flex items-center gap-2">
+							<FileSearchOutline class="h-4 w-4" /> Assinar PDF
+						</span>
+					</DropdownItem>
 				</Dropdown>
 
 				<!-- Fixed-size square image -->
