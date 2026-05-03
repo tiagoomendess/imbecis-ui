@@ -169,6 +169,27 @@
 			await goto(url, { replaceState: true });
 		}
 	};
+
+	const downloadPdf = async (pdfUrl: string, reportId: string) => {
+		try {
+			const response = await fetch(pdfUrl);
+			if (!response.ok) {
+				showNotification('Erro ao descarregar o PDF', 'error');
+				return;
+			}
+			const blob = await response.blob();
+			const blobUrl = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = blobUrl;
+			a.download = `denuncia-${reportId}.pdf`;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(blobUrl);
+		} catch {
+			showNotification('Erro ao descarregar o PDF', 'error');
+		}
+	};
 </script>
 
 <svelte:head>
@@ -349,7 +370,7 @@
 				</button>
 				<Dropdown simple placement="bottom-end" triggeredBy={`#report-menu-${report.id}`}>
 					{#if report.pdf}
-						<DropdownItem href={report.pdf} target="_blank" rel="noopener noreferrer">
+						<DropdownItem onclick={() => downloadPdf(report.pdf!, report.id)}>
 							<span class="inline-flex items-center gap-2">
 								<DownloadOutline class="h-4 w-4" /> Download PDF
 							</span>

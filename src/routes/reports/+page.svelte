@@ -43,6 +43,7 @@
 		{ value: 'notify', name: 'Notify' },
 		{ value: 'confirmed_blur_plates', name: 'Confirmed Blur Plates' },
 		{ value: 'confirmed', name: 'Confirmed' },
+		{ value: 'generate_pdf', name: 'Generate PDF' },
 		{ value: 'rejected', name: 'Rejected' },
 		{ value: 'removed', name: 'Removed' }
 	];
@@ -67,6 +68,8 @@
 				return 'Removed';
 			case 'confirmed_manual_verify':
 				return 'Confirmed Manual Verify';
+			case 'generate_pdf':
+				return 'Generate PDF';
 			default:
 				return state;
 		}
@@ -235,6 +238,8 @@
 				return 'text-purple-500';
 			case 'removed':
 				return 'text-red-500';
+			case 'generate_pdf':
+				return 'text-orange-500';
 			default:
 				return 'text-black';
 		}
