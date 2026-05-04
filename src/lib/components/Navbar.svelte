@@ -9,6 +9,7 @@
 		InfoCircleSolid,
 		CaretUpSolid,
 		MapPinAltSolid,
+		ApiKeyOutline,
 	} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	$: activeUrl = $page.url.pathname;
@@ -91,6 +92,15 @@
 		>
 			<InfoCircleSolid class="h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
 			Sobre
+		</a>
+		<div class="mx-3 border-t border-gray-100 dark:border-gray-700"></div>
+		<a
+			href="/developers"
+			onclick={closeMenu}
+			class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
+		>
+			<ApiKeyOutline class="h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
+			Programadores
 		</a>
 	</div>
 {/if}
