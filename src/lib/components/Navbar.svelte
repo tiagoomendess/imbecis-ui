@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { BottomNav, BottomNavItem } from 'flowbite-svelte';
 	import {
 		HomeSolid,
@@ -10,13 +11,22 @@
 		CaretUpSolid,
 		MapPinAltSolid,
 		ApiKeyOutline,
+		GlobeSolid,
+		ChartPieSolid,
 	} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
+	import { getMe } from '$lib/api';
 	$: activeUrl = $page.url.pathname;
 
 	let menuOpen = false;
 	let menuBottom = 0;
 	let menuRight = 0;
+	let isAdmin = false;
+
+	onMount(async () => {
+		const me = await getMe();
+		isAdmin = me.isAdmin;
+	});
 
 	const toggleMenu = (e: MouseEvent) => {
 		if (!menuOpen) {
@@ -102,5 +112,25 @@
 			<ApiKeyOutline class="h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
 			Programadores
 		</a>
+		{#if isAdmin}
+			<div class="mx-3 border-t border-gray-100 dark:border-gray-700"></div>
+			<a
+				href="/regions"
+				onclick={closeMenu}
+				class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
+			>
+				<GlobeSolid class="h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
+				Regiões
+			</a>
+			<div class="mx-3 border-t border-gray-100 dark:border-gray-700"></div>
+			<a
+				href="/reports"
+				onclick={closeMenu}
+				class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
+			>
+				<ChartPieSolid class="h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
+				Denúncias
+			</a>
+		{/if}
 	</div>
 {/if}

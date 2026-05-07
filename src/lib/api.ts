@@ -415,3 +415,15 @@ export const updateReportPicture = async (reportId: string, picture: Blob): Prom
 
     return toReturn
 }
+
+export const getMe = async (): Promise<{ isAdmin: boolean }> => {
+    try {
+        const response = await axios.get(`${BASE_URL}/users/me`, {
+            headers: { 'device-uuid': getDeviceUUID() }
+        })
+        if (response.status !== 200 || !response.data.success) return { isAdmin: false }
+        return response.data.payload
+    } catch {
+        return { isAdmin: false }
+    }
+}
