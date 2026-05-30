@@ -17,7 +17,9 @@
 		UserOutline,
 		DotsVerticalOutline,
 		DownloadOutline,
-		FileSearchOutline
+		FileSearchOutline,
+		InfoCircleOutline,
+		ChevronDownOutline
 	} from 'flowbite-svelte-icons';
 
 	const SIGN_PDF_URL = 'https://www.autenticacao.gov.pt/cmd-assinatura';
@@ -38,6 +40,11 @@
 
 	let hasReporterInfo = false;
 	let isEditingReporterInfo = false;
+	let isInfoPanelOpen = false;
+
+	const toggleInfoPanel = () => {
+		isInfoPanelOpen = !isInfoPanelOpen;
+	};
 	const reporterInfo: ReporterInfo = {
 		name: '',
 		idType: 'cc',
@@ -215,18 +222,37 @@
 	<section
 		class="mb-6 rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800"
 	>
-		<header class="mb-3 flex items-center justify-between gap-2">
-			<div class="flex items-center gap-2">
+		<header class="flex items-center justify-between gap-2 {isInfoPanelOpen ? 'mb-3' : ''}">
+			<button
+				type="button"
+				class="flex flex-1 items-center gap-2 text-left"
+				onclick={toggleInfoPanel}
+				aria-expanded={isInfoPanelOpen}
+			>
 				<UserCircleOutline class="h-5 w-5 shrink-0 text-gray-400" />
 				<h2 class="text-sm font-semibold text-gray-700 dark:text-gray-200">Os meus dados</h2>
+			</button>
+			<div class="flex items-center gap-2">
+				{#if isInfoPanelOpen && hasReporterInfo && !isEditingReporterInfo}
+					<Button size="xs" color="alternative" onclick={startEditingReporterInfo}>
+						<EditOutline class="me-1 h-3.5 w-3.5" /> Editar
+					</Button>
+				{/if}
+				<button
+					type="button"
+					class="inline-flex h-7 w-7 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+					onclick={toggleInfoPanel}
+					aria-label={isInfoPanelOpen ? 'Fechar' : 'Abrir'}
+					aria-expanded={isInfoPanelOpen}
+				>
+					<ChevronDownOutline
+						class="h-4 w-4 transition-transform duration-200 {isInfoPanelOpen ? 'rotate-180' : ''}"
+					/>
+				</button>
 			</div>
-			{#if hasReporterInfo && !isEditingReporterInfo}
-				<Button size="xs" color="alternative" onclick={startEditingReporterInfo}>
-					<EditOutline class="me-1 h-3.5 w-3.5" /> Editar
-				</Button>
-			{/if}
 		</header>
 
+		{#if isInfoPanelOpen}
 		{#if isEditingReporterInfo || !hasReporterInfo}
 			<form
 				class="flex flex-col space-y-4"
@@ -324,6 +350,7 @@
 				</div>
 			</dl>
 		{/if}
+		{/if}
 	</section>
 
 	{#if data.noDevice}
@@ -372,6 +399,11 @@
 					<DotsVerticalOutline class="h-5 w-5" />
 				</button>
 				<Dropdown simple placement="bottom-end" triggeredBy={`#report-menu-${report.id}`}>
+					<DropdownItem href="/eu/{report.id}">
+						<span class="inline-flex items-center gap-2">
+							<InfoCircleOutline class="h-4 w-4" /> Detalhes
+						</span>
+					</DropdownItem>
 					{#if report.pdf}
 						<DropdownItem onclick={() => downloadPdf(report.pdf!, report.id)}>
 							<span class="inline-flex items-center gap-2">

@@ -6,6 +6,27 @@ export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3
 
 let csrfToken = ""
 let coordinates = { latitude: 0, longitude: 0 } as Coordinates
+
+function setCsrfToken(token: string) {
+    csrfToken = token;
+    if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('csrfToken', token);
+        sessionStorage.setItem('csrfTokenSetAt', String(Date.now()));
+    }
+}
+
+function getCsrfToken(): string {
+    if (csrfToken) return csrfToken;
+    if (typeof sessionStorage !== 'undefined') {
+        const stored = sessionStorage.getItem('csrfToken');
+        const storedAt = parseInt(sessionStorage.getItem('csrfTokenSetAt') ?? '0');
+        if (stored && Date.now() - storedAt < 9 * 60 * 1000) {
+            csrfToken = stored;
+            return csrfToken;
+        }
+    }
+    return '';
+}
 location.subscribe((value: Coordinates) => {
     coordinates = value
 })
@@ -85,7 +106,7 @@ export const createReport = async (
             return toReturn
         }
 
-        csrfToken = response.headers['csrf-token'] || ""
+        setCsrfToken(response.headers['csrf-token'] || "")
 
         toReturn.reportId = response.data.payload.id
         toReturn.success = true
@@ -120,7 +141,7 @@ export const uploadPicture = async (reportId: string, picture: Blob): Promise<Up
                 'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
                 'device-uuid': uuid,
-                'csrf-token': csrfToken
+                'csrf-token': getCsrfToken()
             }
         })
 
@@ -158,7 +179,7 @@ export const getReportForReview = async (): Promise<Report | null> => {
             return null
         }
 
-        csrfToken = response.headers['csrf-token'] || ""
+        setCsrfToken(response.headers['csrf-token'] || "")
 
         const report = response.data.payload as Report
 
@@ -182,7 +203,7 @@ export const submitReportVote = async (reportId: string, request: VoteRequest): 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'device-uuid': uuid,
-                'csrf-token': csrfToken,
+                'csrf-token': getCsrfToken(),
             }
         })
 
@@ -426,4 +447,137 @@ export const getMe = async (): Promise<{ isAdmin: boolean }> => {
     } catch {
         return { isAdmin: false }
     }
+}
+
+export interface GeoInfo {
+    rua: string | null;
+    n_porta: number | null;
+    CP: string | null;
+    freguesia: string | null;
+    concelho: string | null;
+}
+
+export interface ReportDetail {
+    id: string;
+    status: string;
+    occurredAt: string;
+    createdAt: string;
+    picture: string | null;
+    pdf: string | null;
+    municipality: string | null;
+    location: { latitude: number; longitude: number };
+    geoInfo: GeoInfo | null;
+    plate: { country: string; number: string } | null;
+    editable: boolean;
+    validMunicipalities: string[];
+}
+
+export interface PatchReportPayload {
+    location?: { latitude: number; longitude: number };
+    municipality?: string;
+    rua?: string;
+    n_porta?: number | null;
+    CP?: string;
+    freguesia?: string;
+    plateCountry?: string;
+    plateNumber?: string;
+    lock_report?: boolean;
+}
+
+export interface UpdateMyReportResult {
+    detail: ReportDetail | null;
+    error: string | null;
+    csrfExpired: boolean;
+}
+
+export const getMyReportDetail = async (reportId: string): Promise<ReportDetail | null> => {
+    const uuid = getDeviceUUID();
+    if (!uuid) return null;
+
+    try {
+        const response = await axios.get(`${BASE_URL}/reports/mine/${reportId}`, {
+            headers: {
+                'Accept': 'application/json',
+                'device-uuid': uuid
+            }
+        });
+
+        if (response.status !== 200 || !response.data.success) return null;
+
+        return response.data.payload as ReportDetail;
+    } catch (error) {
+        console.error("Error getting report detail: ", error);
+        return null;
+    }
+}
+
+const CSRF_ERROR_MESSAGES = ['Código de segurança não encontrado', 'Código de segurança inválido'];
+
+// CSRF tokens are only minted by POST /reports and GET /reports/for-review.
+// Opening the report detail page directly leaves us without one, so fetch a
+// report for review purely to obtain a fresh token before mutating.
+const ensureCsrfToken = async (): Promise<boolean> => {
+    if (getCsrfToken()) return true;
+    await getReportForReview();
+    return getCsrfToken() !== '';
+}
+
+const sendUpdateMyReport = async (
+    reportId: string,
+    payload: PatchReportPayload,
+    uuid: string
+): Promise<UpdateMyReportResult> => {
+    try {
+        const response = await axios.patch(`${BASE_URL}/reports/mine/${reportId}`, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'device-uuid': uuid,
+                'csrf-token': getCsrfToken()
+            }
+        });
+
+        if (response.status !== 200 || !response.data.success) {
+            return { detail: null, error: response.data.message ?? 'Erro desconhecido', csrfExpired: false };
+        }
+
+        return { detail: response.data.payload as ReportDetail, error: null, csrfExpired: false };
+    } catch (error: any) {
+        console.error("Error updating report: ", error);
+        if (error.response) {
+            const errors: string[] = error.response.data?.errors ?? [];
+            const message: string = error.response.data?.message ?? '';
+            const allMessages = [...errors, message].filter(Boolean);
+            const csrfExpired = allMessages.some(m => CSRF_ERROR_MESSAGES.includes(m));
+            return { detail: null, error: allMessages[0] ?? 'Erro desconhecido', csrfExpired };
+        }
+        return { detail: null, error: 'Sem resposta do servidor', csrfExpired: false };
+    }
+}
+
+export const updateMyReport = async (
+    reportId: string,
+    payload: PatchReportPayload
+): Promise<UpdateMyReportResult> => {
+    const uuid = getDeviceUUID();
+    if (!uuid) return { detail: null, error: 'Dispositivo não identificado', csrfExpired: false };
+
+    await ensureCsrfToken();
+
+    let result = await sendUpdateMyReport(reportId, payload, uuid);
+
+    // If the token was missing or stale, mint a fresh one and retry once.
+    if (result.csrfExpired) {
+        csrfToken = "";
+        if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem('csrfToken');
+            sessionStorage.removeItem('csrfTokenSetAt');
+        }
+        const refreshed = await ensureCsrfToken();
+        if (refreshed) {
+            result = await sendUpdateMyReport(reportId, payload, uuid);
+        }
+    }
+
+    return result;
 }
