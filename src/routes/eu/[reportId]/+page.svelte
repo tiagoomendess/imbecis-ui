@@ -630,13 +630,25 @@
 
 			<Label class="space-y-1">
 				<span>Número de matrícula</span>
-				<Input
-					type="text"
-					placeholder="Ex: AA0000"
-					bind:value={plateNumber}
-					disabled={!detail.editable || isPolling}
-					oninput={() => { plateNumber = plateNumber.toUpperCase(); }}
-				/>
+				<div class="flex items-center gap-2">
+					<Input
+						type="text"
+						placeholder="Ex: AA0000"
+						bind:value={plateNumber}
+						disabled={!detail.editable || isPolling}
+						oninput={() => { plateNumber = plateNumber.toUpperCase(); }}
+					/>
+					{#if detail.picture}
+						<button
+							type="button"
+							aria-label="Ver imagem ampliada"
+							onclick={openImageViewer}
+							class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+						>
+							<EyeOutline class="h-5 w-5" />
+						</button>
+					{/if}
+				</div>
 			</Label>
 		</div>
 	</section>
